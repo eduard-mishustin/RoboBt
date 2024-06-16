@@ -1,31 +1,42 @@
 [versions]
-agp = "8.4.1"
-kotlin = "1.9.0"
-coreKtx = "1.13.1"
-junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.2"
-activityCompose = "1.9.0"
-composeBom = "2023.08.00"
+activity = "1.9.0"
+agp = "8.4.2"
+androidxCore = "1.13.1"
+appcompat = "1.7.0"
+composeBom = "2024.06.00"
+core-ktx = "1.13.1"
+koin = "3.5.0"
+kotlin = "2.0.0"
+kotlinxCoroutines = "1.8.1"
+ksp = "2.0.0-1.0.21"
+lifecycleKtx = "2.8.2"
+voyager = "1.0.0"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+activity = { module = "androidx.activity:activity", version.ref = "activity" }
+activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
+androidxCore = { module = "androidx.core:core", version.ref = "androidxCore" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+composeBom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+composeMaterial3 = { module = "androidx.compose.material3:material3" }
+composeUi = { module = "androidx.compose.ui:ui" }
+composeUiTooling = { module = "androidx.compose.ui:ui-tooling" }
+coreKtx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koinCore = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+lifecycleKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleKtx" }
+lifecycleRuntimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleKtx" }
+voyagerBottomsheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyagerKoin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+voyagerNavigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyagerScreenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
+voyagerTransitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

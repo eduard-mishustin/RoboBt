@@ -1,65 +1,52 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.composeCompiler)
 }
+
+applyCommonAndroid()
 
 android {
     namespace = "magym.robobt"
-    compileSdk = 34
-
-    defaultConfig {
-        applicationId = "magym.robobt"
-        minSdk = 28
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
+    buildFeatures.compose = true
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            applicationIdSuffix = ".dev"
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+
+        release {
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("debug")
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }
 
 dependencies {
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    debugImplementation(libs.androidx.ui.test.manifest)
-    debugImplementation(libs.androidx.ui.tooling)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(platform(libs.androidx.compose.bom))
-    testImplementation(libs.junit)
+    implementation(libs.activity)
+    implementation(libs.activityCompose)
+    implementation(libs.composeMaterial3)
+    implementation(libs.coreKtx)
+    implementation(libs.koinAndroid)
+    implementation(libs.koinCore)
+    implementation(libs.lifecycleRuntimeKtx)
+    implementation(libs.voyagerBottomsheet)
+    implementation(libs.voyagerNavigator)
+    implementation(libs.voyagerTransitions)
+    implementation(platform(libs.composeBom))
+    implementation(project(":common:android"))
+    implementation(project(":common:navigation:voyager"))
+    implementation(project(":common:pure"))
+    implementation(project(":common:ui"))
+    implementation(project(":feature:connect:impl"))
+    implementation(project(":feature:control:impl"))
+    implementation(project(":repository:accelerometer"))
+    implementation(project(":repository:connect:bluetooth"))
+    implementation(project(":repository:connect:wifi"))
 }

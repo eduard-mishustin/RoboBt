@@ -20,5 +20,23 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "RoboBt"
-include(":app")
- 
+
+include(
+    ":app",
+    ":common:android",
+    ":common:navigation:api",
+    ":common:navigation:voyager",
+    ":common:pure",
+    ":common:tea:android",
+    ":common:tea:compose",
+    ":common:tea:core",
+    ":common:ui",
+    ":feature:connect:api",
+    ":feature:connect:impl",
+    ":feature:control:api",
+    ":feature:control:impl",
+    ":repository:accelerometer",
+    ":repository:connect:api",
+    ":repository:connect:bluetooth",
+    ":repository:connect:wifi",
+)
