@@ -22,4 +22,5 @@ dependencies {
     implementation(project(":common:tea:compose"))
     implementation(project(":common:ui"))
     implementation(project(":feature:control:api"))
+    implementation(project(":repository:connect:api"))
 }

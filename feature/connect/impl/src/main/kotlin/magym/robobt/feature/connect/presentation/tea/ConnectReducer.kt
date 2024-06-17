@@ -6,6 +6,7 @@ import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand.Connect
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEffect
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEvent
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEvent.Connecting
+import magym.robobt.feature.connect.presentation.tea.core.ConnectNavigationCommand
 import magym.robobt.feature.connect.presentation.tea.core.ConnectUiEvent
 import magym.robobt.feature.connect.presentation.tea.core.ConnectUiEvent.OnStart
 import magym.robobt.feature.connect.presentation.tea.model.ConnectState
@@ -22,8 +23,13 @@ internal class ConnectReducer : DslReducer<ConnectCommand, ConnectEffect, Connec
     }
 
     private fun reduceConnecting(event: Connecting) = when (event) {
-        is Connecting.Started -> Unit
-        is Connecting.Succeed -> Unit
-        is Connecting.Failed -> Unit
+        is Connecting.Started -> state { copy(isLoading = true) }
+
+        is Connecting.Succeed -> {
+            state { copy(isLoading = false) }
+            commands(ConnectNavigationCommand.OpenControl)
+        }
+
+        is Connecting.Failed -> state { copy(isLoading = false) }
     }
 }

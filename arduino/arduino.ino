@@ -14,8 +14,8 @@ void setup() {
     Serial.println("init");
     motorR.setMode(AUTO);
     motorL.setMode(AUTO);
-    // motorR.setMinDuty(100);
-    // motorL.setMinDuty(100);
+    motorR.setMinDuty(120);
+    motorL.setMinDuty(120);
     Serial.begin(4800);
     mySerial.begin(9600);
     Serial.println("init");

@@ -11,6 +11,6 @@ android {
 
 dependencies {
     api(project(":repository:connect:api"))
-    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
     implementation(project(":common:android"))
 }

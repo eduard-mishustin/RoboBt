@@ -4,15 +4,19 @@ import magym.robobt.common.android.SingleActivityHolder
 import magym.robobt.common.navigation.voyager.navigationModule
 import magym.robobt.feature.connect.connectModule
 import magym.robobt.feature.control.controlModule
+import magym.robobt.repository.connect.ConnectRepository
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
+import magym.robobt.repository.connect.bluetooth.bluetoothModule
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val roboModules: List<Module>
-    get() = appModule + coreModules + commonModules + featureModules
+    get() = appModule + coreModules + commonModules + featureModules + repositoryModules
 
 private val appModule = module {
     singleOf(::SingleActivityHolder)
+    single<ConnectRepository> { get<BluetoothRepository>() }
 }
 
 private val coreModules: List<Module>
@@ -27,4 +31,9 @@ private val featureModules: List<Module>
     get() = listOf(
         connectModule,
         controlModule,
+    )
+
+private val repositoryModules: List<Module>
+    get() = listOf(
+        bluetoothModule,
     )

@@ -10,6 +10,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
     implementation(project(":common:android"))
 }

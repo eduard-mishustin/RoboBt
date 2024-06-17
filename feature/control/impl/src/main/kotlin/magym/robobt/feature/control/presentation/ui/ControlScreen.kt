@@ -10,7 +10,7 @@ import magym.robobt.feature.control.presentation.ui.state.ControlUiState
 internal fun ControlScreen(
     state: ControlUiState,
 ) {
-    Text(text = "todo")
+    Text(text = "ControlScreen")
 }
 
 @ScreenPreview
