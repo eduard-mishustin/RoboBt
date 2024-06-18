@@ -40,7 +40,7 @@ class BluetoothRepository(
         }
     }
 
-    override fun write(data: String): Boolean {
+    override fun send(data: String): Boolean {
         return connection.write(data)
     }
 

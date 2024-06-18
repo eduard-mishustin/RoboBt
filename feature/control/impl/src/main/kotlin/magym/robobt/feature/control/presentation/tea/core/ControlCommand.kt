@@ -7,5 +7,5 @@ internal sealed interface ControlCommand {
 
 internal sealed interface ControlNavigationCommand : ControlCommand {
 
-    data object OpenControl : ControlNavigationCommand
+    data object Exit : ControlNavigationCommand
 }

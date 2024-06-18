@@ -5,7 +5,7 @@ internal sealed interface ControlEvent {
     sealed interface Controlling : ControlEvent {
         data object Started : Controlling
         data object Succeed : Controlling
-        class Failed(val error: Throwable) : Controlling
+        data object Failed : Controlling
     }
 }
 

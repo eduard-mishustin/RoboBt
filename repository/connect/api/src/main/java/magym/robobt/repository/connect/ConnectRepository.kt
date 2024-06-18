@@ -17,9 +17,9 @@ interface ConnectRepository {
     fun connect(): Flow<ConnectResult>
 
     /**
-     * Return true if the [data] was written successfully, false otherwise
+     * Return true if the [data] was sent successfully, false otherwise
      */
-    fun write(data: String): Boolean
+    fun send(data: String): Boolean
 
     /**
      * Disconnect the connection

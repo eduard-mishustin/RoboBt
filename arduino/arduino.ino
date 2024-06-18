@@ -1,4 +1,6 @@
+// https://github.com/GyverLibs/GyverMotor
 #include "GyverMotor.h"
+
 #include <SoftwareSerial.h>
 
 // (тип драйвера, пин, ШИМ пин, уровень драйвера)
@@ -8,17 +10,16 @@ GMotor motorL(DRIVER2WIRE, 2, 3, HIGH);
 char incomingbyte;
 unsigned long lastTime;
 
-SoftwareSerial mySerial(6, 7); // RX, TX
+SoftwareSerial mySerial(11, 12);
 
 void setup() {
-    Serial.println("init");
+    Serial.println("setup");
     motorR.setMode(AUTO);
     motorL.setMode(AUTO);
     motorR.setMinDuty(120);
     motorL.setMinDuty(120);
     Serial.begin(4800);
     mySerial.begin(9600);
-    Serial.println("init");
 }
 
 void loop() {

@@ -25,13 +25,14 @@ internal class BluetoothConnection {
                 socket.connect()
             } catch (e: IOException) {
                 e.printStackTrace()
-                socket.close()
+                cancel()
                 return false
             }
 
             connectedOutputStream = socket.outputStream
         } catch (e: IOException) {
             e.printStackTrace()
+            cancel()
             return false
         }
 
@@ -45,6 +46,7 @@ internal class BluetoothConnection {
             return true
         } catch (e: IOException) {
             e.printStackTrace()
+            cancel()
             return false
         }
     }

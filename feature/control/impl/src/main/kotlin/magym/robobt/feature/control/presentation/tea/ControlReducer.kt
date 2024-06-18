@@ -6,6 +6,7 @@ import magym.robobt.feature.control.presentation.tea.core.ControlCommand.Control
 import magym.robobt.feature.control.presentation.tea.core.ControlEffect
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
+import magym.robobt.feature.control.presentation.tea.core.ControlNavigationCommand.Exit
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnStart
 import magym.robobt.feature.control.presentation.tea.model.ControlState
@@ -14,16 +15,16 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
 
     override fun reduce(event: ControlEvent) = when (event) {
         is ControlUiEvent -> reduceUi(event)
-        is Controlling -> reduceControling(event)
+        is Controlling -> reduceControlling(event)
     }
 
     private fun reduceUi(event: ControlUiEvent) = when (event) {
         is OnStart -> commands(Control)
     }
 
-    private fun reduceControling(event: Controlling) = when (event) {
+    private fun reduceControlling(event: Controlling) = when (event) {
         is Controlling.Started -> Unit
         is Controlling.Succeed -> Unit
-        is Controlling.Failed -> Unit
+        is Controlling.Failed -> commands(Exit)
     }
 }
