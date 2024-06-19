@@ -5,7 +5,7 @@
 
 // (тип драйвера, пин, ШИМ пин, уровень драйвера)
 GMotor motorR(DRIVER2WIRE, 4, 5, HIGH);
-GMotor motorL(DRIVER2WIRE, 2, 3, HIGH);
+GMotor motorL(DRIVER2WIRE, 3, 2, HIGH);
 
 char incomingbyte;
 unsigned long lastTime;

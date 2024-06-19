@@ -12,8 +12,8 @@ import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.Control
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
+import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
 import magym.robobt.repository.accelerometer.AccelerometerRepository
-import magym.robobt.repository.accelerometer.model.AccelerometerData
 import magym.robobt.repository.connect.ConnectRepository
 
 internal class ControlActor(
@@ -29,22 +29,19 @@ internal class ControlActor(
 
     private fun handleCommand(command: Control): Flow<Controlling> {
         return accelerometerRepository.connect()
-            .map(::mapToMotorsData)
+            .map(motorSpeedMapper::map)
             .distinctUntilChanged()
             .map(::send)
             .onEach { delay(100) }
     }
 
-    private fun mapToMotorsData(accelerometerData: AccelerometerData): String {
-        val (leftMotor, rightMotor) = motorSpeedMapper.map(accelerometerData)
-        println("ControlActor: accelerometerData = $accelerometerData, leftMotor = $leftMotor, rightMotor = $rightMotor")
-        val motorData = ("m" + leftMotor + "z" + rightMotor + "z")
-        return motorData
+    private fun send(data: ControlMotorsData): Controlling {
+        val isSucceed = connectRepository.send(data.toConnectData())
+        println("ControlActor: send data = $data, isSucceed = $isSucceed")
+        return if (isSucceed) Controlling.Succeed(data) else Controlling.Failed
     }
 
-    private fun send(data: String): Controlling {
-        val isSucceed = connectRepository.send(data)
-        println("ControlActor: send data = $data, isSucceed = $isSucceed")
-        return if (isSucceed) Controlling.Succeed else Controlling.Failed
+    private fun ControlMotorsData.toConnectData(): String {
+        return "m" + leftMotor + "z" + rightMotor + "z"
     }
 }

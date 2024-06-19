@@ -4,5 +4,6 @@ import androidx.compose.runtime.Immutable
 
 @Immutable
 internal data class ControlUiState(
-    val q: String = "",
+    val leftMotor: Int,
+    val rightMotor: Int,
 )

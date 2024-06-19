@@ -4,11 +4,12 @@ package magym.robobt.feature.control.presentation.tea.actor
 
 import kotlin.math.absoluteValue
 import kotlin.math.max
+import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
 import magym.robobt.repository.accelerometer.model.AccelerometerData
 
 internal class MotorSpeedMapper {
 
-    fun map(data: AccelerometerData): Pair<Int, Int> {
+    fun map(data: AccelerometerData): ControlMotorsData {
         val (xAccel, yAccel) = data
 
         val x = -xAccel.applyThreshold().mapToMotorSpeedRange().toInt()
@@ -30,7 +31,7 @@ internal class MotorSpeedMapper {
                     // 4th quadrant
                     else -> {
                         leftMotor = y + x
-                        rightMotor = (-max(x.absoluteValue, y.absoluteValue))
+                        rightMotor = -max(x.absoluteValue, y.absoluteValue)
                     }
                 }
             }
@@ -46,7 +47,7 @@ internal class MotorSpeedMapper {
 
                     // 3rd quadrant
                     else -> {
-                        leftMotor = (-max(x.absoluteValue, y.absoluteValue))
+                        leftMotor = -max(x.absoluteValue, y.absoluteValue)
                         rightMotor = y - x
                     }
                 }
@@ -59,7 +60,7 @@ internal class MotorSpeedMapper {
             }
         }
 
-        return Pair(leftMotor, rightMotor)
+        return ControlMotorsData(leftMotor, rightMotor)
     }
 
     private fun Float.applyThreshold(): Float {
