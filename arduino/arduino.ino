@@ -4,8 +4,10 @@
 #include <SoftwareSerial.h>
 
 // (тип драйвера, пин, ШИМ пин, уровень драйвера)
-GMotor motorR(DRIVER2WIRE, 4, 5, HIGH);
-GMotor motorL(DRIVER2WIRE, 3, 2, HIGH);
+GMotor motorTopRight(DRIVER2WIRE, 4, 5, HIGH);
+GMotor motorTopLeft(DRIVER2WIRE, 3, 2, HIGH);
+GMotor motorBottomRight(DRIVER2WIRE, 6, 7, HIGH);
+GMotor motorBottomLeft(DRIVER2WIRE, 9, 8, HIGH);
 
 char incomingbyte;
 unsigned long lastTime;
@@ -13,11 +15,16 @@ unsigned long lastTime;
 SoftwareSerial mySerial(11, 12);
 
 void setup() {
-    Serial.println("setup");
-    motorR.setMode(AUTO);
-    motorL.setMode(AUTO);
-    motorR.setMinDuty(120);
-    motorL.setMinDuty(120);
+    motorTopRight.setMode(AUTO);
+    motorTopLeft.setMode(AUTO);
+    motorBottomRight.setMode(AUTO);
+    motorBottomLeft.setMode(AUTO);
+
+    motorTopRight.setMinDuty(100);
+    motorTopLeft.setMinDuty(100);
+    motorBottomRight.setMinDuty(100);
+    motorBottomLeft.setMinDuty(100);
+
     Serial.begin(4800);
     mySerial.begin(9600);
 }
@@ -25,11 +32,16 @@ void setup() {
 void loop() {
     if (mySerial.available() > 0) {
         incomingbyte = mySerial.read();
-        Serial.println(incomingbyte);
+
         switch (incomingbyte) {
             case 'm':// motor
-                runMotor(readByte('m'), motorL);
-                runMotor(readByte('m'), motorR);
+                int leftMotorSpeed = readByte('m');
+                int rightMotorSpeed = readByte('m');
+
+                runMotor(leftMotorSpeed, motorTopLeft);
+                runMotor(rightMotorSpeed, motorTopRight);
+                runMotor(leftMotorSpeed, motorBottomLeft);
+                runMotor(rightMotorSpeed, motorBottomRight);
                 break;
             default:
                 break;
