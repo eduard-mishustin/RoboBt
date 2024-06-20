@@ -10,6 +10,8 @@ kotlin = "2.0.0"
 kotlinxCoroutines = "1.8.1"
 ksp = "2.0.0-1.0.21"
 lifecycleKtx = "2.8.2"
+testJunitJupiter = "5.9.2"
+testKotestAssertions = "5.6.2"
 voyager = "1.0.0"
 
 [libraries]
@@ -33,6 +35,10 @@ voyagerKoin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voya
 voyagerNavigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyagerScreenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyagerTransitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+
+# Test
+testJunitJupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "testJunitJupiter" }
+testKotestAssertions = { module = "io.kotest:kotest-assertions-core", version.ref = "testKotestAssertions" }
 
 # Dependencies of the included build-logic
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
