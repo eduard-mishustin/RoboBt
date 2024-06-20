@@ -17,6 +17,7 @@ activity = { module = "androidx.activity:activity", version.ref = "activity" }
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidxCore = { module = "androidx.core:core", version.ref = "androidxCore" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+commonsConfiguration = "commons-configuration:commons-configuration:1.10"
 composeBom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 composeMaterial3 = { module = "androidx.compose.material3:material3" }
 composeUi = { module = "androidx.compose.ui:ui" }
@@ -32,6 +33,10 @@ voyagerKoin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voya
 voyagerNavigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyagerScreenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
 voyagerTransitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+
+# Dependencies of the included build-logic
+androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

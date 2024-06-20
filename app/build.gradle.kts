@@ -2,9 +2,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
+    id("common-android")
 }
-
-applyCommonAndroid()
 
 android {
     namespace = "magym.robobt"
