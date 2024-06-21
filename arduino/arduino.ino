@@ -4,10 +4,10 @@
 #include <SoftwareSerial.h>
 
 // (тип драйвера, пин, ШИМ пин, уровень драйвера)
-GMotor motorTopRight(DRIVER2WIRE, 4, 5, HIGH);
 GMotor motorTopLeft(DRIVER2WIRE, 3, 2, HIGH);
-GMotor motorBottomRight(DRIVER2WIRE, 6, 7, HIGH);
+GMotor motorTopRight(DRIVER2WIRE, 4, 5, HIGH);
 GMotor motorBottomLeft(DRIVER2WIRE, 9, 8, HIGH);
+GMotor motorBottomRight(DRIVER2WIRE, 6, 7, HIGH);
 
 char incomingbyte;
 unsigned long lastTime;
@@ -15,15 +15,15 @@ unsigned long lastTime;
 SoftwareSerial mySerial(11, 12);
 
 void setup() {
-    motorTopRight.setMode(AUTO);
     motorTopLeft.setMode(AUTO);
-    motorBottomRight.setMode(AUTO);
+    motorTopRight.setMode(AUTO);
     motorBottomLeft.setMode(AUTO);
+    motorBottomRight.setMode(AUTO);
 
-    motorTopRight.setMinDuty(100);
     motorTopLeft.setMinDuty(100);
-    motorBottomRight.setMinDuty(100);
+    motorTopRight.setMinDuty(100);
     motorBottomLeft.setMinDuty(100);
+    motorBottomRight.setMinDuty(100);
 
     Serial.begin(4800);
     mySerial.begin(9600);

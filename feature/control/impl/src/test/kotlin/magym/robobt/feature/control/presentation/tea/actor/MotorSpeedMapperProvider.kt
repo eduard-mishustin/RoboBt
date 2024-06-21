@@ -24,31 +24,63 @@ internal class MotorSpeedMapperProvider : ArgumentsProvider {
             // 1st quadrant
             MotorSpeedMapperTestData(
                 accelerometerData = AccelerometerData(x = 5f, y = 5f),
-                motorsData = ControlMotorsData(leftMotor = 0, rightMotor = 141)
+                motorsData = ControlMotorsData(leftMotor = 109, rightMotor = 0)
+            ),
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = 5f, y = 3f),
+                motorsData = ControlMotorsData(leftMotor = 109, rightMotor = 0)
+            ),
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = 3f, y = 5f),
+                motorsData = ControlMotorsData(leftMotor = 109, rightMotor = 73)
             ),
 
-            // 4th quadrant
+            // 2th quadrant
             MotorSpeedMapperTestData(
                 accelerometerData = AccelerometerData(x = 5f, y = -5f),
-                motorsData = ControlMotorsData(leftMotor = -141, rightMotor = 0)
+                motorsData = ControlMotorsData(leftMotor = -109, rightMotor = 0)
             ),
-
-            // 2nd quadrant
             MotorSpeedMapperTestData(
-                accelerometerData = AccelerometerData(x = -5f, y = 5f),
-                motorsData = ControlMotorsData(leftMotor = 141, rightMotor = 0)
+                accelerometerData = AccelerometerData(x = 5f, y = -3f),
+                motorsData = ControlMotorsData(leftMotor = -109, rightMotor = 0)
+            ),
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = 3f, y = -5f),
+                motorsData = ControlMotorsData(leftMotor = -109, rightMotor = -73)
             ),
 
             // 3rd quadrant
             MotorSpeedMapperTestData(
                 accelerometerData = AccelerometerData(x = -5f, y = -5f),
-                motorsData = ControlMotorsData(leftMotor = 0, rightMotor = -141)
+                motorsData = ControlMotorsData(leftMotor = 0, rightMotor = -109)
+            ),
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = -5f, y = -3f),
+                motorsData = ControlMotorsData(leftMotor = 0, rightMotor = -109)
+            ),
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = -3f, y = -5f),
+                motorsData = ControlMotorsData(leftMotor = -73, rightMotor = -109)
+            ),
+
+            // 4nd quadrant
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = -5f, y = 5f),
+                motorsData = ControlMotorsData(leftMotor = 0, rightMotor = 109)
+            ),
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = -5f, y = 3f),
+                motorsData = ControlMotorsData(leftMotor = 0, rightMotor = 109)
+            ),
+            MotorSpeedMapperTestData(
+                accelerometerData = AccelerometerData(x = -3f, y = 5f),
+                motorsData = ControlMotorsData(leftMotor = 73, rightMotor = 109)
             ),
 
             // Straight
             MotorSpeedMapperTestData(
                 accelerometerData = AccelerometerData(x = 0f, y = 5f),
-                motorsData = ControlMotorsData(leftMotor = 141, rightMotor = 141)
+                motorsData = ControlMotorsData(leftMotor = 109, rightMotor = 109)
             ),
             MotorSpeedMapperTestData(
                 accelerometerData = AccelerometerData(x = 0f, y = 9f),
@@ -56,7 +88,7 @@ internal class MotorSpeedMapperProvider : ArgumentsProvider {
             ),
             MotorSpeedMapperTestData(
                 accelerometerData = AccelerometerData(x = 0f, y = -5f),
-                motorsData = ControlMotorsData(leftMotor = -141, rightMotor = -141)
+                motorsData = ControlMotorsData(leftMotor = -109, rightMotor = -109)
             ),
         ).map(Arguments::of)
     }

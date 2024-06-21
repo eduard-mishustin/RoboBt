@@ -7,14 +7,60 @@ import kotlin.math.max
 import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
 import magym.robobt.repository.accelerometer.model.AccelerometerData
 
-internal class MotorSpeedMapper {
+internal class MotorSpeedMapper(
+    private val accelerometerTresholdMin: Float = 2F, // (0 - 10)
+    private val accelerometerTresholdMax: Float = 7F,
+) {
 
     fun map(data: AccelerometerData): ControlMotorsData {
         val (xAccel, yAccel) = data
 
-        val x = -xAccel.applyThreshold().mapToMotorSpeedRange().toInt()
+        val x = xAccel.applyThreshold().mapToMotorSpeedRange().toInt()
         val y = yAccel.applyThreshold().mapToMotorSpeedRange().toInt()
 
+        val (leftMotor, rightMotor) = calculateMotorSpeeds(x, y)
+
+        return ControlMotorsData(leftMotor, rightMotor).also { result ->
+            println("MotorSpeedMapper: data = $data; x = $x, y = $y; result = $result")
+        }
+    }
+
+    private fun Float.applyThreshold(): Float {
+        return when {
+            this > accelerometerTresholdMax -> accelerometerTresholdMax
+            this < -accelerometerTresholdMax -> -accelerometerTresholdMax
+            this in -accelerometerTresholdMin..accelerometerTresholdMin -> 0f
+            else -> this
+        }
+    }
+
+    private fun Float.mapToMotorSpeedRange(): Float {
+        return if (this >= accelerometerTresholdMin) {
+            mapRange(
+                value = this,
+                from1 = accelerometerTresholdMin,
+                from2 = accelerometerTresholdMax,
+                to1 = 0f,
+                to2 = 255f,
+            )
+        } else if (this <= -accelerometerTresholdMin) {
+            mapRange(
+                value = this,
+                from1 = -accelerometerTresholdMin,
+                from2 = -accelerometerTresholdMax,
+                to1 = 0f,
+                to2 = -255f,
+            )
+        } else {
+            0f
+        }
+    }
+
+    private fun mapRange(value: Float, from1: Float, from2: Float, to1: Float, to2: Float): Float {
+        return ((value - from1) / (from2 - from1) * (to2 - to1) + to1)
+    }
+
+    private fun calculateMotorSpeeds(x: Int, y: Int): Pair<Int, Int> {
         val leftMotor: Int
         val rightMotor: Int
 
@@ -25,13 +71,13 @@ internal class MotorSpeedMapper {
                     // 1st quadrant
                     y >= 0 -> {
                         leftMotor = max(x.absoluteValue, y.absoluteValue)
-                        rightMotor = y - x
+                        rightMotor = if (y - x > 0) y - x else 0
                     }
 
-                    // 4th quadrant
+                    // 2th quadrant
                     else -> {
-                        leftMotor = y + x
-                        rightMotor = -max(x.absoluteValue, y.absoluteValue)
+                        leftMotor = -max(x.absoluteValue, y.absoluteValue)
+                        rightMotor = if (y + x < 0) y + x else 0
                     }
                 }
             }
@@ -39,16 +85,16 @@ internal class MotorSpeedMapper {
             // Left
             x < 0 -> {
                 when {
-                    // 2nd quadrant
+                    // 4nd quadrant
                     y >= 0 -> {
-                        leftMotor = y + x
+                        leftMotor = if (y + x > 0) y + x else 0
                         rightMotor = max(x.absoluteValue, y.absoluteValue)
                     }
 
                     // 3rd quadrant
                     else -> {
-                        leftMotor = -max(x.absoluteValue, y.absoluteValue)
-                        rightMotor = y - x
+                        leftMotor = if (y - x < 0) y - x else 0
+                        rightMotor = -max(x.absoluteValue, y.absoluteValue)
                     }
                 }
             }
@@ -60,35 +106,6 @@ internal class MotorSpeedMapper {
             }
         }
 
-        return ControlMotorsData(leftMotor, rightMotor)
-    }
-
-    private fun Float.applyThreshold(): Float {
-        return when {
-            this > ACCELEROMETER_TRESHOLD_MAX -> ACCELEROMETER_TRESHOLD_MAX
-            this < -ACCELEROMETER_TRESHOLD_MAX -> -ACCELEROMETER_TRESHOLD_MAX
-            this in -ACCELEROMETER_TRESHOLD_MIN..ACCELEROMETER_TRESHOLD_MIN -> 0f
-            else -> this
-        }
-    }
-
-    private fun Float.mapToMotorSpeedRange(): Float {
-        return mapRange(
-            value = this,
-            from1 = -ACCELEROMETER_TRESHOLD_MAX,
-            from2 = ACCELEROMETER_TRESHOLD_MAX,
-            to1 = -255f,
-            to2 = 255f,
-        )
-    }
-
-    private fun mapRange(value: Float, from1: Float, from2: Float, to1: Float, to2: Float): Float {
-        return ((value - from1) / (from2 - from1) * (to2 - to1) + to1)
-    }
-
-    private companion object {
-
-        const val ACCELEROMETER_TRESHOLD_MIN = 2F // (0 - 9.8)
-        const val ACCELEROMETER_TRESHOLD_MAX = 9F
+        return leftMotor to rightMotor
     }
 }

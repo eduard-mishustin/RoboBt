@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 
 internal class MotorSpeedMapperTest {
 
-    private val mapper = MotorSpeedMapper()
+    private val mapper = MotorSpeedMapper(accelerometerTresholdMin = 2F, accelerometerTresholdMax = 9F)
 
     @ParameterizedTest
     @ArgumentsSource(MotorSpeedMapperProvider::class)
