@@ -12,6 +12,6 @@ internal class AndroidApplicationExitProvider(
 ) : ApplicationExitProvider {
 
     override fun exit() {
-        activityHolder.activity.moveTaskToBack(true)
+        activityHolder.requireActivity().moveTaskToBack(true)
     }
 }

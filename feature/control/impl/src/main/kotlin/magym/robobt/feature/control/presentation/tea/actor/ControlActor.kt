@@ -5,11 +5,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
-import magym.robobt.feature.control.presentation.tea.core.ControlCommand.Control
+import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode
+import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Accelerometer
+import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Manual
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
 import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
@@ -23,16 +26,28 @@ internal class ControlActor(
 ) : Actor<ControlCommand, ControlEvent> {
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
-        return commands.filterIsInstance<Control>()
+        return commands.filterIsInstance<ControlMode>()
             .flatMapLatest(::handleCommand)
     }
 
-    private fun handleCommand(command: Control): Flow<Controlling> {
+    private fun handleCommand(command: ControlMode): Flow<Controlling> {
+        return when (command) {
+            is Accelerometer -> handleSubscribeToAccelerometerControlCommand(command)
+            is Manual -> handleSendManualControlCommand(command)
+        }
+    }
+
+    private fun handleSubscribeToAccelerometerControlCommand(command: Accelerometer): Flow<Controlling> {
         return accelerometerRepository.connect()
             .map(motorSpeedMapper::map)
             .distinctUntilChanged()
             .map(::send)
             .onEach { delay(100) }
+    }
+
+    private fun handleSendManualControlCommand(command: Manual): Flow<Controlling> {
+        val data = command.motorsData
+        return flowOf(send(data))
     }
 
     private fun send(data: ControlMotorsData): Controlling {

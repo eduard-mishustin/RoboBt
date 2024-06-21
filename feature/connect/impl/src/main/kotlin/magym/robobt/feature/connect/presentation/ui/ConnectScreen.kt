@@ -7,7 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import magym.robobt.common.ui.theme.RoboTheme
+import magym.robobt.common.ui.theme.PreviewTheme
 import magym.robobt.common.ui.theme.ScreenPreview
 import magym.robobt.feature.connect.presentation.ui.state.ConnectUiState
 
@@ -44,6 +44,6 @@ private fun Error() {
 
 @ScreenPreview
 @Composable
-private fun ConnectScreenPreview() = RoboTheme {
+private fun ConnectScreenPreview() = PreviewTheme {
     ConnectScreen(ConnectUiState.Loading)
 }

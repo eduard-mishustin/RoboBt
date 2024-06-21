@@ -14,7 +14,7 @@ class SuspendableActivityResultHandler<I, O>(
 ) {
 
     private val activity: ComponentActivity
-        get() = singleActivityHolder.activity
+		get() = singleActivityHolder.requireActivity()
 
 	private val resultFlow = MutableSharedFlow<O>()
 

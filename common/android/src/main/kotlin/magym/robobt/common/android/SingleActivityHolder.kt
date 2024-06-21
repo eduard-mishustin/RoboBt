@@ -1,7 +1,13 @@
 package magym.robobt.common.android
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import java.lang.ref.WeakReference
 
 class SingleActivityHolder {
-	lateinit var activity: AppCompatActivity // TODO: Use WeakReference
+
+    lateinit var activity: WeakReference<ComponentActivity>
+
+    fun requireActivity(): ComponentActivity {
+        return activity.get()!!
+    }
 }

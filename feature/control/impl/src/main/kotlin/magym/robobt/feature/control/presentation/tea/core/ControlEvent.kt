@@ -14,4 +14,15 @@ internal sealed interface ControlEvent {
 internal sealed interface ControlUiEvent : ControlEvent {
 
     data object OnStart : ControlUiEvent
+
+    data object OnChangeControlModeClick : ControlUiEvent
+
+    data object OnTopLeftButtonDown : ControlUiEvent
+    data object OnTopLeftButtonUp : ControlUiEvent
+    data object OnTopRightButtonDown : ControlUiEvent
+    data object OnTopRightButtonUp : ControlUiEvent
+    data object OnBottomLeftButtonDown : ControlUiEvent
+    data object OnBottomLeftButtonUp : ControlUiEvent
+    data object OnBottomRightButtonDown : ControlUiEvent
+    data object OnBottomRightButtonUp : ControlUiEvent
 }
