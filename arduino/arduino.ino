@@ -1,20 +1,22 @@
-// https://github.com/GyverLibs/GyverMotor
+// https://alexgyver.ru/gyvermotor/
 #include "GyverMotor.h"
-
+// https://kit.alexgyver.ru/tutorials/bluetooth-jdy31/
 #include <SoftwareSerial.h>
 
 // (тип драйвера, пин, ШИМ пин, уровень драйвера)
-GMotor motorTopLeft(DRIVER2WIRE, 3, 2, HIGH);
+GMotor motorTopLeft(DRIVER2WIRE, 2, 3, HIGH);
 GMotor motorTopRight(DRIVER2WIRE, 4, 5, HIGH);
-GMotor motorBottomLeft(DRIVER2WIRE, 9, 8, HIGH);
-GMotor motorBottomRight(DRIVER2WIRE, 6, 7, HIGH);
+GMotor motorBottomLeft(DRIVER2WIRE, 8, 9, HIGH);
+GMotor motorBottomRight(DRIVER2WIRE, 7, 6, HIGH);
 
-char incomingbyte;
-unsigned long lastTime;
-
-SoftwareSerial mySerial(11, 12);
+SoftwareSerial bluetooth(11, 12);
 
 void setup() {
+    motorTopLeft.setDirection(REVERSE);
+    motorTopRight.setDirection(NORMAL);
+    motorBottomLeft.setDirection(REVERSE);
+    motorBottomRight.setDirection(REVERSE);
+
     motorTopLeft.setMode(AUTO);
     motorTopRight.setMode(AUTO);
     motorBottomLeft.setMode(AUTO);
@@ -26,22 +28,22 @@ void setup() {
     motorBottomRight.setMinDuty(100);
 
     Serial.begin(4800);
-    mySerial.begin(9600);
+    bluetooth.begin(9600);
 }
 
 void loop() {
-    if (mySerial.available() > 0) {
-        incomingbyte = mySerial.read();
+    if (bluetooth.available() > 0) {
+        char key = bluetooth.read();
 
-        switch (incomingbyte) {
-            case 'm':// motor
-                int leftMotorSpeed = readByte('m');
-                int rightMotorSpeed = readByte('m');
+        switch (key) {
+            case 'm':
+                int leftMotorSpeed = readValue('m');
+                int rightMotorSpeed = readValue('m');
 
-                runMotor(leftMotorSpeed, motorTopLeft);
-                runMotor(rightMotorSpeed, motorTopRight);
-                runMotor(leftMotorSpeed, motorBottomLeft);
-                runMotor(rightMotorSpeed, motorBottomRight);
+                motorTopLeft.setSpeed(leftMotorSpeed);
+                motorTopRight.setSpeed(rightMotorSpeed);
+                motorBottomLeft.setSpeed(leftMotorSpeed);
+                motorBottomRight.setSpeed(rightMotorSpeed);
                 break;
             default:
                 break;
@@ -49,24 +51,18 @@ void loop() {
     }
 }
 
-// Чтение строки
-int readByte(char set) {
-    String bytesStr = "";
-    while (1 == 1) {
-        incomingbyte = mySerial.read();
-        if ((set == 'm' && (incomingbyte == '0' || incomingbyte == '1' || incomingbyte == '2' || incomingbyte == '3' ||
-                            incomingbyte == '4' || incomingbyte == '5' || incomingbyte == '6' || incomingbyte == '7' ||
-                            incomingbyte == '8' || incomingbyte == '9' || incomingbyte == '-')) ||
-            (set == 't' && (incomingbyte == '0' || incomingbyte == '1' || incomingbyte == '2' || incomingbyte == '3' ||
-                            incomingbyte == '4' || incomingbyte == '5' || incomingbyte == '6' || incomingbyte == '7' ||
-                            incomingbyte == '8' || incomingbyte == '9')))
-            bytesStr += incomingbyte;
-        else if (incomingbyte == 'z') break;
-    }
-    return bytesStr.toInt();
-}
+int readValue(char key) {
+    String valueString = "";
 
-// Управлените моторами
-void runMotor(int motor, GMotor AF_DC) {
-    AF_DC.setSpeed(motor);
+    while (true) {
+        char value = bluetooth.read();
+
+        if (key == 'm' && (isDigit(value) || value == '-')) {
+            valueString += value;
+        } else if (value == 'z') {
+            break;
+        }
+    }
+
+    return valueString.toInt();
 }
