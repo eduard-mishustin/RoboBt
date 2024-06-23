@@ -9,10 +9,12 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import magym.robobt.repository.connect.ConnectRepository
 import magym.robobt.repository.connect.ConnectResult
+import magym.robobt.repository.connect.ConnectionInputData
 
 /**
  * https://developer.android.com/develop/connectivity/bluetooth/setup
@@ -20,6 +22,7 @@ import magym.robobt.repository.connect.ConnectResult
 class BluetoothRepository(
     private val context: Context,
     private val bluetoothManager: BluetoothManager,
+    private val inputDataParser: ConnectionInputDataParser,
     private val dispatcher: CoroutineDispatcher,
 ) : ConnectRepository {
 
@@ -39,6 +42,18 @@ class BluetoothRepository(
             delay(1.seconds)
         }
     }
+
+    override fun read(): Flow<ConnectionInputData?> = flow {
+        while (true) {
+            val pureData = withContext(dispatcher) { connection.read() }
+            val result = inputDataParser.parse(pureData)
+
+            if (pureData == null || result != null) {
+                println("BluetoothRepository.read: $result")
+                emit(result)
+            }
+        }
+    }.distinctUntilChanged()
 
     override fun send(data: String): Boolean {
         return connection.write(data)

@@ -12,9 +12,12 @@ internal class ControlUiStateMapper : UiStateMapper<ControlState, ControlUiState
             ControlMode.Accelerometer -> ControlUiState.Accelerometer(
                 leftMotor = state.motorsData.leftMotor,
                 rightMotor = state.motorsData.rightMotor,
+                weather = "${state.temperature}°C\n\n${state.humidity}%",
             )
 
-            ControlMode.Manual -> ControlUiState.Manual
+            ControlMode.Manual -> ControlUiState.Manual(
+                weather = "${state.temperature}°C, ${state.humidity}%",
+            )
         }
     }
 }

@@ -13,6 +13,7 @@ val bluetoothModule = module {
         BluetoothRepository(
             context = context,
             bluetoothManager = context.getSystemService(BluetoothManager::class.java),
+            inputDataParser = ConnectionInputDataParser(),
             dispatcher = Dispatchers.IO,
         )
 

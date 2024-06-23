@@ -65,6 +65,12 @@ internal fun AccelerometerControl(
             text = state.leftMotor.toString() + " : " + state.rightMotor.toString()
         )
 
+        Text(
+            modifier = Modifier.padding(32.dp),
+            fontSize = 32.sp,
+            text = state.weather
+        )
+
         Button(
             modifier = Modifier.padding(16.dp),
             onClick = onChangeControlModeClicked
@@ -87,6 +93,12 @@ internal fun ManualControl(
     onBottomRightButtonUp: () -> Unit,
 ) {
     Column {
+        Text(
+            modifier = Modifier.padding(32.dp),
+            fontSize = 32.sp,
+            text = state.weather
+        )
+
         Spacer(modifier = Modifier.weight(1f))
 
         Row {
@@ -127,11 +139,11 @@ private fun ControlButton(onDown: () -> Unit, onUp: () -> Unit, text: String) {
 @ScreenPreview
 @Composable
 private fun ControlScreenAccelerometerPreview() = PreviewTheme {
-    ControlScreen(ControlUiState.Accelerometer(leftMotor = 0, rightMotor = 0))
+    ControlScreen(ControlUiState.Accelerometer(leftMotor = 0, rightMotor = 0, "27 °C"))
 }
 
 @LandscapeScreenPreview
 @Composable
 private fun ControlScreenManualPreview() = PreviewTheme {
-    ControlScreen(ControlUiState.Manual)
+    ControlScreen(ControlUiState.Manual("27 °C"))
 }

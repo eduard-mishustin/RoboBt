@@ -8,7 +8,10 @@ internal sealed interface ControlUiState {
     data class Accelerometer(
         val leftMotor: Int,
         val rightMotor: Int,
+        val weather: String,
     ) : ControlUiState
 
-    data object Manual : ControlUiState
+    data class Manual(
+        val weather: String,
+    ) : ControlUiState
 }

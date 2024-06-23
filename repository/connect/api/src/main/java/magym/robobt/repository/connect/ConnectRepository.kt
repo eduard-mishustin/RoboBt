@@ -17,6 +17,13 @@ interface ConnectRepository {
     fun connect(): Flow<ConnectResult>
 
     /**
+     * Return a flow of the received data
+     *
+     * Return null if the connection is not established
+     */
+    fun read(): Flow<ConnectionInputData?>
+
+    /**
      * Return true if the [data] was sent successfully, false otherwise
      */
     fun send(data: String): Boolean

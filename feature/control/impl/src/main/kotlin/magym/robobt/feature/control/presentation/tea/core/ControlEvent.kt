@@ -1,13 +1,21 @@
 package magym.robobt.feature.control.presentation.tea.core
 
 import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
+import magym.robobt.repository.connect.ConnectionInputData
 
 internal sealed interface ControlEvent {
 
     sealed interface Controlling : ControlEvent {
+
         data object Started : Controlling
         data class Succeed(val data: ControlMotorsData) : Controlling
         data object Failed : Controlling
+    }
+
+    sealed interface ConnectionData : ControlEvent {
+
+        data class Succeed(val data: ConnectionInputData) : ConnectionData
+        data object Failed : ConnectionData
     }
 }
 

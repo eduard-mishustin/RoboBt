@@ -1,5 +1,7 @@
 // https://alexgyver.ru/gyvermotor/
 #include "GyverMotor.h"
+// https://kit.alexgyver.ru/tutorials/bme280/
+#include <GyverHTU21D.h>
 // https://kit.alexgyver.ru/tutorials/bluetooth-jdy31/
 #include <SoftwareSerial.h>
 
@@ -8,6 +10,8 @@ GMotor motorTopLeft(DRIVER2WIRE, 2, 3, HIGH);
 GMotor motorTopRight(DRIVER2WIRE, 4, 5, HIGH);
 GMotor motorBottomLeft(DRIVER2WIRE, 8, 9, HIGH);
 GMotor motorBottomRight(DRIVER2WIRE, 7, 6, HIGH);
+
+GyverHTU21D weather;
 
 SoftwareSerial bluetooth(11, 12);
 
@@ -29,6 +33,7 @@ void setup() {
 
     Serial.begin(4800);
     bluetooth.begin(9600);
+    weather.begin();
 }
 
 void loop() {
@@ -49,6 +54,8 @@ void loop() {
                 break;
         }
     }
+
+    sendWeather();
 }
 
 int readValue(char key) {
@@ -65,4 +72,14 @@ int readValue(char key) {
     }
 
     return valueString.toInt();
+}
+
+void sendWeather() {
+    if (weather.readTick(5000)) {
+        String data = "";
+        data.concat(weather.getTemperature());
+        data.concat(";");
+        data.concat(weather.getHumidity());
+        bluetooth.println(data);
+    }
 }

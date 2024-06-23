@@ -2,8 +2,10 @@ package magym.robobt.feature.control.presentation.tea
 
 import magym.robobt.common.tea.dsl.DslReducer
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
+import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ReadConnectionData
 import magym.robobt.feature.control.presentation.tea.core.ControlEffect
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
+import magym.robobt.feature.control.presentation.tea.core.ControlEvent.ConnectionData
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
 import magym.robobt.feature.control.presentation.tea.core.ControlNavigationCommand.Exit
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent
@@ -27,6 +29,7 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
         when (event) {
             is ControlUiEvent -> reduceUi(event)
             is Controlling -> reduceControlling(event)
+            is ConnectionData -> reduceConnectionDataReceived(event)
         }
     }
 
@@ -49,7 +52,7 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
             if (state.controlMode == ControlMode.Accelerometer) ControlCommand.ControlMode.Accelerometer
             else ControlCommand.ControlMode.Manual(state.motorsData)
 
-        commands(command)
+        commands(command, ReadConnectionData.Subscribe)
     }
 
     private fun reduceOnChangeControlModeClick() {
@@ -61,5 +64,18 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
         is Controlling.Started -> Unit
         is Controlling.Succeed -> state { copy(motorsData = event.data) }
         is Controlling.Failed -> commands(Exit)
+    }
+
+    private fun reduceConnectionDataReceived(event: ConnectionData) {
+        when (event) {
+            is ConnectionData.Succeed -> state {
+                copy(
+                    temperature = event.data.temperature,
+                    humidity = event.data.humidity,
+                )
+            }
+
+            is ConnectionData.Failed -> commands(Exit)
+        }
     }
 }

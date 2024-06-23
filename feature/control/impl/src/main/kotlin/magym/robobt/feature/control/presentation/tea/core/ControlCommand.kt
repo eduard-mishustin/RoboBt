@@ -10,6 +10,13 @@ internal sealed interface ControlCommand {
 
         data class Manual(val motorsData: ControlMotorsData) : ControlMode
     }
+
+    sealed interface ReadConnectionData : ControlCommand {
+
+        data object Subscribe : ReadConnectionData
+
+        data object Unsubscribe : ReadConnectionData
+    }
 }
 
 internal sealed interface ControlNavigationCommand : ControlCommand {
