@@ -39,4 +39,5 @@ include(
     ":feature:control:impl",
     ":repository:accelerometer",
     ":repository:bluetooth",
+    ":wear",
 )
