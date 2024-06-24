@@ -25,14 +25,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import magym.robobt.repository.accelerometer.AccelerometerRepository
 import magym.robobt.repository.accelerometer.MotorSpeedMapper
@@ -72,11 +70,10 @@ class WearActivity : ComponentActivity() {
                     println("WearActivity: connect result = $it")
                     it is BluetoothResult.Success
                 }
-                .flatMapLatest { accelerometerRepository.connect().debounce(300) }
+                .flatMapLatest { accelerometerRepository.connect().debounce(100) }
                 .map(motorSpeedMapper::map)
                 .distinctUntilChanged()
                 .map(::send)
-                .onEach { delay(100) }
                 .launchIn(lifecycleScope)
         }
     }

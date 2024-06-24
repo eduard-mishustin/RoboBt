@@ -1,10 +1,7 @@
 package magym.robobt.repository.connect.bluetooth.impl
 
-import android.Manifest.permission.BLUETOOTH_CONNECT
 import android.bluetooth.BluetoothManager
 import android.content.Context
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import androidx.core.app.ActivityCompat.checkSelfPermission
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
@@ -67,9 +64,9 @@ internal class BluetoothRepositoryImpl(
         val adapter = bluetoothManager.adapter ?: return BluetoothResult.Error.SystemServiceNotExist
         if (!adapter.isEnabled) return BluetoothResult.Error.SystemServiceDisabled
 
-        if (checkSelfPermission(context, BLUETOOTH_CONNECT) != PERMISSION_GRANTED) {
-            return BluetoothResult.Error.PermissionNotGranted
-        }
+        //        if (checkSelfPermission(context, BLUETOOTH_CONNECT) != PERMISSION_GRANTED) {
+        //            return BluetoothResult.Error.PermissionNotGranted
+        //        }
 
         val devices = adapter.bondedDevices
         if (devices.isEmpty()) return BluetoothResult.Error.NoPairedDevices
