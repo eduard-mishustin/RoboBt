@@ -14,6 +14,8 @@ dependencies {
     debugImplementation(libs.composeUiTooling)
     implementation(libs.activityCompose)
     implementation(libs.composeUi)
+    implementation(libs.koinAndroid)
+    implementation(libs.koinCore)
     implementation(libs.wearCoreSplashscreen)
     implementation(libs.wearHorologistComposeTools)
     implementation(libs.wearHorologistTiles)
@@ -23,4 +25,6 @@ dependencies {
     implementation(libs.wearUiToolingPreview)
     implementation(libs.wearWatchfaceComplicationsDataSourceKtx)
     implementation(platform(libs.composeBom))
+    implementation(project(":repository:accelerometer"))
+    implementation(project(":repository:bluetooth"))
 }

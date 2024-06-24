@@ -21,13 +21,35 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import magym.robobt.repository.accelerometer.AccelerometerRepository
+import magym.robobt.repository.accelerometer.MotorSpeedMapper
+import magym.robobt.repository.accelerometer.model.ControlMotorsData
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
+import magym.robobt.repository.connect.bluetooth.model.BluetoothResult
 import magym.robobt.wear.R
 import magym.robobt.wear.presentation.theme.RoboBtTheme
+import org.koin.android.ext.android.inject
 
 class WearActivity : ComponentActivity() {
+
+    // TODO: Add TEA
+    private val bluetoothRepository: BluetoothRepository by inject()
+    private val accelerometerRepository: AccelerometerRepository by inject()
+    private val motorSpeedMapper: MotorSpeedMapper = MotorSpeedMapper()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
@@ -38,6 +60,35 @@ class WearActivity : ComponentActivity() {
         setContent {
             WearApp("Android")
         }
+
+        // TODO: Extract to commons
+        connect()
+    }
+
+    private fun connect() {
+        lifecycleScope.launch {
+            bluetoothRepository.connect()
+                .filter {
+                    println("WearActivity: connect result = $it")
+                    it is BluetoothResult.Success
+                }
+                .flatMapLatest { accelerometerRepository.connect().debounce(300) }
+                .map(motorSpeedMapper::map)
+                .distinctUntilChanged()
+                .map(::send)
+                .onEach { delay(100) }
+                .launchIn(lifecycleScope)
+        }
+    }
+
+    private fun send(data: ControlMotorsData) {
+        val isSucceed = bluetoothRepository.send(data.toConnectData())
+        if (!isSucceed) connect()
+        println("WearActivity: send data = $data, isSucceed = $isSucceed")
+    }
+
+    private fun ControlMotorsData.toConnectData(): String {
+        return "m" + leftMotor + "z" + rightMotor + "z"
     }
 }
 
