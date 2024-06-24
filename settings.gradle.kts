@@ -38,7 +38,5 @@ include(
     ":feature:control:api",
     ":feature:control:impl",
     ":repository:accelerometer",
-    ":repository:connect:api",
-    ":repository:connect:bluetooth",
-    ":repository:connect:wifi",
+    ":repository:bluetooth",
 )

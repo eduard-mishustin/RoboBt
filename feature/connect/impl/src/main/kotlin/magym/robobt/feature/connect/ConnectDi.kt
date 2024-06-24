@@ -8,7 +8,7 @@ import magym.robobt.feature.connect.presentation.tea.actor.ConnectNavigationActo
 import magym.robobt.feature.connect.presentation.ui.ConnectContentScreen
 import magym.robobt.feature.connect.presentation.ui.ConnectUiStateMapper
 import magym.robobt.feature.control.ControlScreenProvider
-import magym.robobt.repository.connect.ConnectRepository
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
@@ -20,7 +20,7 @@ val connectModule = module {
 internal fun createConnectStore(
     router: Router,
     controlScreenProvider: ControlScreenProvider,
-    repository: ConnectRepository
+    repository: BluetoothRepository
 ): ConnectStore {
     return ConnectStore(
         reducer = ConnectReducer(),

@@ -5,8 +5,6 @@ import magym.robobt.common.navigation.voyager.navigationModule
 import magym.robobt.feature.connect.connectModule
 import magym.robobt.feature.control.controlModule
 import magym.robobt.repository.accelerometer.accelerometerModule
-import magym.robobt.repository.connect.ConnectRepository
-import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 import magym.robobt.repository.connect.bluetooth.bluetoothModule
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -17,7 +15,6 @@ val roboModules: List<Module>
 
 private val appModule = module {
     singleOf(::SingleActivityHolder)
-    single<ConnectRepository> { get<BluetoothRepository>() }
 }
 
 private val coreModules: List<Module>

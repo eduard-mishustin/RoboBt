@@ -24,5 +24,5 @@ dependencies {
     implementation(project(":common:tea:compose"))
     implementation(project(":common:ui"))
     implementation(project(":repository:accelerometer"))
-    implementation(project(":repository:connect:api"))
+    implementation(project(":repository:bluetooth"))
 }

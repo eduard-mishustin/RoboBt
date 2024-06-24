@@ -1,4 +1,4 @@
-package magym.robobt.repository.connect.bluetooth
+package magym.robobt.repository.connect.bluetooth.impl
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice

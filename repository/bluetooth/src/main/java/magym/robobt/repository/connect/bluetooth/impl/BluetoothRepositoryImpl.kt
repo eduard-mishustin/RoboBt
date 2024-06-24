@@ -1,4 +1,4 @@
-package magym.robobt.repository.connect.bluetooth
+package magym.robobt.repository.connect.bluetooth.impl
 
 import android.Manifest.permission.BLUETOOTH_CONNECT
 import android.bluetooth.BluetoothManager
@@ -12,19 +12,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import magym.robobt.repository.connect.ConnectRepository
-import magym.robobt.repository.connect.ConnectResult
-import magym.robobt.repository.connect.ConnectionInputData
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
+import magym.robobt.repository.connect.bluetooth.model.BluetoothInputData
+import magym.robobt.repository.connect.bluetooth.model.BluetoothResult
 
 /**
  * https://developer.android.com/develop/connectivity/bluetooth/setup
  */
-class BluetoothRepository(
+internal class BluetoothRepositoryImpl(
     private val context: Context,
     private val bluetoothManager: BluetoothManager,
-    private val inputDataParser: ConnectionInputDataParser,
+    private val inputDataParser: BluetoothInputDataParser,
     private val dispatcher: CoroutineDispatcher,
-) : ConnectRepository {
+) : BluetoothRepository {
 
     private val connection = BluetoothConnection()
 
@@ -32,18 +32,18 @@ class BluetoothRepository(
         TODO()
     }
 
-    override fun connect(): Flow<ConnectResult> = flow {
+    override fun connect(): Flow<BluetoothResult> = flow {
         while (true) {
             val result = withContext(dispatcher) { connectInternal() }
             println("BluetoothRepository.connect: $result")
             emit(result)
 
-            if (result is ConnectResult.Success) break
+            if (result is BluetoothResult.Success) break
             delay(1.seconds)
         }
     }
 
-    override fun read(): Flow<ConnectionInputData?> = flow {
+    override fun read(): Flow<BluetoothInputData?> = flow {
         while (true) {
             val pureData = withContext(dispatcher) { connection.read() }
             val result = inputDataParser.parse(pureData)
@@ -63,24 +63,24 @@ class BluetoothRepository(
         connection.cancel()
     }
 
-    private fun connectInternal(): ConnectResult {
-        val adapter = bluetoothManager.adapter ?: return ConnectResult.Error.SystemServiceNotExist
-        if (!adapter.isEnabled) return ConnectResult.Error.SystemServiceDisabled
+    private fun connectInternal(): BluetoothResult {
+        val adapter = bluetoothManager.adapter ?: return BluetoothResult.Error.SystemServiceNotExist
+        if (!adapter.isEnabled) return BluetoothResult.Error.SystemServiceDisabled
 
         if (checkSelfPermission(context, BLUETOOTH_CONNECT) != PERMISSION_GRANTED) {
-            return ConnectResult.Error.PermissionNotGranted
+            return BluetoothResult.Error.PermissionNotGranted
         }
 
         val devices = adapter.bondedDevices
-        if (devices.isEmpty()) return ConnectResult.Error.NoPairedDevices
+        if (devices.isEmpty()) return BluetoothResult.Error.NoPairedDevices
 
         val roboModule = devices
-            .find { it.name.contains(BLUETOOTH_MODULE_NAME) } ?: return ConnectResult.Error.NoPairedDevices
+            .find { it.name.contains(BLUETOOTH_MODULE_NAME) } ?: return BluetoothResult.Error.NoPairedDevices
 
         val isSuccess = connection.connect(roboModule)
 
-        if (!isSuccess) return ConnectResult.Error.ConnectionFailed
-        return ConnectResult.Success
+        if (!isSuccess) return BluetoothResult.Error.ConnectionFailed
+        return BluetoothResult.Success
     }
 
     private companion object {

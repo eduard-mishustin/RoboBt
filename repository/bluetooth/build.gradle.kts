@@ -5,11 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "magym.robobt.repository.connect.bluetooth"
+    namespace = "magym.robobt.repository.bluetooth"
 }
 
 dependencies {
-    api(project(":repository:connect:api"))
     implementation(libs.koinAndroid)
     implementation(project(":common:android"))
 }

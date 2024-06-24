@@ -17,10 +17,10 @@ import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
 import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
 import magym.robobt.repository.accelerometer.AccelerometerRepository
-import magym.robobt.repository.connect.ConnectRepository
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 
 internal class ControlActor(
-    private val connectRepository: ConnectRepository,
+    private val bluetoothRepository: BluetoothRepository,
     private val accelerometerRepository: AccelerometerRepository,
     private val motorSpeedMapper: MotorSpeedMapper,
 ) : Actor<ControlCommand, ControlEvent> {
@@ -51,7 +51,7 @@ internal class ControlActor(
     }
 
     private fun send(data: ControlMotorsData): Controlling {
-        val isSucceed = connectRepository.send(data.toConnectData())
+        val isSucceed = bluetoothRepository.send(data.toConnectData())
         println("ControlActor: send data = $data, isSucceed = $isSucceed")
         return if (isSucceed) Controlling.Succeed(data) else Controlling.Failed
     }

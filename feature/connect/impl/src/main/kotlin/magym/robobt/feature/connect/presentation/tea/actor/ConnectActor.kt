@@ -10,11 +10,11 @@ import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand
 import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand.Connect
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEvent
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEvent.Connecting
-import magym.robobt.repository.connect.ConnectRepository
-import magym.robobt.repository.connect.ConnectResult
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
+import magym.robobt.repository.connect.bluetooth.model.BluetoothResult
 
 internal class ConnectActor(
-    private val repository: ConnectRepository,
+    private val repository: BluetoothRepository,
 ) : Actor<ConnectCommand, ConnectEvent> {
 
     override fun act(commands: Flow<ConnectCommand>): Flow<ConnectEvent> {
@@ -25,7 +25,7 @@ internal class ConnectActor(
     private fun handleCommand(command: Connect): Flow<Connecting> {
         return repository.connect()
             .map {
-                if (it is ConnectResult.Success) Connecting.Succeed
+                if (it is BluetoothResult.Success) Connecting.Succeed
                 else Connecting.Failed(it)
             }
             .startWith(Connecting.Started)

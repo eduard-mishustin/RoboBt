@@ -1,4 +1,4 @@
-package magym.robobt.repository.accelerometer.util
+package magym.robobt.repository.accelerometer.impl.util
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent

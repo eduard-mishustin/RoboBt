@@ -10,7 +10,7 @@ import magym.robobt.feature.control.presentation.tea.actor.MotorSpeedMapper
 import magym.robobt.feature.control.presentation.ui.ControlContentScreen
 import magym.robobt.feature.control.presentation.ui.ControlUiStateMapper
 import magym.robobt.repository.accelerometer.AccelerometerRepository
-import magym.robobt.repository.connect.ConnectRepository
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
@@ -21,7 +21,7 @@ val controlModule = module {
 
 internal fun createControlStore(
     router: Router,
-    connectRepository: ConnectRepository,
+    bluetoothRepository: BluetoothRepository,
     accelerometerRepository: AccelerometerRepository,
 ): ControlStore {
     return ControlStore(
@@ -30,11 +30,11 @@ internal fun createControlStore(
         actors = setOf(
             ControlNavigationActor(router),
             ControlActor(
-                connectRepository = connectRepository,
+                bluetoothRepository = bluetoothRepository,
                 accelerometerRepository = accelerometerRepository,
                 motorSpeedMapper = MotorSpeedMapper(),
             ),
-            ControlReadConnectionDataActor(connectRepository),
+            ControlReadConnectionDataActor(bluetoothRepository),
         ),
     )
 }

@@ -10,10 +10,10 @@ import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ReadConnectionData
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.ConnectionData
-import magym.robobt.repository.connect.ConnectRepository
+import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 
 internal class ControlReadConnectionDataActor(
-    private val connectRepository: ConnectRepository,
+    private val bluetoothRepository: BluetoothRepository,
 ) : Actor<ControlCommand, ControlEvent> {
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
@@ -29,7 +29,7 @@ internal class ControlReadConnectionDataActor(
     }
 
     private fun handleSubscribeCommand(): Flow<ConnectionData> {
-        return connectRepository.read()
+        return bluetoothRepository.read()
             .map { data ->
                 if (data != null) ConnectionData.Succeed(data)
                 else ConnectionData.Failed
