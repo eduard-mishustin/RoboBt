@@ -15,8 +15,9 @@ import magym.robobt.feature.control.presentation.tea.core.ControlCommand.Control
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Manual
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
-import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
 import magym.robobt.repository.accelerometer.AccelerometerRepository
+import magym.robobt.repository.accelerometer.MotorSpeedMapper
+import magym.robobt.repository.accelerometer.model.ControlMotorsData
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 
 internal class ControlActor(

@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
     id("common-android")
-    id("common-tests")
 }
 
 android {

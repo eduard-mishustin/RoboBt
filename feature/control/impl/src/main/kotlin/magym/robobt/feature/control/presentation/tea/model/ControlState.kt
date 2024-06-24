@@ -1,5 +1,7 @@
 package magym.robobt.feature.control.presentation.tea.model
 
+import magym.robobt.repository.accelerometer.model.ControlMotorsData
+
 internal data class ControlState(
     val motorsData: ControlMotorsData = ControlMotorsData(leftMotor = 0, rightMotor = 0),
     val controlMode: ControlMode = ControlMode.Accelerometer,

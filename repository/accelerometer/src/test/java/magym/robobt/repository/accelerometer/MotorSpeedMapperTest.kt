@@ -1,4 +1,4 @@
-package magym.robobt.feature.control.presentation.tea.actor
+package magym.robobt.repository.accelerometer
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest

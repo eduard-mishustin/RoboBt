@@ -1,13 +1,13 @@
 @file:Suppress("SameParameterValue")
 
-package magym.robobt.feature.control.presentation.tea.actor
+package magym.robobt.repository.accelerometer
 
 import kotlin.math.absoluteValue
 import kotlin.math.max
-import magym.robobt.feature.control.presentation.tea.model.ControlMotorsData
 import magym.robobt.repository.accelerometer.model.AccelerometerData
+import magym.robobt.repository.accelerometer.model.ControlMotorsData
 
-internal class MotorSpeedMapper(
+class MotorSpeedMapper(
     private val accelerometerTresholdMin: Float = 2F, // (0 - 10)
     private val accelerometerTresholdMax: Float = 7F,
 ) {
