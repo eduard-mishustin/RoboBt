@@ -1,11 +1,11 @@
-import magym.robobt.util.withVersionCatalog
+import magym.robobt.utils.libs
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-project.withVersionCatalog { libs ->
+libs { libs ->
     plugins.withType<KotlinBasePluginWrapper> {
         dependencies {
             testImplementation(libs.testJunitJupiter)
