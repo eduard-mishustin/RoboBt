@@ -19,6 +19,7 @@ import magym.robobt.repository.accelerometer.AccelerometerRepository
 import magym.robobt.repository.accelerometer.MotorSpeedMapper
 import magym.robobt.repository.accelerometer.model.ControlMotorsData
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
+import magym.robobt.repository.connect.bluetooth.model.BluetoothOutputData
 
 internal class ControlActor(
     private val bluetoothRepository: BluetoothRepository,
@@ -31,7 +32,7 @@ internal class ControlActor(
             .flatMapLatest(::handleCommand)
     }
 
-    private fun handleCommand(command: ControlMode): Flow<Controlling> {
+    private suspend fun handleCommand(command: ControlMode): Flow<Controlling> {
         return when (command) {
             is Accelerometer -> handleSubscribeToAccelerometerControlCommand(command)
             is Manual -> handleSendManualControlCommand(command)
@@ -46,18 +47,20 @@ internal class ControlActor(
             .onEach { delay(100) }
     }
 
-    private fun handleSendManualControlCommand(command: Manual): Flow<Controlling> {
+    private suspend fun handleSendManualControlCommand(command: Manual): Flow<Controlling> {
         val data = command.motorsData
         return flowOf(send(data))
     }
 
-    private fun send(data: ControlMotorsData): Controlling {
+    private suspend fun send(data: ControlMotorsData): Controlling {
         val isSucceed = bluetoothRepository.send(data.toConnectData())
-        println("ControlActor: send data = $data, isSucceed = $isSucceed")
         return if (isSucceed) Controlling.Succeed(data) else Controlling.Failed
     }
 
-    private fun ControlMotorsData.toConnectData(): String {
-        return "m" + leftMotor + "z" + rightMotor + "z"
+    private fun ControlMotorsData.toConnectData(): BluetoothOutputData {
+        return BluetoothOutputData.ControlMotorsData(
+            leftMotor = leftMotor,
+            rightMotor = rightMotor
+        )
     }
 }

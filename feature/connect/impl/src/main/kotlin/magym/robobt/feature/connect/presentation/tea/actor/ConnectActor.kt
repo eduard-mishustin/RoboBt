@@ -11,7 +11,7 @@ import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand.Connect
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEvent
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEvent.Connecting
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
-import magym.robobt.repository.connect.bluetooth.model.BluetoothResult
+import magym.robobt.repository.connect.bluetooth.model.BluetoothConnectResult
 
 internal class ConnectActor(
     private val repository: BluetoothRepository,
@@ -25,7 +25,7 @@ internal class ConnectActor(
     private fun handleCommand(command: Connect): Flow<Connecting> {
         return repository.connect()
             .map {
-                if (it is BluetoothResult.Success) Connecting.Succeed
+                if (it is BluetoothConnectResult.Success) Connecting.Succeed
                 else Connecting.Failed(it)
             }
             .startWith(Connecting.Started)

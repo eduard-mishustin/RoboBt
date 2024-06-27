@@ -1,10 +1,10 @@
 package magym.robobt.repository.connect.bluetooth.model
 
-sealed interface BluetoothResult {
+sealed interface BluetoothConnectResult {
 
-    data object Success : BluetoothResult
+    data object Success : BluetoothConnectResult
 
-    sealed interface Error : BluetoothResult {
+    sealed interface Error : BluetoothConnectResult {
 
         data object SystemServiceNotExist : Error
 
