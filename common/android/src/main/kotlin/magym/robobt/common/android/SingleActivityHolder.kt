@@ -7,6 +7,10 @@ class SingleActivityHolder {
 
     lateinit var activity: WeakReference<ComponentActivity>
 
+    fun getActivity(): ComponentActivity? {
+        return activity.get()
+    }
+
     fun requireActivity(): ComponentActivity {
         return activity.get()!!
     }

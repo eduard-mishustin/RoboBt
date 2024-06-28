@@ -1,5 +1,6 @@
 package magym.robobt.feature.control.presentation.tea.core
 
+import magym.robobt.common.android.orientation.Orientation
 import magym.robobt.repository.accelerometer.model.ControlMotorsData
 
 internal sealed interface ControlCommand {
@@ -17,6 +18,8 @@ internal sealed interface ControlCommand {
 
         data object Unsubscribe : ReadConnectionData
     }
+
+    data class ChangeOrientation(val orientation: Orientation) : ControlCommand
 }
 
 internal sealed interface ControlNavigationCommand : ControlCommand {

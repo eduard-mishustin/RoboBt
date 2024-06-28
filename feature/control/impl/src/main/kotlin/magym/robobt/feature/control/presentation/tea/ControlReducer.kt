@@ -1,7 +1,9 @@
 package magym.robobt.feature.control.presentation.tea
 
+import magym.robobt.common.android.orientation.Orientation
 import magym.robobt.common.tea.dsl.DslReducer
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
+import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ChangeOrientation
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ReadConnectionData
 import magym.robobt.feature.control.presentation.tea.core.ControlEffect
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
@@ -9,6 +11,7 @@ import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Connectio
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
 import magym.robobt.feature.control.presentation.tea.core.ControlNavigationCommand.Exit
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent
+import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBackPress
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBottomLeftButtonDown
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBottomLeftButtonUp
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBottomRightButtonDown
@@ -20,7 +23,6 @@ import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopLe
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRightButtonDown
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRightButtonUp
 import magym.robobt.feature.control.presentation.tea.model.ControlMode
-import magym.robobt.feature.control.presentation.tea.model.ControlOrientation
 import magym.robobt.feature.control.presentation.tea.model.ControlState
 
 internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, ControlEvent, ControlState>() {
@@ -35,6 +37,7 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
 
     private fun reduceUi(event: ControlUiEvent) = when (event) {
         is OnStart -> reduceOnStart()
+        is OnBackPress -> reduceOnBackPress()
         is OnChangeControlModeClick -> reduceOnChangeControlModeClick()
 
         is OnTopLeftButtonDown -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(rightMotor = 255)))
@@ -57,13 +60,13 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
 
     private fun reduceOnChangeControlModeClick() {
         state { copy(controlMode = ControlMode.Manual) }
-        effects(ControlEffect.ChangeControlOrientation(ControlOrientation.Landscape))
+        commands(ChangeOrientation(Orientation.Landscape))
     }
 
     private fun reduceControlling(event: Controlling) = when (event) {
         is Controlling.Started -> Unit
         is Controlling.Succeed -> state { copy(motorsData = event.data) }
-        is Controlling.Failed -> commands(Exit)
+        is Controlling.Failed -> handleExit()
     }
 
     private fun reduceConnectionDataReceived(event: ConnectionData) {
@@ -75,7 +78,20 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
                 )
             }
 
-            is ConnectionData.Failed -> commands(Exit)
+            is ConnectionData.Failed -> handleExit()
         }
+    }
+
+    private fun reduceOnBackPress() {
+        if (state.controlMode != ControlMode.Accelerometer) {
+            state { copy(controlMode = ControlMode.Accelerometer) }
+            commands(ChangeOrientation(Orientation.Portrait))
+        } else {
+            handleExit()
+        }
+    }
+
+    private fun handleExit() {
+        commands(Exit)
     }
 }

@@ -23,6 +23,8 @@ internal sealed interface ControlUiEvent : ControlEvent {
 
     data object OnStart : ControlUiEvent
 
+    data object OnBackPress : ControlUiEvent
+
     data object OnChangeControlModeClick : ControlUiEvent
 
     data object OnTopLeftButtonDown : ControlUiEvent

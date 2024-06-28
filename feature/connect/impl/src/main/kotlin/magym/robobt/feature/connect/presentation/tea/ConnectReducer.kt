@@ -1,7 +1,9 @@
 package magym.robobt.feature.connect.presentation.tea
 
+import magym.robobt.common.android.orientation.Orientation
 import magym.robobt.common.tea.dsl.DslReducer
 import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand
+import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand.ChangeOrientation
 import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand.Connect
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEffect
 import magym.robobt.feature.connect.presentation.tea.core.ConnectEvent
@@ -19,7 +21,7 @@ internal class ConnectReducer : DslReducer<ConnectCommand, ConnectEffect, Connec
     }
 
     private fun reduceUi(event: ConnectUiEvent) = when (event) {
-        is OnStart -> commands(Connect)
+        is OnStart -> commands(ChangeOrientation(Orientation.Portrait), Connect)
     }
 
     private fun reduceConnecting(event: Connecting) = when (event) {

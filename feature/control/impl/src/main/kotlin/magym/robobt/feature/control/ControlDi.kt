@@ -1,10 +1,12 @@
 package magym.robobt.feature.control
 
+import magym.robobt.common.android.orientation.ScreenOrientationChanger
 import magym.robobt.common.navigation.api.Router
 import magym.robobt.feature.control.presentation.tea.ControlReducer
 import magym.robobt.feature.control.presentation.tea.ControlStore
 import magym.robobt.feature.control.presentation.tea.actor.ControlActor
 import magym.robobt.feature.control.presentation.tea.actor.ControlNavigationActor
+import magym.robobt.feature.control.presentation.tea.actor.ControlOrientationActor
 import magym.robobt.feature.control.presentation.tea.actor.ControlReadConnectionDataActor
 import magym.robobt.feature.control.presentation.ui.ControlContentScreen
 import magym.robobt.feature.control.presentation.ui.ControlUiStateMapper
@@ -23,6 +25,7 @@ internal fun createControlStore(
     router: Router,
     bluetoothRepository: BluetoothRepository,
     accelerometerRepository: AccelerometerRepository,
+    screenOrientationChanger: ScreenOrientationChanger,
 ): ControlStore {
     return ControlStore(
         reducer = ControlReducer(),
@@ -35,6 +38,7 @@ internal fun createControlStore(
                 motorSpeedMapper = MotorSpeedMapper(),
             ),
             ControlReadConnectionDataActor(bluetoothRepository),
+            ControlOrientationActor(screenOrientationChanger),
         ),
     )
 }

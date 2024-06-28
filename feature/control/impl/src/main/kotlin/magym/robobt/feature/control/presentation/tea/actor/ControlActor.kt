@@ -33,6 +33,7 @@ internal class ControlActor(
     }
 
     private suspend fun handleCommand(command: ControlMode): Flow<Controlling> {
+        println("ControlActor.handleCommand: $command")
         return when (command) {
             is Accelerometer -> handleSubscribeToAccelerometerControlCommand(command)
             is Manual -> handleSendManualControlCommand(command)
