@@ -1,9 +1,7 @@
 package magym.robobt.feature.control.presentation.tea
 
-import magym.robobt.common.android.orientation.Orientation
 import magym.robobt.common.tea.dsl.DslReducer
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
-import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ChangeOrientation
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ReadConnectionData
 import magym.robobt.feature.control.presentation.tea.core.ControlEffect
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
@@ -60,7 +58,6 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
 
     private fun reduceOnChangeControlModeClick() {
         state { copy(controlMode = ControlMode.Manual) }
-        commands(ChangeOrientation(Orientation.Landscape))
     }
 
     private fun reduceControlling(event: Controlling) = when (event) {
@@ -85,7 +82,6 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
     private fun reduceOnBackPress() {
         if (state.controlMode != ControlMode.Accelerometer) {
             state { copy(controlMode = ControlMode.Accelerometer) }
-            commands(ChangeOrientation(Orientation.Portrait))
         } else {
             handleExit()
         }

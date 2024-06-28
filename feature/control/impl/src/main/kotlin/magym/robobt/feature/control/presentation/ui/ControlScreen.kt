@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import magym.robobt.common.ui.theme.LandscapeScreenPreview
 import magym.robobt.common.ui.theme.PreviewTheme
 import magym.robobt.common.ui.theme.ScreenPreview
 import magym.robobt.feature.control.presentation.ui.state.ControlUiState
@@ -142,8 +141,8 @@ private fun ControlScreenAccelerometerPreview() = PreviewTheme {
     ControlScreen(ControlUiState.Accelerometer(leftMotor = 0, rightMotor = 0, "27 °C"))
 }
 
-@LandscapeScreenPreview
+@ScreenPreview
 @Composable
 private fun ControlScreenManualPreview() = PreviewTheme {
-    ControlScreen(ControlUiState.Manual("27 °C"))
+    ControlScreen(ControlUiState.Manual("27 °C, 30%"))
 }

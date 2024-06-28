@@ -15,12 +15,6 @@ annotation class WidgetPreview
 )
 annotation class ScreenPreview
 
-@Preview(
-    device = "spec:parent=pixel_8_pro,orientation=landscape",
-    showBackground = true
-)
-annotation class LandscapeScreenPreview
-
 @Composable
 fun PreviewTheme(
     content: @Composable () -> Unit,
