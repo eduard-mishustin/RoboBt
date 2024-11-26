@@ -6,20 +6,20 @@
 #include <SoftwareSerial.h>
 
 // (тип драйвера, пин, ШИМ пин, уровень драйвера)
-GMotor motorTopLeft(DRIVER2WIRE, 2, 3, HIGH);
-GMotor motorTopRight(DRIVER2WIRE, 4, 5, HIGH);
+GMotor motorTopLeft(DRIVER2WIRE, 7, 6, HIGH);
+GMotor motorTopRight(DRIVER2WIRE, 2, 3, HIGH);
 GMotor motorBottomLeft(DRIVER2WIRE, 8, 9, HIGH);
-GMotor motorBottomRight(DRIVER2WIRE, 7, 6, HIGH);
+GMotor motorBottomRight(DRIVER2WIRE, 4, 5, HIGH);
 
 GyverHTU21D weather;
 
 SoftwareSerial bluetooth(11, 12);
 
 void setup() {
-    motorTopLeft.setDirection(REVERSE);
+    motorTopLeft.setDirection(NORMAL);
     motorTopRight.setDirection(NORMAL);
     motorBottomLeft.setDirection(REVERSE);
-    motorBottomRight.setDirection(REVERSE);
+    motorBottomRight.setDirection(NORMAL);
 
     motorTopLeft.setMode(AUTO);
     motorTopRight.setMode(AUTO);
@@ -33,7 +33,7 @@ void setup() {
 
     Serial.begin(9600);
     bluetooth.begin(9600);
-    weather.begin();
+    //weather.begin();
 }
 
 void loop() {
@@ -58,7 +58,7 @@ void loop() {
         Serial.println();
     }
 
-    sendWeather();
+    //sendWeather();
 }
 
 int readValue() {
