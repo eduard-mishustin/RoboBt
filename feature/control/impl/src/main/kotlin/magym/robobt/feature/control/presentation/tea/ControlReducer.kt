@@ -22,6 +22,7 @@ import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRi
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRightButtonUp
 import magym.robobt.feature.control.presentation.tea.model.ControlMode
 import magym.robobt.feature.control.presentation.tea.model.ControlState
+import magym.robobt.repository.accelerometer.model.ControlMotorsData
 
 internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, ControlEvent, ControlState>() {
 
@@ -38,14 +39,19 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
         is OnBackPress -> reduceOnBackPress()
         is OnChangeControlModeClick -> reduceOnChangeControlModeClick()
 
-        is OnTopLeftButtonDown -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(rightMotor = 255)))
-        is OnTopLeftButtonUp -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(rightMotor = 0)))
-        is OnTopRightButtonDown -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(leftMotor = 255)))
-        is OnTopRightButtonUp -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(leftMotor = 0)))
-        is OnBottomLeftButtonDown -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(rightMotor = -255)))
-        is OnBottomLeftButtonUp -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(rightMotor = 0)))
-        is OnBottomRightButtonDown -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(leftMotor = -255)))
-        is OnBottomRightButtonUp -> commands(ControlCommand.ControlMode.Manual(state.motorsData.copy(leftMotor = 0)))
+        is OnTopLeftButtonDown -> onButtonClicked(state.motorsData.copy(rightMotor = 255))
+        is OnTopLeftButtonUp -> onButtonClicked(state.motorsData.copy(rightMotor = 0))
+        is OnTopRightButtonDown -> onButtonClicked(state.motorsData.copy(leftMotor = 255))
+        is OnTopRightButtonUp -> onButtonClicked(state.motorsData.copy(leftMotor = 0))
+        is OnBottomLeftButtonDown -> onButtonClicked(state.motorsData.copy(rightMotor = -255))
+        is OnBottomLeftButtonUp -> onButtonClicked(state.motorsData.copy(rightMotor = 0))
+        is OnBottomRightButtonDown -> onButtonClicked(state.motorsData.copy(leftMotor = -255))
+        is OnBottomRightButtonUp -> onButtonClicked(state.motorsData.copy(leftMotor = 0))
+    }
+
+    private fun onButtonClicked(motorsData: ControlMotorsData) {
+        state { copy(motorsData = motorsData) }
+        commands(ControlCommand.ControlMode.Manual(motorsData))
     }
 
     private fun reduceOnStart() {
@@ -62,7 +68,7 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
 
     private fun reduceControlling(event: Controlling) = when (event) {
         is Controlling.Started -> Unit
-        is Controlling.Succeed -> state { copy(motorsData = event.data) }
+        is Controlling.Succeed -> Unit
         is Controlling.Failed -> handleExit()
     }
 

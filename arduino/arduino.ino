@@ -33,6 +33,7 @@ void setup() {
 
     Serial.begin(9600);
     bluetooth.begin(9600);
+
     //weather.begin();
 }
 
