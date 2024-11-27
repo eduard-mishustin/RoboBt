@@ -1,13 +1,11 @@
 package magym.robobt.feature.control.presentation.tea.actor
 
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode
@@ -45,7 +43,6 @@ internal class ControlActor(
             .map(motorSpeedMapper::map)
             .distinctUntilChanged()
             .map(::send)
-            .onEach { delay(100) }
     }
 
     private suspend fun handleSendManualControlCommand(command: Manual): Flow<Controlling> {

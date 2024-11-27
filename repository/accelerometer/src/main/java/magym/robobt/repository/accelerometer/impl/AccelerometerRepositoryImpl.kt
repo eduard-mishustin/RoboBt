@@ -28,7 +28,9 @@ internal class AccelerometerRepositoryImpl(
 
         sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL)
         awaitClose { sensorManager.unregisterListener(listener) }
-    }.distinctUntilChanged()
+    }
+        //.customDebounce()
+        .distinctUntilChanged()
 
     private fun Float.roundTo1DecimalPlaces(): Float {
         return (this * 10).toInt() / 10f
