@@ -19,41 +19,41 @@ import kotlin.coroutines.EmptyCoroutineContext
 
 @Composable
 internal fun <T> rememberLifecycleFlow(
-	flow: Flow<T>,
-	lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-	lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    flow: Flow<T>,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ): Flow<T> = remember(flow, lifecycleOwner, lifecycleState) {
-	flow.flowWithLifecycle(lifecycleOwner.lifecycle, lifecycleState)
+    flow.flowWithLifecycle(lifecycleOwner.lifecycle, lifecycleState)
 }
 
 @Composable
 internal fun <T : R, R> Flow<T>.collectAsStateOnLifecycle(
-	initial: R,
-	context: CoroutineContext = EmptyCoroutineContext,
-	lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    initial: R,
+    context: CoroutineContext = EmptyCoroutineContext,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
 ): State<R> {
-	val lifecycleAwareFlow = rememberLifecycleFlow(this, lifecycleState)
-	return lifecycleAwareFlow.collectAsState(initial, context)
+    val lifecycleAwareFlow = rememberLifecycleFlow(this, lifecycleState)
+    return lifecycleAwareFlow.collectAsState(initial, context)
 }
 
 @Suppress("StateFlowValueCalledInComposition")
 @Composable
-internal fun <T> StateFlow<T>.collectAsStateOnLifecycle(
-	context: CoroutineContext = EmptyCoroutineContext,
-	lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+fun <T> StateFlow<T>.collectAsStateOnLifecycle(
+    context: CoroutineContext = EmptyCoroutineContext,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
 ): State<T> = collectAsStateOnLifecycle(value, context, lifecycleState)
 
 @Composable
 @Suppress("ComposableParametersOrdering", "ComposableNaming", "ComposableFunctionName")
 internal fun <T> Flow<T>.collectOnLifecycle(
-	lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
-	collector: suspend CoroutineScope.(T) -> Unit,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    collector: suspend CoroutineScope.(T) -> Unit,
 ) {
-	val lifecycleFlow = rememberLifecycleFlow(this, lifecycleState)
+    val lifecycleFlow = rememberLifecycleFlow(this, lifecycleState)
 
-	LaunchedEffect(lifecycleFlow) {
-		withContext(Dispatchers.Main.immediate) {
-			lifecycleFlow.collect { collector(it) }
-		}
-	}
+    LaunchedEffect(lifecycleFlow) {
+        withContext(Dispatchers.Main.immediate) {
+            lifecycleFlow.collect { collector(it) }
+        }
+    }
 }

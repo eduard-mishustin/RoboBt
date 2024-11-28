@@ -1,5 +1,6 @@
 package magym.robobt.feature.control.presentation.tea.core
 
+import magym.robobt.repository.accelerometer.model.ControlMotorsData
 import magym.robobt.repository.connect.bluetooth.model.BluetoothInputData
 
 internal sealed interface ControlEvent {
@@ -7,7 +8,7 @@ internal sealed interface ControlEvent {
     sealed interface Controlling : ControlEvent {
 
         data object Started : Controlling
-        data object Succeed : Controlling
+        data class Succeed(val data: ControlMotorsData) : Controlling
         data object Failed : Controlling
     }
 

@@ -20,7 +20,6 @@ internal class AccelerometerRepositoryImpl(
             val data = AccelerometerData(
                 x = -event.values[0].roundTo1DecimalPlaces(),
                 y = -event.values[1].roundTo1DecimalPlaces(),
-                z = event.values[2].roundTo1DecimalPlaces(),
             )
 
             trySend(data)

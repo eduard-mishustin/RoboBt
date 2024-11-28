@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
-
 package magym.robobt.feature.control.presentation.ui
 
 import androidx.compose.foundation.layout.Column
@@ -9,8 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,14 +57,16 @@ internal fun AccelerometerControl(
 ) {
     Column {
         Text(
-            modifier = Modifier.padding(32.dp),
+            modifier = Modifier.padding(64.dp),
             fontSize = 32.sp,
+            color = Color.Black,
             text = state.leftMotor.toString() + " : " + state.rightMotor.toString()
         )
 
         Text(
             modifier = Modifier.padding(32.dp),
             fontSize = 32.sp,
+            color = Color.Black,
             text = state.weather
         )
 
@@ -95,6 +95,7 @@ internal fun ManualControl(
         Text(
             modifier = Modifier.padding(32.dp),
             fontSize = 32.sp,
+            color = Color.Black,
             text = state.weather
         )
 
@@ -118,13 +119,13 @@ internal fun ManualControl(
 private fun ControlButton(onDown: () -> Unit, onUp: () -> Unit, text: String) {
     Button(
         modifier = Modifier
-			.padding(16.dp)
-			.pointerInput(Unit) {
-				detectPressGestures(
-					onDown = onDown,
-					onUp = onUp,
-				)
-			},
+            .padding(16.dp)
+            .pointerInput(Unit) {
+                detectPressGestures(
+                    onDown = onDown,
+                    onUp = onUp,
+                )
+            },
         onClick = {}
     ) {
         Text(

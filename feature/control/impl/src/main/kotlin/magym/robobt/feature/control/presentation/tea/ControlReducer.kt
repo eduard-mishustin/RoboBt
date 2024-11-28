@@ -68,7 +68,7 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
 
     private fun reduceControlling(event: Controlling) = when (event) {
         is Controlling.Started -> Unit
-        is Controlling.Succeed -> Unit
+        is Controlling.Succeed -> state { copy(motorsData = event.data) }
         is Controlling.Failed -> handleExit()
     }
 

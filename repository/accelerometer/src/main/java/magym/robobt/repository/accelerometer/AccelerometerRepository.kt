@@ -1,7 +1,9 @@
 package magym.robobt.repository.accelerometer
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import magym.robobt.repository.accelerometer.model.AccelerometerData
+import magym.robobt.repository.accelerometer.model.ControlMotorsData
 
 /**
  * Return flow of [AccelerometerData] with values of x, y, z.
@@ -26,3 +28,8 @@ interface AccelerometerRepository {
 
     fun connect(): Flow<AccelerometerData>
 }
+
+// сделать контроллеры репозитории, возвращать ControlMotorsData. motorSpeedMapper вызывать внутри них. AccelerometerRepository будет использоваться в ControllerAccelerometerRepository
+
+val joystickFlow = MutableStateFlow(AccelerometerData(0f, 0f))
+val joystickTriggersFlow = MutableStateFlow(ControlMotorsData(0, 0))
