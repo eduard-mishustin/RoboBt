@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
-import magym.robobt.common.tea.Store
 import kotlinx.coroutines.CoroutineScope
+import magym.robobt.common.tea.Store
 
 @Stable
 interface TeaScope<in UiEvent : Any, out Effect : Any> {

@@ -5,5 +5,5 @@ package magym.robobt.common.tea.component
  */
 fun interface Renderer<Value : Any> {
 
-	fun render(value: Value)
+    fun render(value: Value)
 }

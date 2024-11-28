@@ -3,8 +3,8 @@ package magym.robobt.common.tea.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.Lifecycle
-import magym.robobt.common.tea.Store
 import kotlinx.coroutines.Dispatchers
+import magym.robobt.common.tea.Store
 
 @Composable
 fun <UiState : Any, UiEvent : Any, Effect : Any> TeaComposable(

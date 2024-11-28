@@ -2,10 +2,10 @@
 
 package magym.robobt.repository.accelerometer
 
-import kotlin.math.absoluteValue
-import kotlin.math.max
 import magym.robobt.repository.accelerometer.model.AccelerometerData
 import magym.robobt.repository.accelerometer.model.ControlMotorsData
+import kotlin.math.absoluteValue
+import kotlin.math.max
 
 class MotorSpeedMapper(
     private val accelerometerTresholdMin: Float = 2F, // (0 - 10)

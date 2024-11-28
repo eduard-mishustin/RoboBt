@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
-import java.lang.ref.WeakReference
 import magym.robobt.common.android.SingleActivityHolder
 import magym.robobt.common.navigation.voyager.impl.NavigatorHolder
 import magym.robobt.common.ui.theme.RoboTheme
 import magym.robobt.feature.connect.ConnectScreenProvider
 import org.koin.android.ext.android.inject
+import java.lang.ref.WeakReference
 
 class AppActivity : ComponentActivity() {
 

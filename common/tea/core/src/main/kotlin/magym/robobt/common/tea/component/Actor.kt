@@ -21,5 +21,5 @@ import kotlinx.coroutines.flow.Flow
  */
 fun interface Actor<Command : Any, Event : Any> {
 
-	fun act(commands: Flow<Command>): Flow<Event>
+    fun act(commands: Flow<Command>): Flow<Event>
 }

@@ -8,13 +8,13 @@ import magym.robobt.common.navigation.api.RoboScreen
 
 abstract class BaseScreen : Screen, RoboScreen {
 
-	override val key: ScreenKey = uniqueScreenKey
+    override val key: ScreenKey = uniqueScreenKey
 
-	@Composable
-	final override fun Content() {
-		Screen()
-	}
+    @Composable
+    final override fun Content() {
+        Screen()
+    }
 
-	@Composable
-	abstract fun Screen()
+    @Composable
+    abstract fun Screen()
 }

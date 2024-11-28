@@ -24,12 +24,11 @@ val <T> Lce<T>.isLoading: Boolean
 val <T> Lce<T>.isContent: Boolean
 	get() = this is Content
 
-
 fun <T> Lce<T>.toLoadingContentAware(): Lce<T> {
 	return if (this is Content) this
 	else Loading()
 }
 
-fun <T: Any> Lce<T>.toLoading(): Lce<T> {
+fun <T : Any> Lce<T>.toLoading(): Lce<T> {
 	return Loading(content)
 }

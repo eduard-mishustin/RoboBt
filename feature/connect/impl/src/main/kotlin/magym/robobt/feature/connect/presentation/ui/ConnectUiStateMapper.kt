@@ -1,6 +1,5 @@
 package magym.robobt.feature.connect.presentation.ui
 
-import magym.robobt.common.pure.state.Lce
 import magym.robobt.common.tea.component.UiStateMapper
 import magym.robobt.feature.connect.presentation.tea.model.ConnectState
 import magym.robobt.feature.connect.presentation.ui.state.ConnectUiState

@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface Store<Effect : Any, UiEvent : Any, UiState : Any> {
 
-	val effects: Flow<Effect>
+    val effects: Flow<Effect>
 
-	val state: StateFlow<UiState>
+    val state: StateFlow<UiState>
 
-	fun accept(event: UiEvent)
+    fun accept(event: UiEvent)
 }

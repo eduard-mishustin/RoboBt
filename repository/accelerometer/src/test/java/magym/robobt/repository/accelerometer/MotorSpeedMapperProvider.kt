@@ -1,11 +1,11 @@
 package magym.robobt.repository.accelerometer
 
-import java.util.stream.Stream
 import magym.robobt.repository.accelerometer.model.AccelerometerData
 import magym.robobt.repository.accelerometer.model.ControlMotorsData
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
+import java.util.stream.Stream
 
 internal class MotorSpeedMapperProvider : ArgumentsProvider {
 

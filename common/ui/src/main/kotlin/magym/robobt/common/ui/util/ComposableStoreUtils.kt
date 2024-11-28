@@ -8,5 +8,5 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 inline fun <reified T : ScreenModelStore<*, *, *, *, *, *>> Screen.store(params: Any? = null): T {
-	return getScreenModel { parametersOf(params) }
+    return getScreenModel { parametersOf(params) }
 }

@@ -1,8 +1,5 @@
 package magym.robobt.common.tea
 
-import magym.robobt.common.tea.component.Actor
-import magym.robobt.common.tea.component.Reducer
-import magym.robobt.common.tea.component.UiStateMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +14,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import magym.robobt.common.tea.component.Actor
+import magym.robobt.common.tea.component.Reducer
+import magym.robobt.common.tea.component.UiStateMapper
 
 /**
  * [Store], TEA (The Elm Architecture) core, MVI like architecture

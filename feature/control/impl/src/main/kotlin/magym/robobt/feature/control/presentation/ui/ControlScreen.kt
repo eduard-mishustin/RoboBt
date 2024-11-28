@@ -118,13 +118,13 @@ internal fun ManualControl(
 private fun ControlButton(onDown: () -> Unit, onUp: () -> Unit, text: String) {
     Button(
         modifier = Modifier
-            .padding(16.dp)
-            .pointerInput(Unit) {
-                detectPressGestures(
-                    onDown = onDown,
-                    onUp = onUp,
-                )
-            },
+			.padding(16.dp)
+			.pointerInput(Unit) {
+				detectPressGestures(
+					onDown = onDown,
+					onUp = onUp,
+				)
+			},
         onClick = {}
     ) {
         Text(

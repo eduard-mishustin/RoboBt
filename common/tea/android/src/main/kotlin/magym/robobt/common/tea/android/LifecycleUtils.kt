@@ -8,25 +8,25 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 inline fun LifecycleOwner.launchRepeatOnCreated(crossinline block: suspend CoroutineScope.() -> Unit) {
-	lifecycleScope.launch {
-		repeatOnLifecycle(Lifecycle.State.CREATED) {
-			block()
-		}
-	}
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.CREATED) {
+            block()
+        }
+    }
 }
 
 inline fun LifecycleOwner.launchRepeatOnStarted(crossinline block: suspend CoroutineScope.() -> Unit) {
-	lifecycleScope.launch {
-		repeatOnLifecycle(Lifecycle.State.STARTED) {
-			block()
-		}
-	}
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            block()
+        }
+    }
 }
 
 inline fun LifecycleOwner.launchRepeatOnResumed(crossinline block: suspend CoroutineScope.() -> Unit) {
-	lifecycleScope.launch {
-		repeatOnLifecycle(Lifecycle.State.RESUMED) {
-			block()
-		}
-	}
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            block()
+        }
+    }
 }

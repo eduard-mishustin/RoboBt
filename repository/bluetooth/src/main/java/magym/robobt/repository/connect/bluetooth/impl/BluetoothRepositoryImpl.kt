@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.core.app.ActivityCompat.checkSelfPermission
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +17,7 @@ import magym.robobt.repository.connect.bluetooth.impl.parser.BluetoothOutputData
 import magym.robobt.repository.connect.bluetooth.model.BluetoothConnectResult
 import magym.robobt.repository.connect.bluetooth.model.BluetoothInputData
 import magym.robobt.repository.connect.bluetooth.model.BluetoothOutputData
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * https://developer.android.com/develop/connectivity/bluetooth/setup

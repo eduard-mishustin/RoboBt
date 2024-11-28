@@ -1,10 +1,10 @@
 package magym.robobt.common.tea.android
 
 import androidx.lifecycle.LifecycleOwner
-import magym.robobt.common.tea.Store
-import magym.robobt.common.tea.component.Renderer
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import magym.robobt.common.tea.Store
+import magym.robobt.common.tea.component.Renderer
 
 /**
  * Binds view with store
