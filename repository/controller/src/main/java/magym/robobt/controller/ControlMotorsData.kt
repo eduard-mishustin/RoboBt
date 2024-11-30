@@ -5,6 +5,9 @@ data class ControlMotorsData(
     val rightMotor: Int,
 ) {
 
+    val isNotEmpty: Boolean
+        get() = leftMotor != 0 || rightMotor != 0
+
     companion object {
 
         fun empty(): ControlMotorsData {

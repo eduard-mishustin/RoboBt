@@ -12,53 +12,50 @@ import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
 import magym.robobt.controller.keyboard.ControllerKeyboardRepository
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
-import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode
-import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Accelerometer
-import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Manual
+import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlModeChanged
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
+import magym.robobt.feature.control.presentation.tea.model.ControlMode
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 import magym.robobt.repository.connect.bluetooth.model.BluetoothOutputData
 
 internal class ControlActor(
     private val bluetoothRepository: BluetoothRepository,
-    private val controllerKeyboardRepository: ControllerKeyboardRepository,
-    private val controllerAccelerometerRepository: ControllerAccelerometerRepository,
-    private val controllerJoystickRepository: ControllerJoystickRepository,
-    private val controllerJoystickTriggersRepository: ControllerJoystickTriggersRepository,
+    private val keyboardRepository: ControllerKeyboardRepository,
+    private val accelerometerRepository: ControllerAccelerometerRepository,
+    private val joystickRepository: ControllerJoystickRepository,
+    private val joystickTriggersRepository: ControllerJoystickTriggersRepository,
 ) : Actor<ControlCommand, ControlEvent> {
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
-        return commands.filterIsInstance<ControlMode>()
+        return commands.filterIsInstance<ControlModeChanged>()
             .flatMapLatest(::handleCommand)
     }
 
-    private fun handleCommand(command: ControlMode): Flow<Controlling> {
+    private fun handleCommand(command: ControlModeChanged): Flow<Controlling> {
         println("ControlActor.handleCommand: $command")
-        return when (command) {
-            is Accelerometer -> handleSubscribeToAccelerometerControlCommand()
-            is Manual -> handleSendManualControlCommand()
+        return when (command.mode) {
+            ControlMode.Manual -> handleSendManualControlCommand()
+            ControlMode.Accelerometer -> handleSubscribeToAccelerometerControlCommand()
         }
     }
 
-    private fun handleSubscribeToAccelerometerControlCommand(): Flow<Controlling> {
-        return controllerAccelerometerRepository.connect()
-            .map(::send)
-
+    private fun handleSendManualControlCommand(): Flow<Controlling> {
         return combine(
-            controllerJoystickRepository.connect(),
-            controllerJoystickTriggersRepository.connect()
-        ) { joystick, joystickTriggers ->
-            if (joystickTriggers.leftMotor != 0 || joystickTriggers.rightMotor != 0) {
-                joystickTriggers
-            } else {
-                joystick
+            keyboardRepository.connect(),
+            joystickRepository.connect(),
+            joystickTriggersRepository.connect()
+        ) { keyboard, joystick, joystickTriggers ->
+            when {
+                keyboard.isNotEmpty -> keyboard
+                joystickTriggers.isNotEmpty -> joystickTriggers
+                else -> joystick
             }
         }.map(::send)
     }
 
-    private fun handleSendManualControlCommand(): Flow<Controlling> {
-        return controllerKeyboardRepository.connect()
+    private fun handleSubscribeToAccelerometerControlCommand(): Flow<Controlling> {
+        return accelerometerRepository.connect()
             .map(::send)
     }
 

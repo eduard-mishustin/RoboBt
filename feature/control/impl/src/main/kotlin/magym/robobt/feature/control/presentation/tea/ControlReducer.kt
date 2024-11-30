@@ -45,16 +45,16 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
     }
 
     private fun reduceOnStart() {
-        val command =
-            if (state.controlMode == ControlMode.Accelerometer) ControlCommand.ControlMode.Accelerometer
-            else ControlCommand.ControlMode.Manual
-
-        commands(command, ReadConnectionData.Subscribe)
+        commands(
+            ControlCommand.ControlModeChanged(state.controlMode),
+            ReadConnectionData.Subscribe
+        )
     }
 
     private fun reduceOnChangeControlModeClick() {
-        state { copy(controlMode = ControlMode.Manual) }
-        commands(ControlCommand.ControlMode.Manual)
+        val controlMode = state.controlMode.next()
+        state { copy(controlMode = controlMode) }
+        commands(ControlCommand.ControlModeChanged(controlMode))
     }
 
     private fun reduceControlling(event: Controlling) = when (event) {

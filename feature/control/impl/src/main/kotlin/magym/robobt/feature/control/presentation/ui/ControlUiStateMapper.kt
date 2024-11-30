@@ -9,13 +9,13 @@ internal class ControlUiStateMapper : UiStateMapper<ControlState, ControlUiState
 
     override fun map(state: ControlState): ControlUiState {
         return when (state.controlMode) {
-            ControlMode.Accelerometer -> ControlUiState.Accelerometer(
+            ControlMode.Manual -> ControlUiState.Manual(
                 leftMotor = state.motorsData.leftMotor,
                 rightMotor = state.motorsData.rightMotor,
                 weather = "${state.temperature}°C, ${state.humidity}%",
             )
 
-            ControlMode.Manual -> ControlUiState.Manual(
+            ControlMode.Accelerometer -> ControlUiState.Accelerometer(
                 leftMotor = state.motorsData.leftMotor,
                 rightMotor = state.motorsData.rightMotor,
                 weather = "${state.temperature}°C, ${state.humidity}%",

@@ -37,10 +37,10 @@ internal fun createControlStore(
             ControlNavigationActor(router),
             ControlActor(
                 bluetoothRepository = bluetoothRepository,
-                controllerKeyboardRepository = controllerKeyboardRepository,
-                controllerAccelerometerRepository = controllerAccelerometerRepository,
-                controllerJoystickRepository = controllerJoystickRepository,
-                controllerJoystickTriggersRepository = controllerJoystickTriggersRepository,
+                keyboardRepository = controllerKeyboardRepository,
+                accelerometerRepository = controllerAccelerometerRepository,
+                joystickRepository = controllerJoystickRepository,
+                joystickTriggersRepository = controllerJoystickTriggersRepository,
             ),
             ControlReadConnectionDataActor(bluetoothRepository),
             KeyboardActor(controllerKeyboardRepository)

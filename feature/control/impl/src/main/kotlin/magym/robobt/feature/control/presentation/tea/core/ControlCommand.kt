@@ -1,13 +1,10 @@
 package magym.robobt.feature.control.presentation.tea.core
 
+import magym.robobt.feature.control.presentation.tea.model.ControlMode
+
 internal sealed interface ControlCommand {
 
-    sealed interface ControlMode : ControlCommand {
-
-        data object Accelerometer : ControlMode
-
-        data object Manual : ControlMode
-    }
+    data class ControlModeChanged(val mode: ControlMode) : ControlCommand
 
     sealed interface ReadConnectionData : ControlCommand {
 
