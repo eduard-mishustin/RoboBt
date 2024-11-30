@@ -45,6 +45,6 @@ dependencies {
     implementation(project(":common:ui"))
     implementation(project(":feature:connect:impl"))
     implementation(project(":feature:control:impl"))
-    implementation(project(":repository:accelerometer"))
+    implementation(project(":repository:input-data"))
     implementation(project(":repository:bluetooth"))
 }

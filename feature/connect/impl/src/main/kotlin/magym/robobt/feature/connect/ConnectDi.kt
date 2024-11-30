@@ -12,7 +12,7 @@ import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-val connectModule = module {
+val connectFeatureModule = module {
     factory { ConnectScreenProvider(::ConnectContentScreen) }
     factoryOf(::createConnectStore)
 }

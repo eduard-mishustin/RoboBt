@@ -1,7 +1,7 @@
 package magym.robobt.feature.control.presentation.tea.core
 
-import magym.robobt.repository.accelerometer.model.ControlMotorsData
 import magym.robobt.repository.connect.bluetooth.model.BluetoothInputData
+import magym.robobt.repository.input_device.accelerometer.model.ControlMotorsData
 
 internal sealed interface ControlEvent {
 
