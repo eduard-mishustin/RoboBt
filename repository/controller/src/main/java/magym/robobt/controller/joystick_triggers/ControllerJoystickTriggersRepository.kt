@@ -29,20 +29,24 @@ internal class ControllerJoystickTriggersRepositoryImpl : ControllerJoystickTrig
     }
 
     override fun onTriggerInputChanged(leftTrigger: Float, rightTrigger: Float) {
+        val data = flow.value
+
         val leftMotor =
-            if (flow.value.leftMotor < 0) flow.value.leftMotor
+            if (data.leftMotor < 0) data.leftMotor
             else (rightTrigger * 255).toInt()
 
         val rightMotor =
-            if (flow.value.rightMotor < 0) flow.value.rightMotor
+            if (data.rightMotor < 0) data.rightMotor
             else (leftTrigger * 255).toInt()
 
         flow.tryEmit(ControlMotorsData(leftMotor, rightMotor))
     }
 
     override fun onLeftButtonDown() {
+        val data = flow.value
+
         val value = ControlMotorsData(
-            leftMotor = flow.value.leftMotor,
+            leftMotor = data.leftMotor,
             rightMotor = -255
         )
 
@@ -50,17 +54,21 @@ internal class ControllerJoystickTriggersRepositoryImpl : ControllerJoystickTrig
     }
 
     override fun onRightButtonDown() {
+        val data = flow.value
+
         val value = ControlMotorsData(
             leftMotor = -255,
-            rightMotor = flow.value.rightMotor
+            rightMotor = data.rightMotor
         )
 
         flow.tryEmit(value)
     }
 
     override fun onLeftButtonUp() {
+        val data = flow.value
+
         val value = ControlMotorsData(
-            leftMotor = flow.value.leftMotor,
+            leftMotor = data.leftMotor,
             rightMotor = 0
         )
 
@@ -68,9 +76,11 @@ internal class ControllerJoystickTriggersRepositoryImpl : ControllerJoystickTrig
     }
 
     override fun onRightButtonUp() {
+        val data = flow.value
+
         val value = ControlMotorsData(
             leftMotor = 0,
-            rightMotor = flow.value.rightMotor
+            rightMotor = data.rightMotor
         )
 
         flow.tryEmit(value)

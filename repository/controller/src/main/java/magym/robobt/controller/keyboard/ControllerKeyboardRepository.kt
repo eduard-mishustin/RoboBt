@@ -35,34 +35,42 @@ internal class ControllerKeyboardRepositoryImpl : ControllerKeyboardRepository, 
     }
 
     override suspend fun onTopLeftButtonDown() {
-        flow.emit(flow.value.copy(rightMotor = 255))
+        val data = flow.value
+        flow.emit(data.copy(rightMotor = 255))
     }
 
     override suspend fun onTopLeftButtonUp() {
-        flow.emit(flow.value.copy(rightMotor = 0))
+        val data = flow.value
+        flow.emit(data.copy(rightMotor = 0))
     }
 
     override suspend fun onTopRightButtonDown() {
-        flow.emit(flow.value.copy(leftMotor = 255))
+        val data = flow.value
+        flow.emit(data.copy(leftMotor = 255))
     }
 
     override suspend fun onTopRightButtonUp() {
-        flow.emit(flow.value.copy(leftMotor = 0))
+        val data = flow.value
+        flow.emit(data.copy(leftMotor = 0))
     }
 
     override suspend fun onBottomLeftButtonDown() {
-        flow.emit(flow.value.copy(rightMotor = -255))
+        val data = flow.value
+        flow.emit(data.copy(rightMotor = -255))
     }
 
     override suspend fun onBottomLeftButtonUp() {
-        flow.emit(flow.value.copy(rightMotor = 0))
+        val data = flow.value
+        flow.emit(data.copy(rightMotor = 0))
     }
 
     override suspend fun onBottomRightButtonDown() {
-        flow.emit(flow.value.copy(leftMotor = -255))
+        val data = flow.value
+        flow.emit(data.copy(leftMotor = -255))
     }
 
     override suspend fun onBottomRightButtonUp() {
-        flow.emit(flow.value.copy(leftMotor = 0))
+        val data = flow.value
+        flow.emit(data.copy(leftMotor = 0))
     }
 }
