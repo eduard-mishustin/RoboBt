@@ -25,7 +25,7 @@ import magym.robobt.feature.connect.ConnectScreenProvider
 import magym.robobt.repository.input_device.InputDeviceData
 import magym.robobt.repository.input_device.accelerometer.joystickTriggersFlow
 import magym.robobt.repository.input_device.accelerometer.model.ControlMotorsData
-import magym.robobt.repository.input_device.joystick.impl.joystickFlow
+import magym.robobt.repository.input_device.joystick.MutableJoystickRepository
 import org.koin.android.ext.android.inject
 import java.lang.ref.WeakReference
 
@@ -34,6 +34,7 @@ class AppActivity : ComponentActivity() {
     private val singleActivityHolder: SingleActivityHolder by inject()
     private val navigatorHolder: NavigatorHolder by inject()
     private val connectScreenProvider: ConnectScreenProvider by inject()
+    private val joystickRepository: MutableJoystickRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +62,7 @@ class AppActivity : ComponentActivity() {
 
             val xLeftStick = event.getAxisValue(MotionEvent.AXIS_X, 0)
             val yLeftStick = event.getAxisValue(MotionEvent.AXIS_Y, 0)
-            joystickFlow.tryEmit(InputDeviceData(xLeftStick * 10, yLeftStick * (-10)))
+            joystickRepository.onStickInputChanged(xLeftStick, yLeftStick)
             return true
         }
 
@@ -114,7 +115,7 @@ class AppActivity : ComponentActivity() {
         ) { navigator ->
             navigatorHolder.usualNavigator = navigator
 
-            val state by joystickFlow.collectAsState()
+            val state by joystickRepository.connect().collectAsState(InputDeviceData.empty())
             Text(
                 modifier = Modifier.padding(top = 32.dp),
                 text = state.toString(),

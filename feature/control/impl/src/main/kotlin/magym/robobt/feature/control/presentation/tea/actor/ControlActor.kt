@@ -44,10 +44,10 @@ internal class ControlActor(
     }
 
     private fun handleSubscribeToAccelerometerControlCommand(command: Accelerometer): Flow<Controlling> {
-        return accelerometerRepository.connect()
+        /*return accelerometerRepository.connect()
             .map(motorSpeedMapper::map)
             .distinctUntilChanged()
-            .map(::send)
+            .map(::send)*/
 
         return combine(
             joystickTriggersFlow
