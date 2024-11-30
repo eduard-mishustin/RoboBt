@@ -2,6 +2,7 @@ package magym.robobt
 
 import magym.robobt.common.android.SingleActivityHolder
 import magym.robobt.common.navigation.voyager.navigationModule
+import magym.robobt.controller.controllerRepositoryModule
 import magym.robobt.feature.connect.connectFeatureModule
 import magym.robobt.feature.control.controlFeatureModule
 import magym.robobt.repository.connect.bluetooth.bluetoothRepositoryModule
@@ -35,4 +36,5 @@ private val repositoryModules: List<Module>
     get() = listOf(
         accelerometerRepositoryModule,
         bluetoothRepositoryModule,
+        controllerRepositoryModule,
     )

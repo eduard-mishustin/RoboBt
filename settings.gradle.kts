@@ -37,6 +37,7 @@ include(
     ":feature:connect:impl",
     ":feature:control:api",
     ":feature:control:impl",
-    ":repository:input-data",
     ":repository:bluetooth",
+    ":repository:controller",
+    ":repository:input-data",
 )

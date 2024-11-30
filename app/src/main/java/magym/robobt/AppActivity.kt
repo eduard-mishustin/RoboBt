@@ -21,10 +21,10 @@ import cafe.adriel.voyager.transitions.SlideTransition
 import magym.robobt.common.android.SingleActivityHolder
 import magym.robobt.common.navigation.voyager.impl.NavigatorHolder
 import magym.robobt.common.ui.theme.RoboTheme
+import magym.robobt.controller.ControlMotorsData
+import magym.robobt.controller.joystickTriggersFlow
 import magym.robobt.feature.connect.ConnectScreenProvider
 import magym.robobt.repository.input_device.InputDeviceData
-import magym.robobt.repository.input_device.accelerometer.joystickTriggersFlow
-import magym.robobt.repository.input_device.accelerometer.model.ControlMotorsData
 import magym.robobt.repository.input_device.joystick.MutableJoystickRepository
 import org.koin.android.ext.android.inject
 import java.lang.ref.WeakReference

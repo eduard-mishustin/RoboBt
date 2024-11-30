@@ -1,6 +1,6 @@
 package magym.robobt.feature.control.presentation.tea.core
 
-import magym.robobt.repository.input_device.accelerometer.model.ControlMotorsData
+import magym.robobt.controller.ControlMotorsData
 
 internal sealed interface ControlCommand {
 

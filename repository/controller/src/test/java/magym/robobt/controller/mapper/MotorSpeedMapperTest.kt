@@ -1,7 +1,6 @@
-package magym.robobt.repository.accelerometer
+package magym.robobt.controller.mapper
 
 import io.kotest.matchers.shouldBe
-import magym.robobt.repository.input_device.accelerometer.MotorSpeedMapper
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
 

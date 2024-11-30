@@ -1,4 +1,4 @@
-package magym.robobt.repository.input_device.accelerometer.model
+package magym.robobt.controller
 
 data class ControlMotorsData(
     val leftMotor: Int,

@@ -6,10 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "magym.robobt.repository.input_data"
+    namespace = "magym.robobt.repository.controller"
 }
 
 dependencies {
     implementation(libs.koinAndroid)
     implementation(project(":common:android"))
+    implementation(project(":repository:input-data"))
 }

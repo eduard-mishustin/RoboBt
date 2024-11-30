@@ -1,6 +1,7 @@
 package magym.robobt.feature.control.presentation.tea
 
 import magym.robobt.common.tea.dsl.DslReducer
+import magym.robobt.controller.ControlMotorsData
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ReadConnectionData
 import magym.robobt.feature.control.presentation.tea.core.ControlEffect
@@ -22,7 +23,6 @@ import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRi
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRightButtonUp
 import magym.robobt.feature.control.presentation.tea.model.ControlMode
 import magym.robobt.feature.control.presentation.tea.model.ControlState
-import magym.robobt.repository.input_device.accelerometer.model.ControlMotorsData
 
 internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, ControlEvent, ControlState>() {
 

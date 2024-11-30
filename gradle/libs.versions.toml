@@ -13,6 +13,10 @@ lifecycleKtx = "2.8.2"
 testJunitJupiter = "5.9.2"
 testKotestAssertions = "5.6.2"
 voyager = "1.0.0"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+material = "1.10.0"
 
 [libraries]
 activity = { module = "androidx.activity:activity", version.ref = "activity" }
@@ -43,6 +47,10 @@ testKotestAssertions = { module = "io.kotest:kotest-assertions-core", version.re
 # Dependencies of the included build-logic
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+extJunit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espressoCore = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
