@@ -16,5 +16,10 @@ fun Application.module() {
         get("/") {
             call.respondText("Ktor: ${Greeting().greet()}")
         }
+        post("/") {
+            val key = call.queryParameters["key"]
+            val isDown = call.queryParameters["is_down"]
+            println("$key:$isDown")
+        }
     }
 }
