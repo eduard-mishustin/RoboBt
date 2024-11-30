@@ -2,7 +2,6 @@ package magym.robobt.repository.connect.bluetooth
 
 import android.bluetooth.BluetoothManager
 import kotlinx.coroutines.Dispatchers
-import magym.robobt.repository.connect.bluetooth.impl.BluetoothRepositoryImpl
 import magym.robobt.repository.connect.bluetooth.impl.parser.BluetoothInputDataParser
 import magym.robobt.repository.connect.bluetooth.impl.parser.BluetoothOutputDataParser
 import org.koin.android.ext.koin.androidContext
