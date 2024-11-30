@@ -1,7 +1,6 @@
 package magym.robobt.feature.control.presentation.tea
 
 import magym.robobt.common.tea.dsl.DslReducer
-import magym.robobt.controller.ControlMotorsData
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ReadConnectionData
 import magym.robobt.feature.control.presentation.tea.core.ControlEffect
@@ -10,17 +9,10 @@ import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Connectio
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
 import magym.robobt.feature.control.presentation.tea.core.ControlNavigationCommand.Exit
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent
+import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.KeyboardAction
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBackPress
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBottomLeftButtonDown
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBottomLeftButtonUp
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBottomRightButtonDown
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBottomRightButtonUp
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnChangeControlModeClick
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnStart
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopLeftButtonDown
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopLeftButtonUp
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRightButtonDown
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnTopRightButtonUp
 import magym.robobt.feature.control.presentation.tea.model.ControlMode
 import magym.robobt.feature.control.presentation.tea.model.ControlState
 
@@ -38,32 +30,31 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
         is OnStart -> reduceOnStart()
         is OnBackPress -> reduceOnBackPress()
         is OnChangeControlModeClick -> reduceOnChangeControlModeClick()
-
-        is OnTopLeftButtonDown -> onButtonClicked(state.motorsData.copy(rightMotor = 255))
-        is OnTopLeftButtonUp -> onButtonClicked(state.motorsData.copy(rightMotor = 0))
-        is OnTopRightButtonDown -> onButtonClicked(state.motorsData.copy(leftMotor = 255))
-        is OnTopRightButtonUp -> onButtonClicked(state.motorsData.copy(leftMotor = 0))
-        is OnBottomLeftButtonDown -> onButtonClicked(state.motorsData.copy(rightMotor = -255))
-        is OnBottomLeftButtonUp -> onButtonClicked(state.motorsData.copy(rightMotor = 0))
-        is OnBottomRightButtonDown -> onButtonClicked(state.motorsData.copy(leftMotor = -255))
-        is OnBottomRightButtonUp -> onButtonClicked(state.motorsData.copy(leftMotor = 0))
+        is KeyboardAction -> reduceKeyboardAction(event)
     }
 
-    private fun onButtonClicked(motorsData: ControlMotorsData) {
-        state { copy(motorsData = motorsData) }
-        commands(ControlCommand.ControlMode.Manual(motorsData))
+    private fun reduceKeyboardAction(event: KeyboardAction) = when (event) {
+        is KeyboardAction.OnTopLeftButtonDown -> commands(ControlCommand.KeyboardAction.OnTopLeftButtonDown)
+        is KeyboardAction.OnTopLeftButtonUp -> commands(ControlCommand.KeyboardAction.OnTopLeftButtonUp)
+        is KeyboardAction.OnTopRightButtonDown -> commands(ControlCommand.KeyboardAction.OnTopRightButtonDown)
+        is KeyboardAction.OnTopRightButtonUp -> commands(ControlCommand.KeyboardAction.OnTopRightButtonUp)
+        is KeyboardAction.OnBottomLeftButtonDown -> commands(ControlCommand.KeyboardAction.OnBottomLeftButtonDown)
+        is KeyboardAction.OnBottomLeftButtonUp -> commands(ControlCommand.KeyboardAction.OnBottomLeftButtonUp)
+        is KeyboardAction.OnBottomRightButtonDown -> commands(ControlCommand.KeyboardAction.OnBottomRightButtonDown)
+        is KeyboardAction.OnBottomRightButtonUp -> commands(ControlCommand.KeyboardAction.OnBottomRightButtonUp)
     }
 
     private fun reduceOnStart() {
         val command =
             if (state.controlMode == ControlMode.Accelerometer) ControlCommand.ControlMode.Accelerometer
-            else ControlCommand.ControlMode.Manual(state.motorsData)
+            else ControlCommand.ControlMode.Manual
 
         commands(command, ReadConnectionData.Subscribe)
     }
 
     private fun reduceOnChangeControlModeClick() {
         state { copy(controlMode = ControlMode.Manual) }
+        commands(ControlCommand.ControlMode.Manual)
     }
 
     private fun reduceControlling(event: Controlling) = when (event) {

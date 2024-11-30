@@ -93,6 +93,13 @@ internal fun ManualControl(
 ) {
     Column {
         Text(
+            modifier = Modifier.padding(64.dp),
+            fontSize = 32.sp,
+            color = Color.Black,
+            text = state.leftMotor.toString() + " : " + state.rightMotor.toString()
+        )
+
+        Text(
             modifier = Modifier.padding(32.dp),
             fontSize = 32.sp,
             color = Color.Black,
@@ -145,5 +152,5 @@ private fun ControlScreenAccelerometerPreview() = PreviewTheme {
 @ScreenPreview
 @Composable
 private fun ControlScreenManualPreview() = PreviewTheme {
-    ControlScreen(ControlUiState.Manual("27 °C, 30%"))
+    ControlScreen(ControlUiState.Manual(leftMotor = 0, rightMotor = 0, "27 °C, 30%"))
 }

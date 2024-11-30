@@ -12,6 +12,8 @@ internal sealed interface ControlUiState {
     ) : ControlUiState
 
     data class Manual(
+        val leftMotor: Int,
+        val rightMotor: Int,
         val weather: String,
     ) : ControlUiState
 }

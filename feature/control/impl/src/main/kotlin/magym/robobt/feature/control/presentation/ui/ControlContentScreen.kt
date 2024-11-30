@@ -22,14 +22,14 @@ internal class ControlContentScreen : BaseScreen() {
         ControlScreen(
             state = state,
             onChangeControlModeClick = acceptable(ControlUiEvent.OnChangeControlModeClick),
-            onTopLeftButtonDown = acceptable(ControlUiEvent.OnTopLeftButtonDown),
-            onTopLeftButtonUp = acceptable(ControlUiEvent.OnTopLeftButtonUp),
-            onTopRightButtonDown = acceptable(ControlUiEvent.OnTopRightButtonDown),
-            onTopRightButtonUp = acceptable(ControlUiEvent.OnTopRightButtonUp),
-            onBottomLeftButtonDown = acceptable(ControlUiEvent.OnBottomLeftButtonDown),
-            onBottomLeftButtonUp = acceptable(ControlUiEvent.OnBottomLeftButtonUp),
-            onBottomRightButtonDown = acceptable(ControlUiEvent.OnBottomRightButtonDown),
-            onBottomRightButtonUp = acceptable(ControlUiEvent.OnBottomRightButtonUp),
+            onTopLeftButtonDown = acceptable(ControlUiEvent.KeyboardAction.OnTopLeftButtonDown),
+            onTopLeftButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnTopLeftButtonUp),
+            onTopRightButtonDown = acceptable(ControlUiEvent.KeyboardAction.OnTopRightButtonDown),
+            onTopRightButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnTopRightButtonUp),
+            onBottomLeftButtonDown = acceptable(ControlUiEvent.KeyboardAction.OnBottomLeftButtonDown),
+            onBottomLeftButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnBottomLeftButtonUp),
+            onBottomRightButtonDown = acceptable(ControlUiEvent.KeyboardAction.OnBottomRightButtonDown),
+            onBottomRightButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnBottomRightButtonUp),
         )
     }
 }

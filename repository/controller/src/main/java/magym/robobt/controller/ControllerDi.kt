@@ -7,6 +7,9 @@ import magym.robobt.controller.joystick.ControllerJoystickRepositoryImpl
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepositoryImpl
 import magym.robobt.controller.joystick_triggers.MutableControllerJoystickTriggersRepository
+import magym.robobt.controller.keyboard.ControllerKeyboardRepository
+import magym.robobt.controller.keyboard.ControllerKeyboardRepositoryImpl
+import magym.robobt.controller.keyboard.MutableControllerKeyboardRepository
 import magym.robobt.controller.mapper.MotorSpeedMapper
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -20,4 +23,8 @@ val controllerRepositoryModule = module {
     singleOf(::ControllerJoystickTriggersRepositoryImpl)
     single<ControllerJoystickTriggersRepository> { get<ControllerJoystickTriggersRepositoryImpl>() }
     single<MutableControllerJoystickTriggersRepository> { get<ControllerJoystickTriggersRepositoryImpl>() }
+
+    singleOf(::ControllerKeyboardRepositoryImpl)
+    single<ControllerKeyboardRepository> { get<ControllerKeyboardRepositoryImpl>() }
+    single<MutableControllerKeyboardRepository> { get<ControllerKeyboardRepositoryImpl>() }
 }

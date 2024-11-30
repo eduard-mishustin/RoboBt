@@ -4,13 +4,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.controller.ControlMotorsData
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
 import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
+import magym.robobt.controller.keyboard.ControllerKeyboardRepository
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Accelerometer
@@ -22,6 +22,7 @@ import magym.robobt.repository.connect.bluetooth.model.BluetoothOutputData
 
 internal class ControlActor(
     private val bluetoothRepository: BluetoothRepository,
+    private val controllerKeyboardRepository: ControllerKeyboardRepository,
     private val controllerAccelerometerRepository: ControllerAccelerometerRepository,
     private val controllerJoystickRepository: ControllerJoystickRepository,
     private val controllerJoystickTriggersRepository: ControllerJoystickTriggersRepository,
@@ -32,17 +33,17 @@ internal class ControlActor(
             .flatMapLatest(::handleCommand)
     }
 
-    private suspend fun handleCommand(command: ControlMode): Flow<Controlling> {
+    private fun handleCommand(command: ControlMode): Flow<Controlling> {
         println("ControlActor.handleCommand: $command")
         return when (command) {
-            is Accelerometer -> handleSubscribeToAccelerometerControlCommand(command)
-            is Manual -> handleSendManualControlCommand(command)
+            is Accelerometer -> handleSubscribeToAccelerometerControlCommand()
+            is Manual -> handleSendManualControlCommand()
         }
     }
 
-    private fun handleSubscribeToAccelerometerControlCommand(command: Accelerometer): Flow<Controlling> {
-        /*return controllerAccelerometerRepository.connect()
-            .map(::send)*/
+    private fun handleSubscribeToAccelerometerControlCommand(): Flow<Controlling> {
+        return controllerAccelerometerRepository.connect()
+            .map(::send)
 
         return combine(
             controllerJoystickRepository.connect(),
@@ -56,9 +57,9 @@ internal class ControlActor(
         }.map(::send)
     }
 
-    private suspend fun handleSendManualControlCommand(command: Manual): Flow<Controlling> {
-        val data = command.motorsData
-        return flowOf(send(data))
+    private fun handleSendManualControlCommand(): Flow<Controlling> {
+        return controllerKeyboardRepository.connect()
+            .map(::send)
     }
 
     private suspend fun send(data: ControlMotorsData): Controlling {

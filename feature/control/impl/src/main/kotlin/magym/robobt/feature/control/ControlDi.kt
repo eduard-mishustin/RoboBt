@@ -4,11 +4,13 @@ import magym.robobt.common.navigation.api.Router
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
 import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
+import magym.robobt.controller.keyboard.MutableControllerKeyboardRepository
 import magym.robobt.feature.control.presentation.tea.ControlReducer
 import magym.robobt.feature.control.presentation.tea.ControlStore
 import magym.robobt.feature.control.presentation.tea.actor.ControlActor
 import magym.robobt.feature.control.presentation.tea.actor.ControlNavigationActor
 import magym.robobt.feature.control.presentation.tea.actor.ControlReadConnectionDataActor
+import magym.robobt.feature.control.presentation.tea.actor.KeyboardActor
 import magym.robobt.feature.control.presentation.ui.ControlContentScreen
 import magym.robobt.feature.control.presentation.ui.ControlUiStateMapper
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
@@ -26,6 +28,7 @@ internal fun createControlStore(
     controllerAccelerometerRepository: ControllerAccelerometerRepository,
     controllerJoystickRepository: ControllerJoystickRepository,
     controllerJoystickTriggersRepository: ControllerJoystickTriggersRepository,
+    controllerKeyboardRepository: MutableControllerKeyboardRepository,
 ): ControlStore {
     return ControlStore(
         reducer = ControlReducer(),
@@ -34,11 +37,13 @@ internal fun createControlStore(
             ControlNavigationActor(router),
             ControlActor(
                 bluetoothRepository = bluetoothRepository,
+                controllerKeyboardRepository = controllerKeyboardRepository,
                 controllerAccelerometerRepository = controllerAccelerometerRepository,
                 controllerJoystickRepository = controllerJoystickRepository,
                 controllerJoystickTriggersRepository = controllerJoystickTriggersRepository,
             ),
             ControlReadConnectionDataActor(bluetoothRepository),
+            KeyboardActor(controllerKeyboardRepository)
         ),
     )
 }
