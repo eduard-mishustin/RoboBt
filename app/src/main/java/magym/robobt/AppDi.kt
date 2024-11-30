@@ -16,6 +16,7 @@ val roboModules: List<Module>
 
 private val appModule = module {
     singleOf(::SingleActivityHolder)
+    singleOf(::ActivityGenericMotionDelegate)
 }
 
 private val coreModules: List<Module>
