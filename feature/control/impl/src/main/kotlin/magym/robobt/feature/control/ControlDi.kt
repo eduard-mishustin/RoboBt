@@ -3,6 +3,7 @@ package magym.robobt.feature.control
 import magym.robobt.common.navigation.api.Router
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
 import magym.robobt.controller.joystick.ControllerJoystickRepository
+import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
 import magym.robobt.feature.control.presentation.tea.ControlReducer
 import magym.robobt.feature.control.presentation.tea.ControlStore
 import magym.robobt.feature.control.presentation.tea.actor.ControlActor
@@ -24,6 +25,7 @@ internal fun createControlStore(
     bluetoothRepository: BluetoothRepository,
     controllerAccelerometerRepository: ControllerAccelerometerRepository,
     controllerJoystickRepository: ControllerJoystickRepository,
+    controllerJoystickTriggersRepository: ControllerJoystickTriggersRepository,
 ): ControlStore {
     return ControlStore(
         reducer = ControlReducer(),
@@ -34,6 +36,7 @@ internal fun createControlStore(
                 bluetoothRepository = bluetoothRepository,
                 controllerAccelerometerRepository = controllerAccelerometerRepository,
                 controllerJoystickRepository = controllerJoystickRepository,
+                controllerJoystickTriggersRepository = controllerJoystickTriggersRepository,
             ),
             ControlReadConnectionDataActor(bluetoothRepository),
         ),

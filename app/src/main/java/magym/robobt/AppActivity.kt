@@ -21,8 +21,7 @@ import cafe.adriel.voyager.transitions.SlideTransition
 import magym.robobt.common.android.SingleActivityHolder
 import magym.robobt.common.navigation.voyager.impl.NavigatorHolder
 import magym.robobt.common.ui.theme.RoboTheme
-import magym.robobt.controller.ControlMotorsData
-import magym.robobt.controller.joystickTriggersFlow
+import magym.robobt.controller.joystick_triggers.MutableControllerJoystickTriggersRepository
 import magym.robobt.feature.connect.ConnectScreenProvider
 import magym.robobt.repository.input_device.InputDeviceData
 import magym.robobt.repository.input_device.joystick.MutableJoystickRepository
@@ -35,6 +34,7 @@ class AppActivity : ComponentActivity() {
     private val navigatorHolder: NavigatorHolder by inject()
     private val connectScreenProvider: ConnectScreenProvider by inject()
     private val joystickRepository: MutableJoystickRepository by inject()
+    private val joystickTriggersRepository: MutableControllerJoystickTriggersRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,10 +55,7 @@ class AppActivity : ComponentActivity() {
         if (device != null && device.sources and InputDevice.SOURCE_JOYSTICK != 0) {
             val leftTrigger = event.getAxisValue(MotionEvent.AXIS_LTRIGGER)
             val rightTrigger = event.getAxisValue(MotionEvent.AXIS_RTRIGGER)
-            val leftMotor = if (joystickTriggersFlow.value.leftMotor < 0) joystickTriggersFlow.value.leftMotor else (rightTrigger * 255).toInt()
-            val rightMotor = if (joystickTriggersFlow.value.rightMotor < 0) joystickTriggersFlow.value.rightMotor else (leftTrigger * 255).toInt()
-            val value = ControlMotorsData(leftMotor, rightMotor)
-            joystickTriggersFlow.tryEmit(value)
+            joystickTriggersRepository.onTriggerInputChanged(leftTrigger, rightTrigger)
 
             val xLeftStick = event.getAxisValue(MotionEvent.AXIS_X, 0)
             val yLeftStick = event.getAxisValue(MotionEvent.AXIS_Y, 0)
@@ -72,16 +69,12 @@ class AppActivity : ComponentActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BUTTON_L1 -> {
-                val value = ControlMotorsData(joystickTriggersFlow.value.leftMotor, -255)
-                println("dweqwfrge onKeyDown KEYCODE_BUTTON_L1 $value")
-                joystickTriggersFlow.tryEmit(value)
+                joystickTriggersRepository.onLeftButtonDown()
                 return true
             }
 
             KeyEvent.KEYCODE_BUTTON_R1 -> {
-                val value = ControlMotorsData(-255, joystickTriggersFlow.value.rightMotor)
-                println("dweqwfrge onKeyDown KEYCODE_BUTTON_R1 $value")
-                joystickTriggersFlow.tryEmit(value)
+                joystickTriggersRepository.onRightButtonDown()
                 return true
             }
         }
@@ -91,16 +84,12 @@ class AppActivity : ComponentActivity() {
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BUTTON_L1 -> {
-                val value = ControlMotorsData(joystickTriggersFlow.value.leftMotor, 0)
-                println("dweqwfrge onKeyUp KEYCODE_BUTTON_L1 $value")
-                joystickTriggersFlow.tryEmit(value)
+                joystickTriggersRepository.onLeftButtonUp()
                 return true
             }
 
             KeyEvent.KEYCODE_BUTTON_R1 -> {
-                val value = ControlMotorsData(0, joystickTriggersFlow.value.rightMotor)
-                println("dweqwfrge onKeyUp KEYCODE_BUTTON_R1 $value")
-                joystickTriggersFlow.tryEmit(value)
+                joystickTriggersRepository.onRightButtonUp()
                 return true
             }
         }

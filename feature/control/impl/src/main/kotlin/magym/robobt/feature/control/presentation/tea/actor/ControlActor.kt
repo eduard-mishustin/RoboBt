@@ -6,12 +6,11 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import magym.robobt.common.pure.util.startWith
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.controller.ControlMotorsData
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
 import magym.robobt.controller.joystick.ControllerJoystickRepository
-import magym.robobt.controller.joystickTriggersFlow
+import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Accelerometer
@@ -25,6 +24,7 @@ internal class ControlActor(
     private val bluetoothRepository: BluetoothRepository,
     private val controllerAccelerometerRepository: ControllerAccelerometerRepository,
     private val controllerJoystickRepository: ControllerJoystickRepository,
+    private val controllerJoystickTriggersRepository: ControllerJoystickTriggersRepository,
 ) : Actor<ControlCommand, ControlEvent> {
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
@@ -45,11 +45,11 @@ internal class ControlActor(
             .map(::send)*/
 
         return combine(
-            joystickTriggersFlow.startWith(ControlMotorsData.empty()),
-            controllerJoystickRepository.connect()
-        ) { triggers, joystick ->
-            if (triggers.leftMotor != 0 || triggers.rightMotor != 0) {
-                triggers
+            controllerJoystickRepository.connect(),
+            controllerJoystickTriggersRepository.connect()
+        ) { joystick, joystickTriggers ->
+            if (joystickTriggers.leftMotor != 0 || joystickTriggers.rightMotor != 0) {
+                joystickTriggers
             } else {
                 joystick
             }

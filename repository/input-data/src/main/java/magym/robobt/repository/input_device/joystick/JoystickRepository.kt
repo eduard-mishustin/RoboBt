@@ -14,10 +14,10 @@ interface MutableJoystickRepository : JoystickRepository {
 
 internal class JoystickRepositoryImpl : JoystickRepository, MutableJoystickRepository {
 
-    private val joystickFlow = MutableStateFlow(InputDeviceData.empty())
+    private val flow = MutableStateFlow(InputDeviceData.empty())
 
     override fun connect(): Flow<InputDeviceData> {
-        return joystickFlow
+        return flow
     }
 
     override fun onStickInputChanged(x: Float, y: Float) {
@@ -26,6 +26,6 @@ internal class JoystickRepositoryImpl : JoystickRepository, MutableJoystickRepos
             y = y * (-10)
         )
 
-        joystickFlow.tryEmit(data)
+        flow.tryEmit(data)
     }
 }

@@ -15,7 +15,6 @@ import org.koin.dsl.module
 val accelerometerRepositoryModule = module {
     single<AccelerometerRepository> {
         val context = androidContext()
-
         val sensorManager = context.getSystemService(Activity.SENSOR_SERVICE) as SensorManager
 
         AccelerometerRepositoryImpl(
