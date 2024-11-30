@@ -24,5 +24,4 @@ dependencies {
     implementation(project(":common:ui"))
     implementation(project(":repository:bluetooth"))
     implementation(project(":repository:controller"))
-    implementation(project(":repository:input-data"))
 }

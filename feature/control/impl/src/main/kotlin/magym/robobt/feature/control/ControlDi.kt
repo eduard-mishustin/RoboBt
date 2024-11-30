@@ -2,7 +2,7 @@ package magym.robobt.feature.control
 
 import magym.robobt.common.navigation.api.Router
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
-import magym.robobt.controller.mapper.MotorSpeedMapper
+import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.feature.control.presentation.tea.ControlReducer
 import magym.robobt.feature.control.presentation.tea.ControlStore
 import magym.robobt.feature.control.presentation.tea.actor.ControlActor
@@ -11,7 +11,6 @@ import magym.robobt.feature.control.presentation.tea.actor.ControlReadConnection
 import magym.robobt.feature.control.presentation.ui.ControlContentScreen
 import magym.robobt.feature.control.presentation.ui.ControlUiStateMapper
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
-import magym.robobt.repository.input_device.joystick.JoystickRepository
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
@@ -24,7 +23,7 @@ internal fun createControlStore(
     router: Router,
     bluetoothRepository: BluetoothRepository,
     controllerAccelerometerRepository: ControllerAccelerometerRepository,
-    joystickRepository: JoystickRepository,
+    controllerJoystickRepository: ControllerJoystickRepository,
 ): ControlStore {
     return ControlStore(
         reducer = ControlReducer(),
@@ -34,8 +33,7 @@ internal fun createControlStore(
             ControlActor(
                 bluetoothRepository = bluetoothRepository,
                 controllerAccelerometerRepository = controllerAccelerometerRepository,
-                joystickRepository = joystickRepository,
-                motorSpeedMapper = MotorSpeedMapper(),
+                controllerJoystickRepository = controllerJoystickRepository,
             ),
             ControlReadConnectionDataActor(bluetoothRepository),
         ),

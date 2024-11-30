@@ -10,5 +10,6 @@ android {
 
 dependencies {
 	api(libs.lifecycleKtx)
+	api(project(":common:pure"))
 	implementation(libs.appcompat)
 }

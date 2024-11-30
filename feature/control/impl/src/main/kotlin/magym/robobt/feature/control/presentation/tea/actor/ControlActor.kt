@@ -2,7 +2,6 @@ package magym.robobt.feature.control.presentation.tea.actor
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
@@ -11,8 +10,8 @@ import magym.robobt.common.pure.util.startWith
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.controller.ControlMotorsData
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
+import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.controller.joystickTriggersFlow
-import magym.robobt.controller.mapper.MotorSpeedMapper
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlMode.Accelerometer
@@ -21,13 +20,11 @@ import magym.robobt.feature.control.presentation.tea.core.ControlEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlling
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 import magym.robobt.repository.connect.bluetooth.model.BluetoothOutputData
-import magym.robobt.repository.input_device.joystick.JoystickRepository
 
 internal class ControlActor(
     private val bluetoothRepository: BluetoothRepository,
     private val controllerAccelerometerRepository: ControllerAccelerometerRepository,
-    private val joystickRepository: JoystickRepository,
-    private val motorSpeedMapper: MotorSpeedMapper,
+    private val controllerJoystickRepository: ControllerJoystickRepository,
 ) : Actor<ControlCommand, ControlEvent> {
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
@@ -44,16 +41,12 @@ internal class ControlActor(
     }
 
     private fun handleSubscribeToAccelerometerControlCommand(command: Accelerometer): Flow<Controlling> {
-        return controllerAccelerometerRepository.connect()
-            .map(::send)
+        /*return controllerAccelerometerRepository.connect()
+            .map(::send)*/
 
         return combine(
-            joystickTriggersFlow
-                .startWith(ControlMotorsData.empty()),
-            joystickRepository.connect()
-                .map(motorSpeedMapper::map)
-                .distinctUntilChanged()
-                .startWith(ControlMotorsData.empty())
+            joystickTriggersFlow.startWith(ControlMotorsData.empty()),
+            controllerJoystickRepository.connect()
         ) { triggers, joystick ->
             if (triggers.leftMotor != 0 || triggers.rightMotor != 0) {
                 triggers

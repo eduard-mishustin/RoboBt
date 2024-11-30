@@ -7,7 +7,7 @@ import magym.robobt.repository.input_device.InputDeviceData
 import kotlin.math.absoluteValue
 import kotlin.math.max
 
-class MotorSpeedMapper(
+internal class MotorSpeedMapper(
     private val accelerometerTresholdMin: Float = 2F, // (0 - 10)
     private val accelerometerTresholdMax: Float = 7F,
 ) {

@@ -1,4 +1,4 @@
-package magym.robobt.controller.accelerometer
+package magym.robobt.controller.joystick
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -7,17 +7,17 @@ import magym.robobt.common.pure.util.startWith
 import magym.robobt.controller.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
 import magym.robobt.controller.mapper.MotorSpeedMapper
-import magym.robobt.repository.input_device.accelerometer.AccelerometerRepository
+import magym.robobt.repository.input_device.joystick.JoystickRepository
 
-interface ControllerAccelerometerRepository : ControllerRepository
+interface ControllerJoystickRepository : ControllerRepository
 
-internal class ControllerAccelerometerRepositoryImpl(
-    private val accelerometerRepository: AccelerometerRepository,
+internal class ControllerJoystickRepositoryImpl(
+    private val joystickRepository: JoystickRepository,
     private val motorSpeedMapper: MotorSpeedMapper,
-) : ControllerAccelerometerRepository {
+) : ControllerJoystickRepository {
 
     override fun connect(): Flow<ControlMotorsData> {
-        return accelerometerRepository.connect()
+        return joystickRepository.connect()
             .map(motorSpeedMapper::map)
             .startWith(ControlMotorsData.empty())
             .distinctUntilChanged()
