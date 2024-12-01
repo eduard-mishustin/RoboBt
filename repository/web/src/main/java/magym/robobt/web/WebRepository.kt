@@ -31,8 +31,7 @@ internal class WebRepositoryImpl(
 
             okHttpClient.newWebSocket(request, object : WebSocketListener() {
                 override fun onMessage(webSocket: WebSocket, text: String) {
-                    val text1 = text.removePrefix("Key: ")
-                    flow.tryEmit(text1)
+                    flow.tryEmit(text)
                 }
             })
         }
@@ -40,6 +39,6 @@ internal class WebRepositoryImpl(
 
     companion object {
 
-        private const val BASE_URL = "https://33b5-5-178-149-187.ngrok-free.app"
+        private const val BASE_URL = "https://a78a-5-178-149-187.ngrok-free.app"
     }
 }
