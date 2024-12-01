@@ -5,6 +5,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +52,8 @@ fun main() = application {
         App()
     }
 }
+
+val client = HttpClient(CIO)
 
 private fun sendKeyToServer(keyName: String, boolean: Boolean) {
     scope.launch {

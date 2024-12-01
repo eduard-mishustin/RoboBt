@@ -18,5 +18,4 @@ dependencies {
     implementation(libs.logback)
     implementation(projects.shared)
     testImplementation(libs.kotlinTestJunit)
-    testImplementation(libs.ktorServerTests)
 }

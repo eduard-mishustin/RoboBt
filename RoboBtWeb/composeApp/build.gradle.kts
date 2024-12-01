@@ -43,13 +43,13 @@ kotlin {
             implementation(compose.ui)
             implementation(libs.androidxLifecycleRuntimeCompose)
             implementation(libs.androidxLifecycleViewModel)
-            implementation(libs.ktorClientCio)
             implementation(libs.ktorClientCore)
             implementation(projects.shared)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinxCoroutinesSwing)
+            implementation(libs.ktorClientDesktop)
         }
     }
 }
