@@ -35,21 +35,21 @@ kotlin {
         val desktopMain by getting
 
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.cio)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.runtime)
+            implementation(compose.ui)
+            implementation(libs.androidxLifecycleRuntimeCompose)
+            implementation(libs.androidxLifecycleViewModel)
+            implementation(libs.ktorClientCio)
+            implementation(libs.ktorClientCore)
             implementation(projects.shared)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.kotlinxCoroutinesSwing)
         }
     }
 }

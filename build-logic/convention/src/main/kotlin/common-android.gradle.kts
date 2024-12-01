@@ -6,10 +6,10 @@ plugins {
 }
 
 configure<BaseExtension> {
-    compileSdkVersion(34)
+    compileSdkVersion(35)
 
     defaultConfig {
-        targetSdk = 34
+        targetSdk = 35
         minSdk = 26
 
         versionCode = 1

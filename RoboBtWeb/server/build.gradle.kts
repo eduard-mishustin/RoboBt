@@ -12,11 +12,11 @@ application {
 }
 
 dependencies {
-    implementation(projects.shared)
+    implementation(libs.ktorServerCore)
+    implementation(libs.ktorServerNetty)
+    implementation(libs.ktorServerWebsockets)
     implementation(libs.logback)
-    implementation(libs.ktor.server.core)
-    implementation(libs.ktor.server.netty)
-    implementation(libs.ktor.server.websockets)
-    testImplementation(libs.ktor.server.tests)
-    testImplementation(libs.kotlin.test.junit)
+    implementation(projects.shared)
+    testImplementation(libs.kotlinTestJunit)
+    testImplementation(libs.ktorServerTests)
 }

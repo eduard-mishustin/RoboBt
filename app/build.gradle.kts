@@ -34,7 +34,7 @@ dependencies {
     implementation(libs.coreKtx)
     implementation(libs.koinAndroid)
     implementation(libs.koinCore)
-    implementation(libs.lifecycleRuntimeKtx)
+    implementation(libs.lifecycleKtx)
     implementation(libs.voyagerBottomsheet)
     implementation(libs.voyagerNavigator)
     implementation(libs.voyagerTransitions)
