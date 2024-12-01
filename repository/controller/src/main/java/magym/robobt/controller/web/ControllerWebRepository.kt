@@ -7,6 +7,14 @@ import kotlinx.coroutines.flow.onEach
 import magym.robobt.controller.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
 import magym.robobt.web.WebRepository
+import magym.robobt.web.WebResponse.BottomLeftButtonDown
+import magym.robobt.web.WebResponse.BottomLeftButtonUp
+import magym.robobt.web.WebResponse.BottomRightButtonDown
+import magym.robobt.web.WebResponse.BottomRightButtonUp
+import magym.robobt.web.WebResponse.TopLeftButtonDown
+import magym.robobt.web.WebResponse.TopLeftButtonUp
+import magym.robobt.web.WebResponse.TopRightButtonDown
+import magym.robobt.web.WebResponse.TopRightButtonUp
 
 interface ControllerWebRepository : ControllerRepository
 
@@ -20,15 +28,14 @@ internal class ControllerWebRepositoryImpl(
         return webRepository.connect()
             .onEach { message ->
                 when (message) {
-                    "F:true" -> onTopLeftButtonDown()
-                    "F:false" -> onTopLeftButtonUp()
-                    "K:true" -> onTopRightButtonDown()
-                    "K:false" -> onTopRightButtonUp()
-                    "V:true" -> onBottomLeftButtonDown()
-                    "V:false" -> onBottomLeftButtonUp()
-                    "M:true" -> onBottomRightButtonDown()
-                    "M:false" -> onBottomRightButtonUp()
-                    else -> Unit
+                    TopLeftButtonDown -> onTopLeftButtonDown()
+                    TopLeftButtonUp -> onTopLeftButtonUp()
+                    TopRightButtonDown -> onTopRightButtonDown()
+                    TopRightButtonUp -> onTopRightButtonUp()
+                    BottomLeftButtonDown -> onBottomLeftButtonDown()
+                    BottomLeftButtonUp -> onBottomLeftButtonUp()
+                    BottomRightButtonDown -> onBottomRightButtonDown()
+                    BottomRightButtonUp -> onBottomRightButtonUp()
                 }
             }.flatMapLatest { flow }
     }
