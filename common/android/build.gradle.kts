@@ -12,6 +12,4 @@ dependencies {
 	api(libs.lifecycleKtx)
 	api(project(":common:pure"))
 	implementation(libs.appcompat)
-
-	api("com.squareup.okhttp3:okhttp:4.12.0")
 }

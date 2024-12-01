@@ -11,6 +11,7 @@ import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
 import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
 import magym.robobt.controller.keyboard.ControllerKeyboardRepository
+import magym.robobt.controller.web.ControllerWebRepository
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlModeChanged
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
@@ -25,6 +26,7 @@ internal class ControlActor(
     private val accelerometerRepository: ControllerAccelerometerRepository,
     private val joystickRepository: ControllerJoystickRepository,
     private val joystickTriggersRepository: ControllerJoystickTriggersRepository,
+    private val controllerWebRepository: ControllerWebRepository,
 ) : Actor<ControlCommand, ControlEvent> {
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
@@ -44,12 +46,14 @@ internal class ControlActor(
         return combine(
             keyboardRepository.connect(),
             joystickRepository.connect(),
-            joystickTriggersRepository.connect()
-        ) { keyboard, joystick, joystickTriggers ->
+            joystickTriggersRepository.connect(),
+            controllerWebRepository.connect(),
+        ) { keyboard, joystick, joystickTriggers, web ->
             when {
                 keyboard.isNotEmpty -> keyboard
                 joystickTriggers.isNotEmpty -> joystickTriggers
-                else -> joystick
+                joystick.isNotEmpty -> joystick
+                else -> web
             }
         }.map(::send)
     }

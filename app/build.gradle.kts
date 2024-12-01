@@ -48,4 +48,5 @@ dependencies {
     implementation(project(":repository:bluetooth"))
     implementation(project(":repository:controller"))
     implementation(project(":repository:input-data"))
+    implementation(project(":repository:web"))
 }
