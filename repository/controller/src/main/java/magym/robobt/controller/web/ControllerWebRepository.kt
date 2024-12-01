@@ -2,19 +2,9 @@ package magym.robobt.controller.web
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.onEach
-import magym.robobt.controller.ControlMotorsData
+import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
 import magym.robobt.web.WebRepository
-import magym.robobt.web.WebResponse.BottomLeftButtonDown
-import magym.robobt.web.WebResponse.BottomLeftButtonUp
-import magym.robobt.web.WebResponse.BottomRightButtonDown
-import magym.robobt.web.WebResponse.BottomRightButtonUp
-import magym.robobt.web.WebResponse.TopLeftButtonDown
-import magym.robobt.web.WebResponse.TopLeftButtonUp
-import magym.robobt.web.WebResponse.TopRightButtonDown
-import magym.robobt.web.WebResponse.TopRightButtonUp
 
 interface ControllerWebRepository : ControllerRepository
 
@@ -26,18 +16,18 @@ internal class ControllerWebRepositoryImpl(
 
     override fun connect(): Flow<ControlMotorsData> {
         return webRepository.connect()
-            .onEach { message ->
-                when (message) {
-                    TopLeftButtonDown -> onTopLeftButtonDown()
-                    TopLeftButtonUp -> onTopLeftButtonUp()
-                    TopRightButtonDown -> onTopRightButtonDown()
-                    TopRightButtonUp -> onTopRightButtonUp()
-                    BottomLeftButtonDown -> onBottomLeftButtonDown()
-                    BottomLeftButtonUp -> onBottomLeftButtonUp()
-                    BottomRightButtonDown -> onBottomRightButtonDown()
-                    BottomRightButtonUp -> onBottomRightButtonUp()
-                }
-            }.flatMapLatest { flow }
+        /*.onEach { message ->
+            when (message) {
+                TopLeftButtonDown -> onTopLeftButtonDown()
+                TopLeftButtonUp -> onTopLeftButtonUp()
+                TopRightButtonDown -> onTopRightButtonDown()
+                TopRightButtonUp -> onTopRightButtonUp()
+                BottomLeftButtonDown -> onBottomLeftButtonDown()
+                BottomLeftButtonUp -> onBottomLeftButtonUp()
+                BottomRightButtonDown -> onBottomRightButtonDown()
+                BottomRightButtonUp -> onBottomRightButtonUp()
+            }
+        }.flatMapLatest { flow }*/
     }
 
     private suspend fun onTopLeftButtonDown() {

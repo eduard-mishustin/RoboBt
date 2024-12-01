@@ -1,6 +1,6 @@
 package magym.robobt.controller.mapper
 
-import magym.robobt.controller.ControlMotorsData
+import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.repository.input_device.InputDeviceData
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments

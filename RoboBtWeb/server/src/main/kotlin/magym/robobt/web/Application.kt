@@ -33,11 +33,8 @@ fun Application.module() {
         }
 
         post("/") {
-            val key = call.queryParameters["key"]
-            val isDown = call.queryParameters["is_down"]
-            val message = "$key:$isDown"
-            flow.emit(message)
-            println(message)
+            val data = call.queryParameters["data"].orEmpty()
+            flow.emit(data)
         }
 
         webSocket("/connect") {

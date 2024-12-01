@@ -2,7 +2,7 @@ package magym.robobt.controller.keyboard
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import magym.robobt.controller.ControlMotorsData
+import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
 
 interface ControllerKeyboardRepository : ControllerRepository

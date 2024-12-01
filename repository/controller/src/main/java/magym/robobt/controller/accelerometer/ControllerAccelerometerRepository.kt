@@ -3,8 +3,8 @@ package magym.robobt.controller.accelerometer
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.common.pure.util.startWith
-import magym.robobt.controller.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
 import magym.robobt.controller.mapper.MotorSpeedMapper
 import magym.robobt.repository.input_device.accelerometer.AccelerometerRepository

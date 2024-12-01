@@ -16,6 +16,7 @@ dependencies {
     implementation(libs.composeMaterial3)
     implementation(libs.composeUi)
     implementation(libs.koinCore)
+    implementation(libs.okhttp3)
     implementation(platform(libs.composeBom))
     implementation(project(":common:android"))
     implementation(project(":common:navigation:voyager"))

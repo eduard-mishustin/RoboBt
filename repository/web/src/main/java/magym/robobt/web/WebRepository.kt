@@ -3,8 +3,10 @@ package magym.robobt.web
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import magym.robobt.common.android.isRemote
+import magym.robobt.common.android.url
+import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.web.WebResponse.BottomLeftButtonDown
 import magym.robobt.web.WebResponse.BottomLeftButtonUp
 import magym.robobt.web.WebResponse.BottomRightButtonDown
@@ -20,7 +22,7 @@ import okhttp3.WebSocketListener
 
 interface WebRepository {
 
-    fun connect(): Flow<WebResponse>
+    fun connect(): Flow<ControlMotorsData>
 }
 
 internal class WebRepositoryImpl(
@@ -28,22 +30,25 @@ internal class WebRepositoryImpl(
     private val scope: CoroutineScope,
 ) : WebRepository {
 
-    private val flow: MutableStateFlow<WebResponse?> = MutableStateFlow(null)
+    private val flow: MutableStateFlow<ControlMotorsData> = MutableStateFlow(ControlMotorsData.empty())
 
-    override fun connect(): Flow<WebResponse> {
-        return flow.filterNotNull()
+    override fun connect(): Flow<ControlMotorsData> {
+        return flow
     }
 
     init {
-        scope.launch {
-            val request = Request.Builder().url("$BASE_URL/connect").build()
+        if (!isRemote) {
+            scope.launch {
+                val request = Request.Builder().url("$BASE_URL/connect").build()
 
-            okHttpClient.newWebSocket(request, object : WebSocketListener() {
-                override fun onMessage(webSocket: WebSocket, text: String) {
-                    val response = mapMessage(text)
-                    flow.tryEmit(response)
-                }
-            })
+                okHttpClient.newWebSocket(request, object : WebSocketListener() {
+                    override fun onMessage(webSocket: WebSocket, text: String) {
+                        val l = text.substringBefore(":")
+                        val r = text.substringAfter(":")
+                        flow.tryEmit(ControlMotorsData(l.toInt(), r.toInt()))
+                    }
+                })
+            }
         }
     }
 
@@ -63,6 +68,6 @@ internal class WebRepositoryImpl(
 
     companion object {
 
-        private const val BASE_URL = "https://a78a-5-178-149-187.ngrok-free.app"
+        private const val BASE_URL = url //"https://a78a-5-178-149-187.ngrok-free.app"
     }
 }

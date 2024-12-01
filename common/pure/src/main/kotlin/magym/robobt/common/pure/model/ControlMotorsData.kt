@@ -1,4 +1,4 @@
-package magym.robobt.controller
+package magym.robobt.common.pure.model
 
 data class ControlMotorsData(
     val leftMotor: Int,

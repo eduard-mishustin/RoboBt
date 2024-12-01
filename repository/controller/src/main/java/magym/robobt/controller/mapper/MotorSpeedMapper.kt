@@ -2,7 +2,7 @@
 
 package magym.robobt.controller.mapper
 
-import magym.robobt.controller.ControlMotorsData
+import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.repository.input_device.InputDeviceData
 import kotlin.math.absoluteValue
 import kotlin.math.max
