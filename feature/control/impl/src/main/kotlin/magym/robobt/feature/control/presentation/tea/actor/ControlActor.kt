@@ -1,11 +1,14 @@
 package magym.robobt.feature.control.presentation.tea.actor
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import magym.robobt.common.android.isRemote
 import magym.robobt.common.android.url
@@ -23,14 +26,11 @@ import magym.robobt.feature.control.presentation.tea.core.ControlEvent.Controlli
 import magym.robobt.feature.control.presentation.tea.model.ControlMode
 import magym.robobt.repository.connect.bluetooth.BluetoothRepository
 import magym.robobt.repository.connect.bluetooth.model.BluetoothOutputData
-import okhttp3.FormBody
-import okhttp3.HttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.Response
-import java.io.IOException
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 
 internal class ControlActor(
     private val bluetoothRepository: BluetoothRepository,
@@ -40,6 +40,24 @@ internal class ControlActor(
     private val joystickTriggersRepository: ControllerJoystickTriggersRepository,
     private val controllerWebRepository: ControllerWebRepository,
 ) : Actor<ControlCommand, ControlEvent> {
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    var webSocketqwe: WebSocket? = null
+
+    init {
+        if (isRemote) {
+            scope.launch {
+                val okHttpClient = OkHttpClient()
+                val request = Request.Builder().url("$url/send").build()
+
+                okHttpClient.newWebSocket(request, object : WebSocketListener() {
+                    override fun onOpen(webSocket: WebSocket, response: Response) {
+                        super.onOpen(webSocket, response)
+                        webSocketqwe = webSocket
+                    }
+                })
+            }
+        }
+    }
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
         return commands.filterIsInstance<ControlModeChanged>()
@@ -78,26 +96,7 @@ internal class ControlActor(
     private suspend fun send(data: ControlMotorsData): Controlling {
         if (isRemote) {
             withContext(Dispatchers.IO) {
-                val client: OkHttpClient = OkHttpClient()
-
-                // Формируем параметры для квери
-                val urlBuilder: HttpUrl.Builder = url.toHttpUrlOrNull()?.newBuilder() ?: throw IllegalArgumentException("Invalid URL")
-                urlBuilder.addQueryParameter("data", data.leftMotor.toString() + ":" + data.rightMotor.toString())
-                val finalUrl: String = urlBuilder.build().toString()
-
-                val formBody: RequestBody = FormBody.Builder()
-                    .build()
-
-                val request: Request = Request.Builder()
-                    .url(finalUrl) // Используем URL с параметрами
-                    .post(formBody)
-                    .build()
-
-                try {
-                    val response: Response = client.newCall(request).execute()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+                webSocketqwe?.send(data.leftMotor.toString() + ":" + data.rightMotor.toString())
             }
             return Controlling.Succeed(data)
         }

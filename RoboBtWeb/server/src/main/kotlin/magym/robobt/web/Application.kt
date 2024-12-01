@@ -34,7 +34,7 @@ fun Application.module() {
 
         post("/") {
             val data = call.queryParameters["data"].orEmpty()
-            flow.emit(data)
+            //            flow.emit(data)
         }
 
         webSocket("/connect") {
@@ -44,13 +44,35 @@ fun Application.module() {
                         while (true) {
                             val frame = incoming.receive()
                             if (frame is Frame.Text) {
-                                println("Received: ${frame.readText()}")
+                                println("connect Received: ${frame.readText()}")
                             }
                         }
                     }
                     flow.onEach {
+                        println("connect send: ${it}")
                         send(Frame.Text(it))
                     }.launchIn(this)
+                }
+            } catch (e: Exception) {
+                println("WebSocket error: ${e.message}")
+            } finally {
+                println("WebSocket connection closed.")
+            }
+        }
+
+        webSocket("/send") {
+            try {
+                coroutineScope {
+                    launch {
+                        while (true) {
+                            val frame = incoming.receive()
+                            if (frame is Frame.Text) {
+                                val readText = frame.readText()
+                                println("send Received: $readText")
+                                flow.emit(readText)
+                            }
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 println("WebSocket error: ${e.message}")
