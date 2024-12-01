@@ -11,5 +11,6 @@ android {
 dependencies {
     implementation(libs.koinAndroid)
     implementation(libs.okhttp3)
+    implementation(libs.okhttp3Logging)
     implementation(project(":common:android"))
 }
