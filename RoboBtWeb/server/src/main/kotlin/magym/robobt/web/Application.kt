@@ -6,12 +6,12 @@ import io.ktor.server.netty.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
+import io.ktor.server.websocket.WebSockets
 import io.ktor.websocket.*
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 /**
  * https://dashboard.ngrok.com/get-started/setup/windows
@@ -23,6 +23,7 @@ fun main() {
 }
 
 val flow = MutableStateFlow("")
+val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 fun Application.module() {
     install(WebSockets)
@@ -81,4 +82,6 @@ fun Application.module() {
             }
         }
     }
+
+    camConnection()
 }

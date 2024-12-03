@@ -33,6 +33,9 @@
 //#define CAMERA_MODEL_DFRobot_Romeo_ESP32S3 // Has PSRAM
 #include "camera_pins.h"
 
+// http://192.168.31.208
+// ngrok http http://192.168.31.208:81
+
 // ===========================
 // Enter your WiFi credentials
 // ===========================

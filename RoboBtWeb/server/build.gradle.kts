@@ -13,6 +13,7 @@ application {
 
 dependencies {
     implementation(libs.ktorServerCore)
+    implementation(libs.ktorClientCio)
     implementation(libs.ktorServerNetty)
     implementation(libs.ktorServerWebsockets)
     implementation(libs.logback)

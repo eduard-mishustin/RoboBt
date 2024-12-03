@@ -49,4 +49,8 @@ dependencies {
     implementation(project(":repository:controller"))
     implementation(project(":repository:input-data"))
     implementation(project(":repository:web"))
+    implementation("org.java-websocket:Java-WebSocket:1.5.2")
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 }

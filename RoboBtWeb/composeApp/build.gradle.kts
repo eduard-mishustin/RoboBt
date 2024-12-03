@@ -49,7 +49,7 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinxCoroutinesSwing)
-            implementation(libs.ktorClientDesktop)
+            implementation(libs.ktorClientCio)
         }
     }
 }
