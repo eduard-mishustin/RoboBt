@@ -1,4 +1,4 @@
-package magym.robobt.controller.web
+package magym.robobt.controller.remote
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -6,11 +6,11 @@ import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
 import magym.robobt.web.WebRepository
 
-interface ControllerWebRepository : ControllerRepository
+interface ControllerRemoteRepository : ControllerRepository
 
-internal class ControllerWebRepositoryImpl(
+internal class ControllerRemoteRepositoryImpl(
     private val webRepository: WebRepository
-) : ControllerWebRepository {
+) : ControllerRemoteRepository {
 
     private val flow = MutableStateFlow(ControlMotorsData.empty())
 

@@ -18,7 +18,7 @@ import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
 import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
 import magym.robobt.controller.keyboard.ControllerKeyboardRepository
-import magym.robobt.controller.web.ControllerWebRepository
+import magym.robobt.controller.remote.ControllerRemoteRepository
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand
 import magym.robobt.feature.control.presentation.tea.core.ControlCommand.ControlModeChanged
 import magym.robobt.feature.control.presentation.tea.core.ControlEvent
@@ -38,7 +38,7 @@ internal class ControlActor(
     private val accelerometerRepository: ControllerAccelerometerRepository,
     private val joystickRepository: ControllerJoystickRepository,
     private val joystickTriggersRepository: ControllerJoystickTriggersRepository,
-    private val controllerWebRepository: ControllerWebRepository,
+    private val controllerRemoteRepository: ControllerRemoteRepository,
 ) : Actor<ControlCommand, ControlEvent> {
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     var webSocketqwe: WebSocket? = null
@@ -77,7 +77,7 @@ internal class ControlActor(
             keyboardRepository.connect(),
             joystickRepository.connect(),
             joystickTriggersRepository.connect(),
-            controllerWebRepository.connect(),
+            controllerRemoteRepository.connect(),
         ) { keyboard, joystick, joystickTriggers, web ->
             when {
                 keyboard.isNotEmpty -> keyboard

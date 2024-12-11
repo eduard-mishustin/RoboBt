@@ -11,8 +11,8 @@ import magym.robobt.controller.keyboard.ControllerKeyboardRepository
 import magym.robobt.controller.keyboard.ControllerKeyboardRepositoryImpl
 import magym.robobt.controller.keyboard.MutableControllerKeyboardRepository
 import magym.robobt.controller.mapper.MotorSpeedMapper
-import magym.robobt.controller.web.ControllerWebRepository
-import magym.robobt.controller.web.ControllerWebRepositoryImpl
+import magym.robobt.controller.remote.ControllerRemoteRepository
+import magym.robobt.controller.remote.ControllerRemoteRepositoryImpl
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -21,7 +21,7 @@ val controllerRepositoryModule = module {
     single { MotorSpeedMapper() }
     singleOf(::ControllerAccelerometerRepositoryImpl) bind ControllerAccelerometerRepository::class
     singleOf(::ControllerJoystickRepositoryImpl) bind ControllerJoystickRepository::class
-    singleOf(::ControllerWebRepositoryImpl) bind ControllerWebRepository::class
+    singleOf(::ControllerRemoteRepositoryImpl) bind ControllerRemoteRepository::class
 
     singleOf(::ControllerJoystickTriggersRepositoryImpl)
     single<ControllerJoystickTriggersRepository> { get<ControllerJoystickTriggersRepositoryImpl>() }
