@@ -39,5 +39,5 @@ include(
     ":feature:control:impl",
     ":repository:bluetooth",
     ":repository:controller",
-    ":repository:input-data",
+    ":repository:input-device",
 )

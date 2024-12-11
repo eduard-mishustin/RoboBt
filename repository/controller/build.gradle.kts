@@ -14,5 +14,5 @@ dependencies {
     implementation(libs.okhttp3)
     implementation(libs.okhttp3Logging)
     implementation(project(":common:android"))
-    implementation(project(":repository:input-data"))
+    implementation(project(":repository:input-device"))
 }
