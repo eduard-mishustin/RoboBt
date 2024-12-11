@@ -16,6 +16,7 @@ import magym.robobt.controller.keyboard.MutableControllerKeyboardRepository
 import magym.robobt.controller.mapper.MotorSpeedMapper
 import magym.robobt.controller.remote.ControllerRemoteRepository
 import magym.robobt.controller.remote.ControllerRemoteRepositoryImpl
+import magym.robobt.controller.remote.MutableControllerRemoteRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.module.dsl.singleOf
@@ -36,7 +37,7 @@ val controllerRepositoryModule = module {
     single<ControllerKeyboardRepository> { get<ControllerKeyboardRepositoryImpl>() }
     single<MutableControllerKeyboardRepository> { get<ControllerKeyboardRepositoryImpl>() }
 
-    single<ControllerRemoteRepository> {
+    single {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             setLevel(HttpLoggingInterceptor.Level.BODY)
         }
@@ -50,4 +51,6 @@ val controllerRepositoryModule = module {
             scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         )
     }
+    single<ControllerRemoteRepository> { get<ControllerRemoteRepositoryImpl>() }
+    single<MutableControllerRemoteRepository> { get<ControllerRemoteRepositoryImpl>() }
 }

@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import magym.robobt.common.android.isRemote
+import magym.robobt.common.android.isHost
 import magym.robobt.common.pure.util.startWith
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand
@@ -25,7 +25,8 @@ internal class ConnectActor(
     }
 
     private fun handleCommand(command: Connect): Flow<Connecting> {
-        if (isRemote) return flowOf(Connecting.Succeed)
+        if (!isHost) return flowOf(Connecting.Succeed)
+
         return repository.connect()
             .map {
                 if (it is BluetoothConnectResult.Success) Connecting.Succeed

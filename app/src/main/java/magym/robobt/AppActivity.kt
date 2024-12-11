@@ -90,6 +90,7 @@ class AppActivity : ComponentActivity() {
 
     @Composable
     fun VideoStreamView() {
+        return
         //val videoUrl = "https://46ff-5-178-149-187.ngrok-free.app/stream"
         val videoUrl = "http://192.168.31.208:81/stream"
         MJPEGStreamScreen(streamUrl = videoUrl)

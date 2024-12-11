@@ -5,7 +5,7 @@ import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
 import magym.robobt.controller.joystick.ControllerJoystickRepository
 import magym.robobt.controller.joystick_triggers.ControllerJoystickTriggersRepository
 import magym.robobt.controller.keyboard.MutableControllerKeyboardRepository
-import magym.robobt.controller.remote.ControllerRemoteRepository
+import magym.robobt.controller.remote.MutableControllerRemoteRepository
 import magym.robobt.feature.control.presentation.tea.ControlReducer
 import magym.robobt.feature.control.presentation.tea.ControlStore
 import magym.robobt.feature.control.presentation.tea.actor.ControlActor
@@ -30,7 +30,7 @@ internal fun createControlStore(
     controllerJoystickRepository: ControllerJoystickRepository,
     controllerJoystickTriggersRepository: ControllerJoystickTriggersRepository,
     controllerKeyboardRepository: MutableControllerKeyboardRepository,
-    controllerRemoteRepository: ControllerRemoteRepository,
+    controllerRemoteRepository: MutableControllerRemoteRepository,
 ): ControlStore {
     return ControlStore(
         reducer = ControlReducer(),
