@@ -7,7 +7,6 @@ import magym.robobt.feature.connect.connectFeatureModule
 import magym.robobt.feature.control.controlFeatureModule
 import magym.robobt.repository.connect.bluetooth.bluetoothRepositoryModule
 import magym.robobt.repository.input_device.accelerometerRepositoryModule
-import magym.robobt.web.webRepositoryModule
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -39,5 +38,4 @@ private val repositoryModules: List<Module>
         accelerometerRepositoryModule,
         bluetoothRepositoryModule,
         controllerRepositoryModule,
-        webRepositoryModule,
     )

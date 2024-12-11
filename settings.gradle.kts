@@ -40,5 +40,4 @@ include(
     ":repository:bluetooth",
     ":repository:controller",
     ":repository:input-data",
-    ":repository:web",
 )

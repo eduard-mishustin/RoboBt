@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import magym.robobt.common.android.BASE_URL
 import magym.robobt.common.android.isRemote
-import magym.robobt.common.android.url
 import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
@@ -47,7 +47,7 @@ internal class ControlActor(
         if (isRemote) {
             scope.launch {
                 val okHttpClient = OkHttpClient()
-                val request = Request.Builder().url("$url/send").build()
+                val request = Request.Builder().url("$BASE_URL/send").build()
 
                 okHttpClient.newWebSocket(request, object : WebSocketListener() {
                     override fun onOpen(webSocket: WebSocket, response: Response) {

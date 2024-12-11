@@ -48,7 +48,6 @@ dependencies {
     implementation(project(":repository:bluetooth"))
     implementation(project(":repository:controller"))
     implementation(project(":repository:input-data"))
-    implementation(project(":repository:web"))
     implementation("org.java-websocket:Java-WebSocket:1.5.2")
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
