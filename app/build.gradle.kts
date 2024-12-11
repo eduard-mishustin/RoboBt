@@ -30,6 +30,7 @@ android {
 dependencies {
     implementation(libs.activity)
     implementation(libs.activityCompose)
+    implementation(libs.coil)
     implementation(libs.composeMaterial3)
     implementation(libs.coreKtx)
     implementation(libs.koinAndroid)
@@ -48,8 +49,5 @@ dependencies {
     implementation(project(":repository:bluetooth"))
     implementation(project(":repository:controller"))
     implementation(project(":repository:input-device"))
-    implementation("org.java-websocket:Java-WebSocket:1.5.2")
-
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation(project(":repository:video-stream"))
 }

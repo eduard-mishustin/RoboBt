@@ -13,6 +13,7 @@ android {
 dependencies {
     api(project(":feature:control:api"))
     implementation(libs.activity)
+    implementation(libs.coil)
     implementation(libs.composeMaterial3)
     implementation(libs.composeUi)
     implementation(libs.koinCore)
@@ -25,4 +26,5 @@ dependencies {
     implementation(project(":common:ui"))
     implementation(project(":repository:bluetooth"))
     implementation(project(":repository:controller"))
+    implementation(project(":repository:video-stream"))
 }

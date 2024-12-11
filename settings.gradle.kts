@@ -40,4 +40,5 @@ include(
     ":repository:bluetooth",
     ":repository:controller",
     ":repository:input-device",
+    ":repository:video-stream",
 )
