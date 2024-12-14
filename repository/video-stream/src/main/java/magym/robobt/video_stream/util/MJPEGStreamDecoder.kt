@@ -22,7 +22,7 @@ internal fun decodeMJPEGStream(inputStream: InputStream, onFrameDecoded: (androi
             if (splitIndex != -1) {
                 // Извлечь JPEG между boundary
                 val frameStart = data.indexOfSlice("\r\n\r\n".toByteArray(), 0, splitIndex) + 4
-                if (frameStart > 4 && frameStart < splitIndex) {
+                if (frameStart in 5..<splitIndex) {
                     val frameData = data.sliceArray(frameStart until splitIndex)
                     val frame = BitmapFactory.decodeByteArray(frameData, 0, frameData.size)
                     if (frame != null) {
