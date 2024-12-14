@@ -52,6 +52,11 @@ class AppActivity : ComponentActivity() {
         }
     }
 
+    override fun onDestroy() {
+        videoStreamRepository.closeConnection()
+        super.onDestroy()
+    }
+
     override fun onGenericMotionEvent(event: MotionEvent): Boolean {
         val result = activityGenericMotionDelegate.onGenericMotionEvent(event)
         return if (result) true else super.onGenericMotionEvent(event)

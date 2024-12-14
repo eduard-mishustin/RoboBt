@@ -9,6 +9,8 @@ import okhttp3.Request
 interface VideoStreamRepository {
 
     fun connect(callback: (Bitmap) -> Unit)
+
+    fun closeConnection()
 }
 
 internal class VideoStreamRepositoryImpl(
@@ -33,8 +35,13 @@ internal class VideoStreamRepositoryImpl(
                 }
             }
         } catch (e: Exception) {
+            closeConnection()
             e.printStackTrace()
         }
+    }
+
+    override fun closeConnection() {
+        client.dispatcher.executorService.shutdown()
     }
 
     companion object {
