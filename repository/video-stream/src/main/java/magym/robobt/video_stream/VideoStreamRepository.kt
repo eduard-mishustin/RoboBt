@@ -2,13 +2,18 @@ package magym.robobt.video_stream
 
 import android.graphics.Bitmap
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import magym.robobt.video_stream.util.decodeMJPEGStream
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
 interface VideoStreamRepository {
 
-    fun connect(callback: (Bitmap) -> Unit)
+    fun connect(): Flow<Bitmap>
 
     fun closeConnection()
 }
@@ -17,7 +22,7 @@ internal class VideoStreamRepositoryImpl(
     private val client: OkHttpClient,
 ) : VideoStreamRepository {
 
-    override fun connect(callback: (Bitmap) -> Unit) {
+    override fun connect(): Flow<Bitmap> = callbackFlow {
         val request = Request.Builder()
             .url(VIDEO_STREAM_URL)
             .build()
@@ -27,7 +32,7 @@ internal class VideoStreamRepositoryImpl(
                 if (response.isSuccessful) {
                     response.body?.byteStream()?.let { inputStream ->
                         decodeMJPEGStream(inputStream) { bitmap ->
-                            callback.invoke(bitmap)
+                            trySend(bitmap)
                         }
                     }
                 } else {
@@ -38,7 +43,11 @@ internal class VideoStreamRepositoryImpl(
             closeConnection()
             e.printStackTrace()
         }
-    }
+
+        awaitClose {
+            client.dispatcher.executorService.shutdown()
+        }
+    }.flowOn(Dispatchers.IO)
 
     override fun closeConnection() {
         client.dispatcher.executorService.shutdown()
@@ -46,6 +55,6 @@ internal class VideoStreamRepositoryImpl(
 
     companion object {
 
-        const val VIDEO_STREAM_URL = "http://192.168.31.208:81/stream"
+        private const val VIDEO_STREAM_URL = "http://192.168.31.208:81/stream"
     }
 }

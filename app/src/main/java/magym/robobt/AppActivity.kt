@@ -20,8 +20,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.transitions.SlideTransition
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import magym.robobt.common.android.SingleActivityHolder
 import magym.robobt.common.navigation.voyager.impl.NavigatorHolder
@@ -93,9 +94,9 @@ class AppActivity : ComponentActivity() {
 
         LaunchedEffect(Unit) {
             withContext(Dispatchers.IO) {
-                videoStreamRepository.connect { bitmap ->
-                    currentFrame = bitmap.asImageBitmap()
-                }
+                videoStreamRepository.connect()
+                    .onEach { bitmap -> currentFrame = bitmap.asImageBitmap() }
+                    .launchIn(this)
             }
         }
 
