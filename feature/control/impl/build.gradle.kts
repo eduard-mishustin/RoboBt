@@ -16,6 +16,7 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.composeMaterial3)
     implementation(libs.composeUi)
+    implementation(libs.koinCompose)
     implementation(libs.koinCore)
     implementation(libs.okhttp3)
     implementation(platform(libs.composeBom))

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import magym.robobt.common.android.bluetoothDebug
 import magym.robobt.repository.connect.bluetooth.impl.BluetoothConnection
 import magym.robobt.repository.connect.bluetooth.impl.parser.BluetoothInputDataParser
 import magym.robobt.repository.connect.bluetooth.impl.parser.BluetoothOutputDataParser
@@ -90,6 +91,10 @@ internal class BluetoothRepositoryImpl(
     }.distinctUntilChanged()
 
     override suspend fun send(data: BluetoothOutputData): Boolean {
+        if (bluetoothDebug) {
+            return true
+        }
+
         println("BluetoothRepository.send: $data")
         return withContext(dispatcher) {
             val result = outputDataParser.parse(data)
@@ -102,6 +107,10 @@ internal class BluetoothRepositoryImpl(
     }
 
     private fun connectInternal(): BluetoothConnectResult {
+        if (bluetoothDebug) {
+            return BluetoothConnectResult.Success
+        }
+
         val adapter = bluetoothManager.adapter ?: return BluetoothConnectResult.Error.SystemServiceNotExist
         if (!adapter.isEnabled) return BluetoothConnectResult.Error.SystemServiceDisabled
 

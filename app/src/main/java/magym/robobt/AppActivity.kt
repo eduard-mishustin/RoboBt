@@ -6,24 +6,10 @@ import android.view.MotionEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
+import cafe.adriel.voyager.transitions.SlideTransition
 import magym.robobt.common.android.SingleActivityHolder
 import magym.robobt.common.navigation.voyager.impl.NavigatorHolder
 import magym.robobt.common.ui.theme.RoboTheme
@@ -84,29 +70,6 @@ class AppActivity : ComponentActivity() {
             SlideTransition(navigator = navigator) { screen ->
                 screen.Content()
             }
-            MJPEGStreamScreen()
-        }
-    }
-
-    @Composable
-    fun MJPEGStreamScreen() {
-        var currentFrame by remember { mutableStateOf<ImageBitmap?>(null) }
-
-        LaunchedEffect(Unit) {
-            withContext(Dispatchers.IO) {
-                videoStreamRepository.connect()
-                    .onEach { bitmap -> currentFrame = bitmap.asImageBitmap() }
-                    .launchIn(this)
-            }
-        }
-
-        if (currentFrame != null) {
-            Image(
-                bitmap = currentFrame!!,
-                contentDescription = "",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.fillMaxWidth()
-            )
         }
     }
 }

@@ -45,7 +45,7 @@ internal class VideoStreamRepositoryImpl(
         }
 
         awaitClose {
-            client.dispatcher.executorService.shutdown()
+            closeConnection()
         }
     }.flowOn(Dispatchers.IO)
 
