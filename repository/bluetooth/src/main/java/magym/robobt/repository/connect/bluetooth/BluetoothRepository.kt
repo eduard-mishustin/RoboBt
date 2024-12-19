@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import magym.robobt.common.android.bluetoothDebug
+import magym.robobt.common.android.AppBuildConfig.IS_BLUETOOTH_DEBUG
 import magym.robobt.repository.connect.bluetooth.impl.BluetoothConnection
 import magym.robobt.repository.connect.bluetooth.impl.parser.BluetoothInputDataParser
 import magym.robobt.repository.connect.bluetooth.impl.parser.BluetoothOutputDataParser
@@ -91,7 +91,7 @@ internal class BluetoothRepositoryImpl(
     }.distinctUntilChanged()
 
     override suspend fun send(data: BluetoothOutputData): Boolean {
-        if (bluetoothDebug) {
+        if (IS_BLUETOOTH_DEBUG) {
             return true
         }
 
@@ -107,7 +107,7 @@ internal class BluetoothRepositoryImpl(
     }
 
     private fun connectInternal(): BluetoothConnectResult {
-        if (bluetoothDebug) {
+        if (IS_BLUETOOTH_DEBUG) {
             return BluetoothConnectResult.Success
         }
 

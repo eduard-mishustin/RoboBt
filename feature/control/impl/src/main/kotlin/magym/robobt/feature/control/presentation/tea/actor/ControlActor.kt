@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import magym.robobt.common.android.isHost
+import magym.robobt.common.android.AppBuildConfig.IS_HOST
 import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.controller.accelerometer.ControllerAccelerometerRepository
@@ -65,7 +65,7 @@ internal class ControlActor(
     }
 
     private suspend fun send(data: ControlMotorsData): Controlling {
-        val isSucceed = if (isHost) {
+        val isSucceed = if (IS_HOST) {
             bluetoothRepository.send(data.toConnectData())
         } else {
             controllerRemoteRepository.send(data)

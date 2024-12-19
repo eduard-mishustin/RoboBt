@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import magym.robobt.common.android.BASE_URL
-import magym.robobt.common.android.isHost
+import magym.robobt.common.android.AppBuildConfig.BASE_URL
+import magym.robobt.common.android.AppBuildConfig.IS_HOST
 import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
 import okhttp3.OkHttpClient
@@ -33,7 +33,7 @@ internal class ControllerRemoteRepositoryImpl(
 
     init {
         scope.launch {
-            if (isHost) {
+            if (IS_HOST) {
                 initHostWebSocket()
             } else {
                 initRemoteWebSocket()
