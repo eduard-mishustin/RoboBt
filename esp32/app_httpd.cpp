@@ -732,6 +732,8 @@ static esp_err_t stream_handler(httpd_req_t *req) {
       (uint32_t)ready_time, (uint32_t)face_time, (uint32_t)recognize_time, (uint32_t)encode_time, (uint32_t)process_time, (detected) ? "DETECTED " : "", face_id
 #endif
     );
+
+      vTaskDelay(50 / portTICK_PERIOD_MS); // 20 fps
   }
 
 #if CONFIG_LED_ILLUMINATOR_ENABLED
