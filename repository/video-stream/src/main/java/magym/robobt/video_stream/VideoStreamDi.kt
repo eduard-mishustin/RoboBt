@@ -12,9 +12,9 @@ val videoStreamModule = module {
         }
 
         val client = OkHttpClient.Builder()
-            .connectTimeout(5, TimeUnit.MINUTES)
-            .readTimeout(5, TimeUnit.MINUTES)
-            .writeTimeout(5, TimeUnit.MINUTES)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .build()
 

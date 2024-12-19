@@ -35,8 +35,6 @@ internal fun decodeMJPEGStream(inputStream: InputStream, onFrameDecoded: (androi
                 dataBuffer.write(data, splitIndex + boundary.size, data.size - splitIndex - boundary.size)
             }
         }
-    } catch (e: Exception) {
-        e.printStackTrace()
     } finally {
         dataBuffer.close()
         inputStream.close()

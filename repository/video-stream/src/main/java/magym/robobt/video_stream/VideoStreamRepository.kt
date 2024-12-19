@@ -13,7 +13,7 @@ import okhttp3.Request
 
 interface VideoStreamRepository {
 
-    fun connect(): Flow<Bitmap>
+    fun connect(onConnectionError: () -> Unit): Flow<Bitmap>
 
     fun closeConnection()
 }
@@ -22,7 +22,7 @@ internal class VideoStreamRepositoryImpl(
     private val client: OkHttpClient,
 ) : VideoStreamRepository {
 
-    override fun connect(): Flow<Bitmap> = callbackFlow {
+    override fun connect(onConnectionError: () -> Unit): Flow<Bitmap> = callbackFlow {
         val request = Request.Builder()
             .url(VIDEO_STREAM_URL)
             .build()
@@ -42,11 +42,10 @@ internal class VideoStreamRepositoryImpl(
         } catch (e: Exception) {
             closeConnection()
             e.printStackTrace()
+            onConnectionError.invoke()
         }
 
-        awaitClose {
-            closeConnection()
-        }
+        awaitClose { closeConnection() }
     }.flowOn(Dispatchers.IO)
 
     override fun closeConnection() {

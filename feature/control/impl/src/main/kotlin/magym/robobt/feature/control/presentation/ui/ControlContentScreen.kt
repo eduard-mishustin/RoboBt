@@ -20,7 +20,9 @@ internal class ControlContentScreen : BaseScreen() {
         LifecycleEffect(onStarted = acceptable(OnStart))
         BackHandlerWithLifecycle { accept(OnBackPress) }
 
-        VideoStreamComponent()
+        VideoStreamComponent(
+            onConnectionError = acceptable(ControlUiEvent.OnVideoConnectionError)
+        )
 
         ControlScreen(
             state = state,
