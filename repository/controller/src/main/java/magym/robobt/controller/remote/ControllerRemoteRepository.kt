@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import magym.robobt.common.android.AppBuildConfig.BASE_URL
+import magym.robobt.common.android.AppBuildConfig.BASE_REMOTE_CONTROLLER_URL
 import magym.robobt.common.android.AppBuildConfig.IS_HOST
 import magym.robobt.common.pure.model.ControlMotorsData
 import magym.robobt.controller.ControllerRepository
@@ -53,7 +53,7 @@ internal class ControllerRemoteRepositoryImpl(
     }
 
     private fun initHostWebSocket() {
-        val request = Request.Builder().url("$BASE_URL/connect").build()
+        val request = Request.Builder().url("$BASE_REMOTE_CONTROLLER_URL/connect").build()
 
         okHttpClient.newWebSocket(request, object : WebSocketListener() {
             override fun onMessage(webSocket: WebSocket, text: String) {
@@ -65,7 +65,7 @@ internal class ControllerRemoteRepositoryImpl(
     }
 
     private fun initRemoteWebSocket() {
-        val request = Request.Builder().url("$BASE_URL/send").build()
+        val request = Request.Builder().url("$BASE_REMOTE_CONTROLLER_URL/send").build()
 
         okHttpClient.newWebSocket(request, object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {

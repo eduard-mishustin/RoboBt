@@ -3,9 +3,7 @@ package magym.robobt.feature.connect.presentation.tea.actor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import magym.robobt.common.android.AppBuildConfig.IS_HOST
 import magym.robobt.common.pure.util.startWith
 import magym.robobt.common.tea.component.Actor
 import magym.robobt.feature.connect.presentation.tea.core.ConnectCommand
@@ -25,8 +23,6 @@ internal class ConnectActor(
     }
 
     private fun handleCommand(command: Connect): Flow<Connecting> {
-        if (!IS_HOST) return flowOf(Connecting.Succeed)
-
         return repository.connect()
             .map {
                 if (it is BluetoothConnectResult.Success) Connecting.Succeed

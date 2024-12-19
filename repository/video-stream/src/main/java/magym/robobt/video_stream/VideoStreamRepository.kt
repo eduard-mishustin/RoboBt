@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOn
+import magym.robobt.common.android.AppBuildConfig.BASE_VIDEO_STREAM_URL
 import magym.robobt.common.android.AppBuildConfig.IS_VIDEO_STREAM_ENABLED
 import magym.robobt.video_stream.util.decodeMJPEGStream
 import okhttp3.OkHttpClient
@@ -31,7 +32,7 @@ internal class VideoStreamRepositoryImpl(
 
         return callbackFlow {
             val request = Request.Builder()
-                .url(VIDEO_STREAM_URL)
+                .url("$BASE_VIDEO_STREAM_URL/stream")
                 .build()
 
             try {
@@ -58,10 +59,5 @@ internal class VideoStreamRepositoryImpl(
 
     override fun closeConnection() {
         client.dispatcher.executorService.shutdown()
-    }
-
-    companion object {
-
-        private const val VIDEO_STREAM_URL = "http://192.168.31.208:81/stream"
     }
 }
