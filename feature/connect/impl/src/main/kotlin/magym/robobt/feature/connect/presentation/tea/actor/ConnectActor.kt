@@ -24,9 +24,11 @@ internal class ConnectActor(
 
     private fun handleCommand(command: Connect): Flow<Connecting> {
         return repository.connect()
-            .map {
-                if (it is BluetoothConnectResult.Success) Connecting.Succeed
-                else Connecting.Failed(it)
+            .map { result ->
+                when (result) {
+                    is BluetoothConnectResult.Success -> Connecting.Succeed
+                    is BluetoothConnectResult.Error -> Connecting.Failed(result)
+                }
             }
             .startWith(Connecting.Started)
     }

@@ -15,8 +15,8 @@ internal class MotorSpeedMapper(
     fun map(data: InputDeviceData): ControlMotorsData {
         val (xAccel, yAccel) = data
 
-        val x = xAccel.applyThreshold().mapToMotorSpeedRange().toInt()
-        val y = yAccel.applyThreshold().mapToMotorSpeedRange().toInt()
+        val x = xAccel.applyThreshold().toMotorSpeedRange().toInt()
+        val y = yAccel.applyThreshold().toMotorSpeedRange().toInt()
 
         val (leftMotor, rightMotor) = calculateMotorSpeeds(x, y)
 
@@ -34,25 +34,31 @@ internal class MotorSpeedMapper(
         }
     }
 
-    private fun Float.mapToMotorSpeedRange(): Float {
-        return if (this >= accelerometerTresholdMin) {
-            mapRange(
-                value = this,
-                from1 = accelerometerTresholdMin,
-                from2 = accelerometerTresholdMax,
-                to1 = 0f,
-                to2 = 255f,
-            )
-        } else if (this <= -accelerometerTresholdMin) {
-            mapRange(
-                value = this,
-                from1 = -accelerometerTresholdMin,
-                from2 = -accelerometerTresholdMax,
-                to1 = 0f,
-                to2 = -255f,
-            )
-        } else {
-            0f
+    private fun Float.toMotorSpeedRange(): Float {
+        return when {
+            this >= accelerometerTresholdMin -> {
+                mapRange(
+                    value = this,
+                    from1 = accelerometerTresholdMin,
+                    from2 = accelerometerTresholdMax,
+                    to1 = 0f,
+                    to2 = 255f,
+                )
+            }
+
+            this <= -accelerometerTresholdMin -> {
+                mapRange(
+                    value = this,
+                    from1 = -accelerometerTresholdMin,
+                    from2 = -accelerometerTresholdMax,
+                    to1 = 0f,
+                    to2 = -255f,
+                )
+            }
+
+            else -> {
+                0f
+            }
         }
     }
 

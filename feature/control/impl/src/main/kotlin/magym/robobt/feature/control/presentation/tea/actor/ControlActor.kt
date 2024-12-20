@@ -23,11 +23,12 @@ import magym.robobt.repository.connect.bluetooth.model.BluetoothOutputData
 
 internal class ControlActor(
     private val bluetoothRepository: BluetoothRepository,
+    private val controllerRemoteRepository: MutableControllerRemoteRepository,
+
     private val keyboardRepository: ControllerKeyboardRepository,
     private val accelerometerRepository: ControllerAccelerometerRepository,
     private val joystickRepository: ControllerJoystickRepository,
     private val joystickTriggersRepository: ControllerJoystickTriggersRepository,
-    private val controllerRemoteRepository: MutableControllerRemoteRepository,
 ) : Actor<ControlCommand, ControlEvent> {
 
     override fun act(commands: Flow<ControlCommand>): Flow<ControlEvent> {
