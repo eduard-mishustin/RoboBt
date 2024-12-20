@@ -66,7 +66,7 @@ internal class ControlActor(
 
     private suspend fun send(data: ControlMotorsData): Controlling {
         val isSucceed = if (IS_HOST) {
-            bluetoothRepository.send(data.toConnectData())
+            bluetoothRepository.send(data.toBluetoothOutputData())
         } else {
             controllerRemoteRepository.send(data)
         }
@@ -74,7 +74,7 @@ internal class ControlActor(
         return if (isSucceed) Controlling.Succeed(data) else Controlling.Failed
     }
 
-    private fun ControlMotorsData.toConnectData(): BluetoothOutputData {
+    private fun ControlMotorsData.toBluetoothOutputData(): BluetoothOutputData {
         return BluetoothOutputData.ControlMotorsData(
             leftMotor = leftMotor,
             rightMotor = rightMotor
