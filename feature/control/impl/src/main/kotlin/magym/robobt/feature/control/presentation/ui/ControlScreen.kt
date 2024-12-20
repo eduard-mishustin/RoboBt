@@ -16,6 +16,7 @@ import magym.robobt.common.ui.theme.PreviewTheme
 import magym.robobt.common.ui.theme.ScreenPreview
 import magym.robobt.feature.control.presentation.ui.state.ControlUiState
 import magym.robobt.feature.control.presentation.ui.util.detectPressGestures
+import magym.robobt.feature.video_stream.VideoStreamComponent
 
 @Composable
 internal fun ControlScreen(
@@ -29,25 +30,30 @@ internal fun ControlScreen(
     onBottomLeftButtonUp: () -> Unit = {},
     onBottomRightButtonDown: () -> Unit = {},
     onBottomRightButtonUp: () -> Unit = {},
+    onVideoConnectionError: () -> Unit = {},
 ) {
-    when (state) {
-        is ControlUiState.Manual -> ManualControl(
-            state = state,
-            onTopLeftButtonDown = onTopLeftButtonDown,
-            onTopLeftButtonUp = onTopLeftButtonUp,
-            onTopRightButtonDown = onTopRightButtonDown,
-            onTopRightButtonUp = onTopRightButtonUp,
-            onBottomLeftButtonDown = onBottomLeftButtonDown,
-            onBottomLeftButtonUp = onBottomLeftButtonUp,
-            onBottomRightButtonDown = onBottomRightButtonDown,
-            onBottomRightButtonUp = onBottomRightButtonUp,
-            onChangeControlModeClicked = onChangeControlModeClick
-        )
+    Column {
+        VideoStreamComponent(onVideoConnectionError)
 
-        is ControlUiState.Accelerometer -> AccelerometerControl(
-            state = state,
-            onChangeControlModeClicked = onChangeControlModeClick
-        )
+        when (state) {
+            is ControlUiState.Manual -> ManualControl(
+                state = state,
+                onTopLeftButtonDown = onTopLeftButtonDown,
+                onTopLeftButtonUp = onTopLeftButtonUp,
+                onTopRightButtonDown = onTopRightButtonDown,
+                onTopRightButtonUp = onTopRightButtonUp,
+                onBottomLeftButtonDown = onBottomLeftButtonDown,
+                onBottomLeftButtonUp = onBottomLeftButtonUp,
+                onBottomRightButtonDown = onBottomRightButtonDown,
+                onBottomRightButtonUp = onBottomRightButtonUp,
+                onChangeControlModeClicked = onChangeControlModeClick
+            )
+
+            is ControlUiState.Accelerometer -> AccelerometerControl(
+                state = state,
+                onChangeControlModeClicked = onChangeControlModeClick
+            )
+        }
     }
 }
 
@@ -65,26 +71,10 @@ internal fun ManualControl(
     onChangeControlModeClicked: () -> Unit,
 ) {
     Column {
-        Text(
-            modifier = Modifier.padding(64.dp),
-            fontSize = 32.sp,
-            color = Color.Black,
-            text = state.leftMotor.toString() + " : " + state.rightMotor.toString()
+        Header(
+            header = state.header,
+            onChangeControlModeClicked = onChangeControlModeClicked
         )
-
-        Text(
-            modifier = Modifier.padding(32.dp),
-            fontSize = 32.sp,
-            color = Color.Black,
-            text = state.weather
-        )
-
-        Button(
-            modifier = Modifier.padding(16.dp),
-            onClick = onChangeControlModeClicked
-        ) {
-            Text(text = "Change control mode")
-        }
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -128,20 +118,37 @@ internal fun AccelerometerControl(
     state: ControlUiState.Accelerometer,
     onChangeControlModeClicked: () -> Unit,
 ) {
-    Column {
-        Text(
-            modifier = Modifier.padding(64.dp),
-            fontSize = 32.sp,
-            color = Color.Black,
-            text = state.leftMotor.toString() + " : " + state.rightMotor.toString()
-        )
+    Header(
+        header = state.header,
+        onChangeControlModeClicked = onChangeControlModeClicked
+    )
+}
 
-        Text(
-            modifier = Modifier.padding(32.dp),
-            fontSize = 32.sp,
-            color = Color.Black,
-            text = state.weather
-        )
+@Composable
+private fun Header(
+    header: ControlUiState.Header,
+    onChangeControlModeClicked: () -> Unit,
+) {
+    Column {
+        Row {
+            Text(
+                modifier = Modifier.padding(16.dp),
+                fontSize = 32.sp,
+                color = Color.Black,
+                text = header.leftMotor.toString() + " : " + header.rightMotor.toString()
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            header.weather?.let {
+                Text(
+                    modifier = Modifier.padding(16.dp),
+                    fontSize = 32.sp,
+                    color = Color.Black,
+                    text = it
+                )
+            }
+        }
 
         Button(
             modifier = Modifier.padding(16.dp),
@@ -155,11 +162,11 @@ internal fun AccelerometerControl(
 @ScreenPreview
 @Composable
 private fun ControlScreenManualPreview() = PreviewTheme {
-    ControlScreen(ControlUiState.Manual(leftMotor = 0, rightMotor = 0, "27 °C, 30%"))
+    ControlScreen(ControlUiState.manualPreview())
 }
 
 @ScreenPreview
 @Composable
 private fun ControlScreenAccelerometerPreview() = PreviewTheme {
-    ControlScreen(ControlUiState.Accelerometer(leftMotor = 0, rightMotor = 0, "27 °C"))
+    ControlScreen(ControlUiState.accelerometerPreview())
 }

@@ -11,7 +11,6 @@ import magym.robobt.feature.control.presentation.tea.ControlStore
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBackPress
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnStart
-import magym.robobt.feature.video_stream.VideoStreamComponent
 
 internal class ControlContentScreen : BaseScreen() {
 
@@ -19,10 +18,6 @@ internal class ControlContentScreen : BaseScreen() {
     override fun Screen() = TeaComposable(store<ControlStore>()) { state ->
         LifecycleEffect(onStarted = acceptable(OnStart))
         BackHandlerWithLifecycle { accept(OnBackPress) }
-
-        VideoStreamComponent(
-            onConnectionError = acceptable(ControlUiEvent.OnVideoConnectionError)
-        )
 
         ControlScreen(
             state = state,
@@ -35,6 +30,7 @@ internal class ControlContentScreen : BaseScreen() {
             onBottomLeftButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnBottomLeftButtonUp),
             onBottomRightButtonDown = acceptable(ControlUiEvent.KeyboardAction.OnBottomRightButtonDown),
             onBottomRightButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnBottomRightButtonUp),
+            onVideoConnectionError = acceptable(ControlUiEvent.OnVideoConnectionError),
         )
     }
 }

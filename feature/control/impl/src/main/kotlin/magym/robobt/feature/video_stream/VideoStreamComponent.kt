@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -21,6 +22,8 @@ import org.koin.compose.koinInject
 
 @Composable
 internal fun VideoStreamComponent(onConnectionError: () -> Unit) {
+    if (LocalInspectionMode.current) return
+
     val videoStreamRepository: VideoStreamRepository = koinInject()
     var currentFrame by remember { mutableStateOf<ImageBitmap?>(null) }
 
@@ -31,9 +34,9 @@ internal fun VideoStreamComponent(onConnectionError: () -> Unit) {
             .launchIn(this)
     }
 
-    if (currentFrame != null) {
+    currentFrame?.let { frame ->
         Image(
-            bitmap = currentFrame!!,
+            bitmap = frame,
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier.fillMaxWidth()
