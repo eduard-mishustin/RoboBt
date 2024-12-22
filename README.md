@@ -1,4 +1,4 @@
-# Project: Robo Car
+# Robo Car
 
 This project is a remote-controlled robotic car equipped with various control mechanisms and capabilities, including video streaming, environmental data monitoring, and interactive remote management.
 
