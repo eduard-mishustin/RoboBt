@@ -4,7 +4,7 @@ object AppBuildConfig {
 
     const val IS_HOST = true
 
-    const val IS_BLUETOOTH_ENABLED = false
+    const val IS_BLUETOOTH_ENABLED = true
 
     const val IS_VIDEO_STREAM_ENABLED = true
 
