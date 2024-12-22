@@ -2,8 +2,6 @@
 
 This project is a remote-controlled robotic car equipped with various control mechanisms and capabilities, including video streaming, environmental data monitoring, and interactive remote management.
 
----
-
 ## Features
 
 ### Control Mechanisms
@@ -22,8 +20,6 @@ This project is a remote-controlled robotic car equipped with various control me
 ### Environmental Monitoring
 - Read and display temperature and humidity data from a weather sensor mounted on the car.
 
----
-
 ## Technical Details
 
 ### Hardware Components
@@ -37,8 +33,6 @@ This project is a remote-controlled robotic car equipped with various control me
 - **Mobile Application**: Offers multiple control modes and displays real-time data.
 - **Web Socket Communication**: Enables remote operation between host and remote devices.
 - **Kotlin Backend**: Manages interactions between devices and supports seamless data exchange.
-
----
 
 ## Media
 
