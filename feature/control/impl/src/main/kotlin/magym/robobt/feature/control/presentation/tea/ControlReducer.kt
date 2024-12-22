@@ -13,7 +13,6 @@ import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.Keyboar
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnBackPress
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnChangeControlModeClick
 import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnStart
-import magym.robobt.feature.control.presentation.tea.core.ControlUiEvent.OnVideoConnectionError
 import magym.robobt.feature.control.presentation.tea.model.ControlMode
 import magym.robobt.feature.control.presentation.tea.model.ControlState
 
@@ -31,7 +30,6 @@ internal class ControlReducer : DslReducer<ControlCommand, ControlEffect, Contro
         is OnStart -> reduceOnStart()
         is OnBackPress -> reduceOnBackPress()
         is OnChangeControlModeClick -> reduceOnChangeControlModeClick()
-        is OnVideoConnectionError -> handleExit()
         is KeyboardAction -> reduceKeyboardAction(event)
     }
 

@@ -30,10 +30,9 @@ internal fun ControlScreen(
     onBottomLeftButtonUp: () -> Unit = {},
     onBottomRightButtonDown: () -> Unit = {},
     onBottomRightButtonUp: () -> Unit = {},
-    onVideoConnectionError: () -> Unit = {},
 ) {
     Column {
-        VideoStreamComponent(onVideoConnectionError)
+        VideoStreamComponent()
 
         when (state) {
             is ControlUiState.Manual -> ManualControl(

@@ -30,7 +30,6 @@ internal class ControlContentScreen : BaseScreen() {
             onBottomLeftButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnBottomLeftButtonUp),
             onBottomRightButtonDown = acceptable(ControlUiEvent.KeyboardAction.OnBottomRightButtonDown),
             onBottomRightButtonUp = acceptable(ControlUiEvent.KeyboardAction.OnBottomRightButtonUp),
-            onVideoConnectionError = acceptable(ControlUiEvent.OnVideoConnectionError),
         )
     }
 }

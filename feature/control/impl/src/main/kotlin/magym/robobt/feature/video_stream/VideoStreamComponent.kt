@@ -21,14 +21,14 @@ import magym.robobt.video_stream.VideoStreamRepository
 import org.koin.compose.koinInject
 
 @Composable
-internal fun VideoStreamComponent(onConnectionError: () -> Unit) {
+internal fun VideoStreamComponent() {
     if (LocalInspectionMode.current) return
 
     val videoStreamRepository: VideoStreamRepository = koinInject()
     var currentFrame by remember { mutableStateOf<ImageBitmap?>(null) }
 
     LaunchedEffect(Unit) {
-        videoStreamRepository.connect(onConnectionError)
+        videoStreamRepository.connect()
             .onEach { bitmap -> currentFrame = bitmap.asImageBitmap() }
             .flowOn(Dispatchers.IO)
             .launchIn(this)

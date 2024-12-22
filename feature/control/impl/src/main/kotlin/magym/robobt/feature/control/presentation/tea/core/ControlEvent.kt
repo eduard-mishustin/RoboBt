@@ -30,8 +30,6 @@ internal sealed interface ControlUiEvent : ControlEvent {
 
     data object OnChangeControlModeClick : ControlUiEvent
 
-    data object OnVideoConnectionError : ControlUiEvent
-
     sealed interface KeyboardAction : ControlUiEvent {
 
         data object OnTopLeftButtonDown : KeyboardAction
